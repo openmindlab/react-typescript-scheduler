@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    "allowSyntheticDefaultImports": true, //moment
+    "jsx": "react",
+    "module": "commonjs",
+    "noImplicitAny": false, //todo
+    "skipLibCheck": true, //todo
+    "outDir": "./lib/",
+    "preserveConstEnums": true,
+    "removeComments": true,
+    "sourceMap": true,
+    "target": "es5",
+    "strict": false,
+    "moduleResolution": "node",
+  },
+  "include": [
+    "./src/**/**/*",
+    "./example/**/**/*"
+  ]
+}
