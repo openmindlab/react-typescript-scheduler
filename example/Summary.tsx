@@ -1,42 +1,42 @@
-import * as React from 'react'
-import { Component } from 'react'
+import * as React from "react";
+import { Component } from "react";
 import Scheduler, {
     SchedulerData,
     SchedulerViewTypes,
-    SchedulerSummaryPos
-} from '../src/Scheduler'
-import * as ExampleFunction from './ExampleFunctions'
-import { DemoData } from './DemoData'
-import Nav from './Nav'
-import ViewSrcCode from './ViewSrcCode'
-import withDragDropContext from './withDnDContext'
+    SchedulerSummaryPos,
+} from "../src/Scheduler";
+import * as ExampleFunction from "./ExampleFunctions";
+import { DemoData } from "./DemoData";
+import Nav from "./Nav";
+import ViewSrcCode from "./ViewSrcCode";
+import withDragDropContext from "./withDnDContext";
 
 class Summary extends Component<{}, { viewModel: SchedulerData }> {
     constructor(props: Readonly<{}>) {
         super(props);
 
-        let schedulerData = new SchedulerData(ExampleFunction.getNow(), SchedulerViewTypes.Week, false, false, undefined, {
+        const schedulerData = new SchedulerData(ExampleFunction.getNow(), SchedulerViewTypes.Week, false, false, undefined, {
             getSummaryFunc: this.getSummary,
         });
         schedulerData.setResources(DemoData.resources);
         schedulerData.setEvents(DemoData.events);
         this.state = {
-            viewModel: schedulerData
-        }
+            viewModel: schedulerData,
+        };
     }
 
-    render() {
+    public render() {
         const { viewModel } = this.state;
 
-        let leftCustomHeader = (
-            <div><span style={{ fontWeight: 'bold' }}><a onClick={this.changeSummaryPos}>Change summary position</a></span></div>
+        const leftCustomHeader = (
+            <div><span style={{ fontWeight: "bold" }}><a onClick={this.changeSummaryPos}>Change summary position</a></span></div>
         );
 
         return (
             <div>
                 <Nav />
                 <div>
-                    <h3 style={{ textAlign: 'center' }}>Summary<ViewSrcCode srcCodeUrl="https://github.com/StephenChou1017/react-big-scheduler/blob/master/example/Summary.js" /></h3>
+                    <h3 style={{ textAlign: "center" }}>Summary<ViewSrcCode srcCodeUrl="https://github.com/StephenChou1017/react-big-scheduler/blob/master/example/Summary.js" /></h3>
                     <Scheduler schedulerData={viewModel}
                         prevClick={ExampleFunction.prevClick.bind(this)}
                         nextClick={ExampleFunction.nextClick.bind(this)}
@@ -57,27 +57,26 @@ class Summary extends Component<{}, { viewModel: SchedulerData }> {
                     />
                 </div>
             </div>
-        )
+        );
     }
 
-
-
-    getSummary = (schedulerData: SchedulerData, headerEvents: any, slotId: string, slotName: string, headerStart: string, headerEnd: string) => {
-        let text = headerEvents.length.toString();
-        let color = '#d9d9d9';
-        if (headerEvents.length > 0)
-            color = headerEvents.length <= 1 ? 'green' : 'red';
-        return { text: text, color: color, fontSize: '12px' };
+    public getSummary = (schedulerData: SchedulerData, headerEvents: any, slotId: string, slotName: string, headerStart: string, headerEnd: string) => {
+        const text = headerEvents.length.toString();
+        let color = "#d9d9d9";
+        if (headerEvents.length > 0) {
+            color = headerEvents.length <= 1 ? "green" : "red";
+        }
+        return { text, color, fontSize: "12px" };
     }
 
-    changeSummaryPos = () => {
-        let schedulerData = this.state.viewModel;
+    public changeSummaryPos = () => {
+        const schedulerData = this.state.viewModel;
         schedulerData.config.summaryPos = schedulerData.config.summaryPos === SchedulerSummaryPos.TopRight ? SchedulerSummaryPos.BottomRight : SchedulerSummaryPos.TopRight;
         this.setState({
-            viewModel: schedulerData
-        })
+            viewModel: schedulerData,
+        });
     }
 
 }
 
-export default withDragDropContext(Summary)
+export default withDragDropContext(Summary);

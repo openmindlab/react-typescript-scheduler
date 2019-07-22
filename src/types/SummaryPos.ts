@@ -4,5 +4,5 @@ export const SummaryPos = {
     TopLeft: 2,
     Bottom: 3,
     BottomRight: 4,
-    BottomLeft: 5
+    BottomLeft: 5,
 };

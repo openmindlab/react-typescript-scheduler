@@ -1,35 +1,35 @@
-import * as React from 'react'
-import { Component } from 'react'
+import * as React from "react";
+import { Component } from "react";
 import Scheduler, {
     SchedulerData,
     SchedulerViewTypes,
-    SchedulerRenderData
-} from '../src/Scheduler'
-import * as ExampleFunction from './ExampleFunctions'
-import { DemoData } from './DemoData'
-import Nav from './Nav'
-import ViewSrcCode from './ViewSrcCode'
-import withDragDropContext from './withDnDContext'
+    SchedulerRenderData,
+} from "../src/Scheduler";
+import * as ExampleFunction from "./ExampleFunctions";
+import { DemoData } from "./DemoData";
+import Nav from "./Nav";
+import ViewSrcCode from "./ViewSrcCode";
+import withDragDropContext from "./withDnDContext";
 
 class Basic extends Component<{}, { viewModel: SchedulerData }> {
     constructor(props: Readonly<{}>) {
         super(props);
 
-        let schedulerData = new SchedulerData(ExampleFunction.getNow(), SchedulerViewTypes.Week);
+        const schedulerData = new SchedulerData(ExampleFunction.getNow(), SchedulerViewTypes.Week);
         schedulerData.setResources(DemoData.resources);
         schedulerData.setEvents(DemoData.events);
         this.state = {
-            viewModel: schedulerData
-        }
+            viewModel: schedulerData,
+        };
     }
 
-    render() {
+    public render() {
         const { viewModel } = this.state;
         return (
             <div>
                 <Nav />
                 <div>
-                    <h3 style={{ textAlign: 'center' }}>Resource clickable<ViewSrcCode srcCodeUrl="https://github.com/StephenChou1017/react-big-scheduler/blob/master/example/ResourceClickable.js" /></h3>
+                    <h3 style={{ textAlign: "center" }}>Resource clickable<ViewSrcCode srcCodeUrl="https://github.com/StephenChou1017/react-big-scheduler/blob/master/example/ResourceClickable.js" /></h3>
                     <Scheduler schedulerData={viewModel}
                         prevClick={ExampleFunction.prevClick.bind(this)}
                         nextClick={ExampleFunction.nextClick.bind(this)}
@@ -49,11 +49,11 @@ class Basic extends Component<{}, { viewModel: SchedulerData }> {
                     />
                 </div>
             </div>
-        )
+        );
     }
-    slotClickedFunc = (schedulerData: SchedulerData, slot: SchedulerRenderData) => {
-        alert(`You just clicked a ${schedulerData.isEventPerspective ? 'task' : 'resource'}.{id: ${slot.slotId}, name: ${slot.slotName}}`);
+    public slotClickedFunc = (schedulerData: SchedulerData, slot: SchedulerRenderData) => {
+        alert(`You just clicked a ${schedulerData.isEventPerspective ? "task" : "resource"}.{id: ${slot.slotId}, name: ${slot.slotName}}`);
     }
 }
 
-export default withDragDropContext(Basic)
+export default withDragDropContext(Basic);

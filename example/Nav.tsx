@@ -1,154 +1,154 @@
-import * as React from 'react'
-import { Component, CSSProperties } from 'react'
-import { Link } from 'react-router-dom'
+import * as React from "react";
+import { Component, CSSProperties } from "react";
+import { Link } from "react-router-dom";
 
-class Nav extends Component {
-    constructor(props) {
+class Nav extends Component<{}, {}> {
+    constructor(props: Readonly<{}>) {
         super(props);
     }
 
-    render() {
-        let ulStyle: CSSProperties = {
+    public render() {
+        const ulStyle: CSSProperties = {
             listStyle: "none",
             margin: "0px",
             padding: "0px",
-            width: "auto"
+            width: "auto",
         };
-        let liStyle: CSSProperties = {
-            float: 'left',
-            marginLeft: '20px'
+        const liStyle: CSSProperties = {
+            float: "left",
+            marginLeft: "20px",
         };
         return (
             <div>
                 <ul style={ulStyle}>
                     <li style={liStyle}>
-                        <span style={{ fontWeight: 'bold' }}><a href="https://github.com/StephenChou1017/react-big-scheduler" target="_blank">React Big Scheduler</a></span>
+                        <span style={{ fontWeight: "bold" }}><a href="https://github.com/StephenChou1017/react-big-scheduler" target="_blank">React Big Scheduler</a></span>
                     </li>
                     <li style={liStyle}>
                         <Link target="_self"
-                            to='/'>
+                            to="/">
                             <span>Basic</span>
                         </Link>
                     </li>
                     <li style={liStyle}>
                         <Link target="_self"
-                            to='/readonly'>
+                            to="/readonly">
                             <span>Read only</span>
                         </Link>
                     </li>
                     <li style={liStyle}>
                         <Link target="_self"
-                            to='/locale'>
+                            to="/locale">
                             <span>Locale</span>
                         </Link>
                     </li>
                     <li style={liStyle}>
                         <Link target="_self"
-                            to='/views'>
+                            to="/views">
                             <span>Views</span>
                         </Link>
                     </li>
                     <li style={liStyle}>
                         <Link target="_self"
-                            to='/customheader'>
+                            to="/customheader">
                             <span>Custom header</span>
                         </Link>
                     </li>
                     <li style={liStyle}>
                         <Link target="_self"
-                            to='/customeventstyle'>
+                            to="/customeventstyle">
                             <span>Custom event style</span>
                         </Link>
                     </li>
                     <li style={liStyle}>
                         <Link target="_self"
-                            to='/addresource'>
+                            to="/addresource">
                             <span>Add resource</span>
                         </Link>
                     </li>
                     <li style={liStyle}>
                         <Link target="_self"
-                            to='/draganddrop'>
+                            to="/draganddrop">
                             <span>Drag&Drop</span>
                         </Link>
                     </li>
                     <li style={liStyle}>
                         <Link target="_self"
-                            to='/summary'>
+                            to="/summary">
                             <span>Summary</span>
                         </Link>
                     </li>
                     <li style={liStyle}>
                         <Link target="_self"
-                            to='/addmore'>
+                            to="/addmore">
                             <span>Add more</span>
                         </Link>
                     </li>
                     <li style={liStyle}>
                         <Link target="_self"
-                            to='/overlapcheck'>
+                            to="/overlapcheck">
                             <span>Overlap check</span>
                         </Link>
                     </li>
                     <li style={liStyle}>
                         <Link target="_self"
-                            to='/nocrossslotmove'>
+                            to="/nocrossslotmove">
                             <span>No cross-slot move</span>
                         </Link>
                     </li>
                     <li style={liStyle}>
                         <Link target="_self"
-                            to='/freezefirstrow'>
+                            to="/freezefirstrow">
                             <span>Freeze first row</span>
                         </Link>
                     </li>
                     <li style={liStyle}>
                         <Link target="_self"
-                            to='/resourceclickable'>
+                            to="/resourceclickable">
                             <span>Resource clickable</span>
                         </Link>
                     </li>
                     <li style={liStyle}>
                         <Link target="_self"
-                            to='/customtableheaders'>
+                            to="/customtableheaders">
                             <span>Custom table headers</span>
                         </Link>
                     </li>
                     <li style={liStyle}>
                         <Link target="_self"
-                            to='/hideweekends'>
+                            to="/hideweekends">
                             <span>Hide weekends</span>
                         </Link>
                     </li>
                     <li style={liStyle}>
                         <Link target="_self"
-                            to='/customtimewindow'>
+                            to="/customtimewindow">
                             <span>Custom time window</span>
                         </Link>
                     </li>
                     <li style={liStyle}>
                         <Link target="_self"
-                            to='/infinitescroll'>
+                            to="/infinitescroll">
                             <span>Infinite scroll</span>
                         </Link>
                     </li>
                     <li style={liStyle}>
                         <Link target="_self"
-                            to='/infinitescroll2'>
+                            to="/infinitescroll2">
                             <span>Infinite scroll 2</span>
                         </Link>
                     </li>
                     <li style={liStyle}>
                         <Link target="_self"
-                            to='/custompopover'>
+                            to="/custompopover">
                             <span>Custom popover style</span>
                         </Link>
                     </li>
                 </ul>
-                <div style={{ clear: "both", marginBottom: '24px' }}></div>
+                <div style={{ clear: "both", marginBottom: "24px" }}></div>
             </div>
-        )
+        );
     }
 }
 
-export default Nav
+export default Nav;

@@ -1,40 +1,41 @@
-import * as React from 'react'
-import { Component } from 'react'
+import * as React from "react";
+import { Component } from "react";
 import Scheduler, {
     SchedulerData,
     SchedulerViewTypes,
-    SCHEDULER_DATE_FORMAT,
-    SchedulerResource
-} from '../src/Scheduler'
-import * as ExampleFunction from './ExampleFunctions'
-import { DemoData } from './DemoData'
-import Nav from './Nav'
-import ViewSrcCode from './ViewSrcCode'
-import withDragDropContext from './withDnDContext'
+    SchedulerContentState,
+} from "../src/Scheduler";
+import * as ExampleFunction from "./ExampleFunctions";
+import { DemoData } from "./DemoData";
+import Nav from "./Nav";
+import ViewSrcCode from "./ViewSrcCode";
+import withDragDropContext from "./withDnDContext";
+import * as moment from "moment";
 
 class InfiniteScroll extends Component<{}, { viewModel: SchedulerData }> {
     constructor(props: Readonly<{}>) {
         super(props);
 
-        let schedulerData = new SchedulerData('2017-12-18', SchedulerViewTypes.Month, false, false, {
+        const schedulerData = new SchedulerData(ExampleFunction.getNow(), SchedulerViewTypes.Month, false, false, {
             views: [
-                { viewName: 'Month', viewType: SchedulerViewTypes.Month, showAgenda: false, isEventPerspective: false },
-            ]
+                { viewName: "Month", viewType: SchedulerViewTypes.Month, showAgenda: false, isEventPerspective: false },
+            ],
         });
+        moment.locale("en");
         schedulerData.setResources(DemoData.resources);
         schedulerData.setEvents(DemoData.events);
         this.state = {
-            viewModel: schedulerData
-        }
+            viewModel: schedulerData,
+        };
     }
 
-    render() {
+    public render() {
         const { viewModel } = this.state;
         return (
             <div>
                 <Nav />
                 <div>
-                    <h3 style={{ textAlign: 'center' }}>Infinite scroll<ViewSrcCode srcCodeUrl="https://github.com/StephenChou1017/react-big-scheduler/blob/master/example/InfiniteScroll.js" /></h3>
+                    <h3 style={{ textAlign: "center" }}>Infinite scroll<ViewSrcCode srcCodeUrl="https://github.com/StephenChou1017/react-big-scheduler/blob/master/example/InfiniteScroll.js" /></h3>
                     <Scheduler schedulerData={viewModel}
                         prevClick={ExampleFunction.prevClick.bind(this)}
                         nextClick={ExampleFunction.nextClick.bind(this)}
@@ -49,17 +50,41 @@ class InfiniteScroll extends Component<{}, { viewModel: SchedulerData }> {
                         updateEventEnd={ExampleFunction.updateEventEnd.bind(this)}
                         moveEvent={ExampleFunction.moveEvent.bind(this)}
                         newEvent={ExampleFunction.newEvent.bind(this)}
-                        onScrollLeft={ExampleFunction.onScrollLeft.bind(this)}
-                        onScrollRight={ExampleFunction.onScrollRight.bind(this)}
+                        onScrollLeft={this.onScrollLeft}
+                        onScrollRight={this.onScrollRight}
                         onScrollTop={ExampleFunction.onScrollTop.bind(this)}
                         onScrollBottom={ExampleFunction.onScrollBottom.bind(this)}
                         toggleExpandFunc={ExampleFunction.toggleExpandFunc.bind(this)}
                     />
                 </div>
             </div>
-        )
+        );
+    }
+
+    public onScrollRight = (schedulerData: SchedulerData, schedulerContent: SchedulerContentState, maxScrollLeft: number) => {
+        if (schedulerData.viewType === SchedulerViewTypes.Month) {
+            schedulerData.next();
+            schedulerData.setEvents(DemoData.events);
+            this.setState({
+                viewModel: schedulerData,
+            });
+
+            schedulerContent.scrollLeft = maxScrollLeft - 10;
+        }
+    }
+
+    public onScrollLeft = (schedulerData: SchedulerData, schedulerContent: SchedulerContentState, maxScrollLeft: number) => {
+        if (schedulerData.viewType === SchedulerViewTypes.Month) {
+            schedulerData.prev();
+            schedulerData.setEvents(DemoData.events);
+            this.setState({
+                viewModel: schedulerData,
+            });
+
+            schedulerContent.scrollLeft = 10;
+        }
     }
 
 }
 
-export default withDragDropContext(InfiniteScroll)
+export default withDragDropContext(InfiniteScroll);

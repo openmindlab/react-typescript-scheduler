@@ -1,14 +1,14 @@
 {
   "name": "react-big-scheduler",
   "version": "0.2.7",
-  "description": "A scheduler and resource planning component built for React and made for modern browsers (IE10+)",
+  "description": "A React Typescript component for scheduling and made for modern browsers (IE10+).",
   "keywords": [
     "scheduler",
     "react-component",
     "react",
     "react-big-scheduler",
     "resource planning",
-    "antd"
+    "typescript"
   ],
   "files": [
     "lib/",
@@ -17,27 +17,27 @@
     "CHANGELOG.md"
   ],
   "main": "lib/index",
-  "homepage": "https://github.com/StephenChou1017/react-big-scheduler",
-  "author": "Stephen Chou <27788280@qq.com> (https://github.com/StephenChou1017)",
+  "homepage": "https://github.com/graspea/react-typescript-scheduler",
+  "author": "Graspea (https://github.com/graspea),Stephen Chou <27788280@qq.com> (https://github.com/StephenChou1017)",
   "repository": {
     "type": "git",
-    "url": "git@github.com:StephenChou1017/react-big-scheduler.git"
+    "url": "git@github.com:graspea/react-typescript-scheduler.git"
   },
   "bugs": {
-    "url": "http://github.com/StephenChou1017/react-big-scheduler/issues"
+    "url": "https://github.com/graspea/react-typescript-scheduler/issues"
   },
   "license": "MIT",
   "config": {},
   "scripts": {
+    "debug": "webpack-dev-server --config ./webpack-dev.config.js --hot --open",
+    "build-dev": "webpack --config ./webpack-dev.config.js",
     "clean": "rimraf ./lib && mkdir lib",
     "build": "node scripts/build.js",
     "clean:exampledist": "rimraf ./exampledist/static",
     "build:exampledist": "npm run clean:exampledist && cpy src/css/style.css exampledist/static && cross-env NODE_ENV=production webpack --config ./webpack/webpack.config.js",
     "example": "webpack-dev-server --config ./webpack/webpack-dev.config.js --hot",
     "analyz": "cross-env NODE_ENV=production npm_config_report=true npm run build",
-    "build:dll": "cross-env NODE_ENV=production webpack --config ./webpack/webpack.dll.config.js",
-    "debug": "webpack-dev-server --config ./webpack-dev.config.js --hot --open",
-    "build-dev": "webpack --config ./webpack-dev.config.js"
+    "build:dll": "cross-env NODE_ENV=production webpack --config ./webpack/webpack.dll.config.js"
   },
   "pre-commit": [
     "lint"
@@ -61,6 +61,8 @@
     "@types/react-dnd": "^3.0.2",
     "@types/react-dnd-html5-backend": "^3.0.2",
     "@types/react-dom": "^16.8.4",
+    "@typescript-eslint/eslint-plugin": "^1.13.0",
+    "@typescript-eslint/parser": "^1.13.0",
     "babel": "6.23.0",
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.0",
@@ -73,8 +75,13 @@
     "babel-preset-stage-0": "6.24.1",
     "cross-env": "^5.2.0",
     "css-loader": "^2.1.1",
-    "eslint": "5.16.0",
-    "eslint-plugin-react": "7.13.0",
+    "eslint": "^6.1.0",
+    "eslint-config-standard": "^13.0.1",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-node": "^9.1.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-react": "^7.14.2",
+    "eslint-plugin-standard": "^4.0.0",
     "html-webpack-plugin": "^3.2.0",
     "json-loader": "0.5.7",
     "less": "^3.9.0",
@@ -91,6 +98,7 @@
     "source-map-loader": "^0.2.4",
     "style-loader": "0.23.1",
     "ts-loader": "^6.0.4",
+    "tslint": "^5.18.0",
     "typescript": "^3.5.3",
     "url-loader": "^1.1.2",
     "webpack": "^4.36.1",

@@ -1,38 +1,36 @@
-import * as React from 'react'
-import { Component } from 'react'
+import * as React from "react";
+import { Component } from "react";
 import Scheduler, {
     SchedulerData,
     SchedulerViewTypes,
-    SCHEDULER_DATE_FORMAT,
-    SchedulerCellUnits
-} from '../src/Scheduler'
-import * as ExampleFunction from './ExampleFunctions'
-import { DemoData } from './DemoData'
-import Nav from './Nav'
-import ViewSrcCode from './ViewSrcCode'
-import withDragDropContext from './withDnDContext'
+} from "../src/Scheduler";
+import * as ExampleFunction from "./ExampleFunctions";
+import { DemoData } from "./DemoData";
+import Nav from "./Nav";
+import ViewSrcCode from "./ViewSrcCode";
+import withDragDropContext from "./withDnDContext";
 
-class FreezeFirstRow extends Component<{}, { viewModel: SchedulerData }>{
+class FreezeFirstRow extends Component<{}, { viewModel: SchedulerData }> {
     constructor(props: Readonly<{}>) {
         super(props);
 
-        let schedulerData = new SchedulerData('2017-12-18', SchedulerViewTypes.Month, false, false, {
+        const schedulerData = new SchedulerData(ExampleFunction.getNow(), SchedulerViewTypes.Month, false, false, {
             schedulerMaxHeight: 400,
         });
         schedulerData.setResources(DemoData.resources);
         schedulerData.setEvents(DemoData.events);
         this.state = {
-            viewModel: schedulerData
-        }
+            viewModel: schedulerData,
+        };
     }
 
-    render() {
+    public render() {
         const { viewModel } = this.state;
         return (
             <div>
                 <Nav />
                 <div>
-                    <h3 style={{ textAlign: 'center' }}>Set schedulerMaxHeight to freeze first row<ViewSrcCode srcCodeUrl="https://github.com/StephenChou1017/react-big-scheduler/blob/master/example/FreezeFirstRow.js" /></h3>
+                    <h3 style={{ textAlign: "center" }}>Set schedulerMaxHeight to freeze first row<ViewSrcCode srcCodeUrl="https://github.com/StephenChou1017/react-big-scheduler/blob/master/example/FreezeFirstRow.js" /></h3>
                     <Scheduler schedulerData={viewModel}
                         prevClick={ExampleFunction.prevClick.bind(this)}
                         nextClick={ExampleFunction.nextClick.bind(this)}
@@ -55,8 +53,8 @@ class FreezeFirstRow extends Component<{}, { viewModel: SchedulerData }>{
                     />
                 </div>
             </div>
-        )
+        );
     }
 }
 
-export default withDragDropContext(FreezeFirstRow)
+export default withDragDropContext(FreezeFirstRow);

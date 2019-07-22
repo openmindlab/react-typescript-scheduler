@@ -1,68 +1,65 @@
-import * as React from 'react'
-import { Component, useState } from 'react'
+import * as React from "react";
+import { Component, useState } from "react";
 import Scheduler, {
   SchedulerData,
   SchedulerViewTypes,
-  SCHEDULER_DATE_FORMAT,
-  SchedulerResource,
-  SchedulerEvent
-} from '../src/Scheduler'
-import * as ExampleFunction from './ExampleFunctions'
-import { DemoData } from './DemoData'
-import Nav from './Nav'
-import ViewSrcCode from './ViewSrcCode'
-import withDragDropContext from './withDnDContext'
+} from "../src/Scheduler";
+import * as moment from "moment";
+import * as ExampleFunction from "./ExampleFunctions";
+import { DemoData } from "./DemoData";
+import Nav from "./Nav";
+import ViewSrcCode from "./ViewSrcCode";
+import withDragDropContext from "./withDnDContext";
 
 class CustomHeaders extends Component<{}, { viewModel: SchedulerData }> {
-  constructor(props) {
+  constructor(props: Readonly<{}>) {
     super(props);
 
-    let schedulerData = new SchedulerData(Date.now().toString(), SchedulerViewTypes.Week, false, false, {
+    const schedulerData = new SchedulerData(ExampleFunction.getNow(), SchedulerViewTypes.Week, false, false, {
       calendarPopoverEnabled: false,
     });
     schedulerData.setResources(DemoData.resources);
     schedulerData.setEvents(DemoData.events);
     this.state = {
-      viewModel: schedulerData
-    }
+      viewModel: schedulerData,
+    };
   }
 
-  nonAgendaCellHeaderTemplateResolver = (schedulerData, item: any, formattedDateItems: any, style: React.CSSProperties) => {
-    let datetime = schedulerData.localeMoment(item.time);
+  public nonAgendaCellHeaderTemplateResolver = (schedulerData: SchedulerData, item: any, formattedDateItems: any, style: React.CSSProperties) => {
+    const datetime = moment(item.time);
     let isCurrentDate = false;
 
     if (schedulerData.viewType === SchedulerViewTypes.Day) {
-      isCurrentDate = datetime.isSame(new Date(), 'hour');
-    }
-    else {
-      isCurrentDate = datetime.isSame(new Date(), 'day');
+      isCurrentDate = datetime.isSame(new Date(), "hour");
+    } else {
+      isCurrentDate = datetime.isSame(new Date(), "day");
     }
 
     if (isCurrentDate) {
-      style.backgroundColor = '#118dea';
-      style.color = 'white';
+      style.backgroundColor = "#118dea";
+      style.color = "white";
     }
 
     return (
       <th key={item.time} className={`header3-text`} style={style}>
         {
-          formattedDateItems.map((formattedItem, index) => (
+          formattedDateItems.map((formattedItem: any, index: any) => (
             <div key={index}
-              dangerouslySetInnerHTML={{ __html: formattedItem.replace(/[0-9]/g, '<b>$&</b>') }} />
+              dangerouslySetInnerHTML={{ __html: formattedItem.replace(/[0-9]/g, "<b>$&</b>") }} />
           ))
         }
       </th>
     );
   }
 
-  render() {
+  public render() {
     const { viewModel } = this.state;
 
     return (
       <div>
         <Nav />
         <div>
-          <h3 style={{ textAlign: 'center' }}>Custom table headers (with disabled calendar popup)<ViewSrcCode
+          <h3 style={{ textAlign: "center" }}>Custom table headers (with disabled calendar popup)<ViewSrcCode
             srcCodeUrl="https://github.com/StephenChou1017/react-big-scheduler/blob/master/example/CustomTableHeaders.js" />
           </h3>
           <Scheduler schedulerData={viewModel}
@@ -84,9 +81,9 @@ class CustomHeaders extends Component<{}, { viewModel: SchedulerData }> {
           />
         </div>
       </div>
-    )
+    );
   }
 
 }
 
-export default withDragDropContext(CustomHeaders)
+export default withDragDropContext(CustomHeaders);

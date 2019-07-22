@@ -1,26 +1,25 @@
-import * as React from 'react'
-import { Component } from 'react'
-import Scheduler, { SchedulerData, SchedulerViewTypes, SchedulerAddMorePopover, SchedulerHeader } from '../src/Scheduler'
-import { DemoData } from './DemoData'
-import Nav from './Nav'
-import ViewSrcCode from './ViewSrcCode'
-import withDragDropContext from './withDnDContext'
-import * as ExampleFunction from './ExampleFunctions'
+import * as React from "react";
+import { Component } from "react";
+import Scheduler, { SchedulerAddMorePopover, SchedulerData, SchedulerHeader, SchedulerViewTypes } from "../src/Scheduler";
+import { DemoData } from "./DemoData";
+import * as ExampleFunction from "./ExampleFunctions";
+import Nav from "./Nav";
+import ViewSrcCode from "./ViewSrcCode";
+import withDragDropContext from "./withDnDContext";
 
-
-interface AddMoreState {
-    viewModel: SchedulerData,
-    headerItem: SchedulerHeader,
-    left: number,
-    top: number,
-    height: number,
+interface IAddMoreState {
+    viewModel: SchedulerData;
+    headerItem: SchedulerHeader;
+    left: number;
+    top: number;
+    height: number;
 }
 
-class AddMore extends Component<{}, AddMoreState>{
+class AddMore extends Component<{}, IAddMoreState> {
     constructor(props: Readonly<{}>) {
         super(props);
 
-        let schedulerData = new SchedulerData('2017-12-18', SchedulerViewTypes.Week, false, false, {
+        const schedulerData = new SchedulerData(ExampleFunction.getNow(), SchedulerViewTypes.Week, false, false, {
             dayMaxEvents: 2,
             weekMaxEvents: 4,
             monthMaxEvents: 4,
@@ -35,10 +34,10 @@ class AddMore extends Component<{}, AddMoreState>{
             left: 0,
             top: 0,
             height: 0,
-        }
+        };
     }
 
-    render() {
+    public render() {
         const { viewModel } = this.state;
 
         let popover = <div />;
@@ -63,7 +62,7 @@ class AddMore extends Component<{}, AddMoreState>{
             <div>
                 <Nav />
                 <div>
-                    <h3 style={{ textAlign: 'center' }}>Add more<ViewSrcCode srcCodeUrl="https://github.com/StephenChou1017/react-big-scheduler/blob/master/example/AddMore.js" /></h3>
+                    <h3 style={{ textAlign: "center" }}>Add more<ViewSrcCode srcCodeUrl="https://github.com/StephenChou1017/react-big-scheduler/blob/master/example/AddMore.js" /></h3>
                     <Scheduler schedulerData={viewModel}
                         prevClick={ExampleFunction.prevClick.bind(this)}
                         nextClick={ExampleFunction.nextClick.bind(this)}
@@ -84,9 +83,9 @@ class AddMore extends Component<{}, AddMoreState>{
                     {popover}
                 </div>
             </div>
-        )
+        );
     }
 
 }
 
-export default withDragDropContext(AddMore)
+export default withDragDropContext(AddMore);

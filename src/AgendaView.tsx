@@ -1,19 +1,19 @@
-import * as React from 'react'
-import { Component, CSSProperties } from 'react'
+import * as React from "react";
+import { Component, CSSProperties } from "react";
 
-import AgendaResourceEvents from './AgendaResourceEvents'
-import { SchedulerData } from './Scheduler';
-import { EventGroup, Resource, Event, RenderData } from './SchedulerData';
+import AgendaResourceEvents from "./AgendaResourceEvents";
+import { SchedulerData } from "./Scheduler";
+import { Event, RenderData } from "./SchedulerData";
 
 interface AgendaViewProps {
-    schedulerData: SchedulerData,
-    subtitleGetter?: (schedulerData: SchedulerData, event: Event) => string,
-    eventItemClick?: (schedulerData: SchedulerData, event: Event) => any,
-    viewEventClick?: (schedulerData: SchedulerData, event: Event) => void,
-    viewEventText?: string,
-    viewEvent2Click?: (schedulerData: SchedulerData, event: Event) => void,
-    viewEvent2Text?: string,
-    slotClickedFunc?: (schedulerData: SchedulerData, item: RenderData) => void | JSX.Element,
+    schedulerData: SchedulerData;
+    subtitleGetter?: (schedulerData: SchedulerData, event: Event) => string;
+    eventItemClick?: (schedulerData: SchedulerData, event: Event) => any;
+    viewEventClick?: (schedulerData: SchedulerData, event: Event) => void;
+    viewEventText?: string;
+    viewEvent2Click?: (schedulerData: SchedulerData, event: Event) => void;
+    viewEvent2Text?: string;
+    slotClickedFunc?: (schedulerData: SchedulerData, item: RenderData) => void | JSX.Element;
 }
 
 class AgendaView extends Component<AgendaViewProps> {
@@ -21,20 +21,21 @@ class AgendaView extends Component<AgendaViewProps> {
         super(props);
     }
 
-    render() {
+    public render() {
 
         const { schedulerData } = this.props;
         const { config } = schedulerData;
         const { renderData } = schedulerData;
-        let agendaResourceTableWidth = schedulerData.getResourceTableWidth(), tableHeaderHeight = schedulerData.getTableHeaderHeight();
-        let resourceEventsList = renderData.map((item) => {
+        const agendaResourceTableWidth = schedulerData.getResourceTableWidth();
+        const tableHeaderHeight = schedulerData.getTableHeaderHeight();
+        const resourceEventsList = renderData.map((item) => {
             return <AgendaResourceEvents
                 {...this.props}
                 resourceEvents={item}
-                key={item.slotId} />
+                key={item.slotId} />;
         });
-        let resourceName = schedulerData.isEventPerspective ? config.taskName : config.resourceName;
-        let agendaViewHeader = config.agendaViewHeader;
+        const resourceName = schedulerData.isEventPerspective ? config.taskName : config.resourceName;
+        const agendaViewHeader = config.agendaViewHeader;
 
         return (
             <tr>
@@ -56,4 +57,4 @@ class AgendaView extends Component<AgendaViewProps> {
     }
 }
 
-export default AgendaView
+export default AgendaView;

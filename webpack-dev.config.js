@@ -6,7 +6,8 @@ module.exports = {
     mode: "development",
     entry: {
         //app: ['./src/App.tsx']
-        app: ['./example/bundle.tsx']
+        app: ['./example/bundle.tsx'],
+        vendor: ['react']
     },
     output: {
         path: path.resolve(__dirname, 'lib'),
@@ -22,7 +23,7 @@ module.exports = {
                 test: /\.(ts|tsx)$/,
                 loader: 'ts-loader'
             },
-            { enforce: "pre", test: /\.js$/, loader: "source-map-loader" },
+            //{ enforce: "pre", test: /\.js$/, loader: "source-map-loader" },
             { test: /\.jsx$|\.es6$|\.js$/, loaders: ['babel-loader'], exclude: /node_modules/ },
             {
                 test: /\.scss$|\.css$|\.less$/,
@@ -48,7 +49,7 @@ module.exports = {
         ]
     },
     plugins: [
-        new HtmlWebpackPlugin({ template: path.resolve(__dirname,'example', 'index.html') }),
+        new HtmlWebpackPlugin({ template: path.resolve(__dirname, 'example', 'index.html') }),
         new webpack.HotModuleReplacementPlugin()
     ],
     devServer: {

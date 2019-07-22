@@ -1,55 +1,53 @@
-import * as React from 'react'
-import { Component, CSSProperties } from 'react'
-import AgendaEventItem from './AgendaEventItem'
-import { DATE_FORMAT } from './types/DateFormats'
-import * as moment from 'moment';
-import { SchedulerData } from './Scheduler';
-import ResourceEvents from './ResourceEvents';
-import { RenderData, Event, Resource, EventGroup } from './SchedulerData';
-
+import * as React from "react";
+import { Component, CSSProperties } from "react";
+import AgendaEventItem from "./AgendaEventItem";
+import { DATE_FORMAT } from "./types/DateFormats";
+import * as moment from "moment";
+import { SchedulerData } from "./Scheduler";
+import { RenderData, Event, Resource, EventGroup } from "./SchedulerData";
 
 interface AgendaResourceEventsProps {
-    schedulerData: SchedulerData,
-    resourceEvents: RenderData,
-    subtitleGetter?: (schedulerData: SchedulerData, event: Event) => string,
-    eventItemClick?: (schedulerData: SchedulerData, event: Event) => any,
-    viewEventClick?: (schedulerData: SchedulerData, event: Event) => void,
-    viewEventText?: string,
-    viewEvent2Click?: (schedulerData: SchedulerData, event: Event) => void,
-    viewEvent2Text?: string,
-    slotClickedFunc?: (schedulerData: SchedulerData, item: RenderData) => void | JSX.Element
+    schedulerData: SchedulerData;
+    resourceEvents: RenderData;
+    subtitleGetter?: (schedulerData: SchedulerData, event: Event) => string;
+    eventItemClick?: (schedulerData: SchedulerData, event: Event) => any;
+    viewEventClick?: (schedulerData: SchedulerData, event: Event) => void;
+    viewEventText?: string;
+    viewEvent2Click?: (schedulerData: SchedulerData, event: Event) => void;
+    viewEvent2Text?: string;
+    slotClickedFunc?: (schedulerData: SchedulerData, item: RenderData) => void | JSX.Element;
     slotItemTemplateResolver?: (schedulerData: SchedulerData, slot: RenderData | Resource | EventGroup | Event,
-        slotClickedFunc: JSX.Element,
-        width: number,
-        clsName: string) => JSX.Element,
+                                slotClickedFunc: JSX.Element,
+                                width: number,
+                                clsName: string) => JSX.Element;
 }
 class AgendaResourceEvents extends Component<AgendaResourceEventsProps> {
     constructor(props: Readonly<AgendaResourceEventsProps>) {
         super(props);
     }
 
-    render() {
+    public render() {
         const { schedulerData, resourceEvents } = this.props;
         const { startDate, endDate, config } = schedulerData;
-        let agendaResourceTableWidth = schedulerData.getResourceTableWidth();
-        let width = agendaResourceTableWidth - 2;
+        const agendaResourceTableWidth = schedulerData.getResourceTableWidth();
+        const width = agendaResourceTableWidth - 2;
 
-        let events = [];
+        const events = [];
         resourceEvents.headerItems.forEach((item) => {
-            let start = moment(startDate).format(DATE_FORMAT),
-                end = moment(endDate).add(1, 'days').format(DATE_FORMAT),
-                headerStart = moment(item.start).format(DATE_FORMAT),
-                headerEnd = moment(item.end).format(DATE_FORMAT);
+            const start = moment(startDate).format(DATE_FORMAT);
+            const end = moment(endDate).add(1, "days").format(DATE_FORMAT);
+            const headerStart = moment(item.start).format(DATE_FORMAT);
+            const headerEnd = moment(item.end).format(DATE_FORMAT);
 
             if (start === headerStart && end === headerEnd) {
                 item.events.forEach((evt) => {
-                    let durationStart = moment(startDate);
-                    let durationEnd = moment(endDate).add(1, 'days');
-                    let eventStart = moment(evt.eventItem.start);
-                    let eventEnd = moment(evt.eventItem.end);
-                    let isStart = eventStart >= durationStart;
-                    let isEnd = eventEnd < durationEnd;
-                    let eventItem = <AgendaEventItem
+                    const durationStart = moment(startDate);
+                    const durationEnd = moment(endDate).add(1, "days");
+                    const eventStart = moment(evt.eventItem.start);
+                    const eventEnd = moment(evt.eventItem.end);
+                    const isStart = eventStart >= durationStart;
+                    const isEnd = eventEnd < durationEnd;
+                    const eventItem = <AgendaEventItem
                         {...this.props}
                         key={evt.eventItem.id}
                         eventItem={evt.eventItem}
@@ -61,19 +59,20 @@ class AgendaResourceEvents extends Component<AgendaResourceEventsProps> {
             }
         });
 
-        let slotClickedFunc = this.props.slotClickedFunc != undefined ? <a onClick={() => {
+        const slotClickedFunc = this.props.slotClickedFunc != undefined ? <a onClick={() => {
             this.props.slotClickedFunc(schedulerData, resourceEvents);
         }}>{resourceEvents.slotName}</a>
             : <span>{resourceEvents.slotName}</span>;
         let slotItem = (
-            <div style={{ width: width }} title={resourceEvents.slotName} className="overflow-text header2-text">
+            <div style={{ width }} title={resourceEvents.slotName} className="overflow-text header2-text">
                 {slotClickedFunc}
             </div>
         );
         if (!!this.props.slotItemTemplateResolver) {
-            let temp = this.props.slotItemTemplateResolver(schedulerData, resourceEvents, slotClickedFunc, width, "overflow-text header2-text");
-            if (!!temp)
+            const temp = this.props.slotItemTemplateResolver(schedulerData, resourceEvents, slotClickedFunc, width, "overflow-text header2-text");
+            if (!!temp) {
                 slotItem = temp;
+            }
         }
 
         return (
@@ -91,4 +90,4 @@ class AgendaResourceEvents extends Component<AgendaResourceEventsProps> {
     }
 }
 
-export default AgendaResourceEvents
+export default AgendaResourceEvents;

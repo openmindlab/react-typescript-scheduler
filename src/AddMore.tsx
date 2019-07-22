@@ -1,16 +1,16 @@
-import * as React from 'react'
-import { Component, CSSProperties } from 'react'
-import { Header } from './SchedulerData';
+import * as React from "react";
+import { Component, CSSProperties } from "react";
+import { Header } from "./SchedulerData";
+import { SchedulerData } from "./Scheduler";
 
 interface AddMoreProps {
-    schedulerData: any,
-    number: number,
-    left: number,
-    width: number,
-    top: number,
-    clickAction: (headerItem: Header) => any,
-    headerItem: any,
-    
+    schedulerData: SchedulerData;
+    number: number;
+    left: number;
+    width: number;
+    top: number;
+    clickAction: (headerItem: Header) => any;
+    headerItem: Header;
 }
 
 class AddMore extends Component<AddMoreProps> {
@@ -18,14 +18,14 @@ class AddMore extends Component<AddMoreProps> {
         super(props);
     }
 
-    render() {
-        const { number, left, width, top, clickAction, headerItem, schedulerData } = this.props;
+    public render() {
+        const { number: num, left, width, top, clickAction, headerItem, schedulerData } = this.props;
         const { config } = schedulerData;
-        let content = '+' + number + 'more';
+        const content = "+" + num + "more";
 
         return (
-            <a className="timeline-event" style={{ left: left, width: width, top: top }} onClick={() => { clickAction(headerItem); }} >
-                <div style={{ height: config.eventItemHeight, color: '#999', textAlign: 'center' }}>
+            <a className="timeline-event" style={{ left, width, top }} onClick={() => { clickAction(headerItem); }} >
+                <div style={{ height: config.eventItemHeight, color: "#999", textAlign: "center" }}>
                     {content}
                 </div>
             </a>
@@ -33,4 +33,4 @@ class AddMore extends Component<AddMoreProps> {
     }
 }
 
-export default AddMore
+export default AddMore;

@@ -1,21 +1,21 @@
-import * as React from 'react'
-import { Component, CSSProperties } from 'react'
+import * as React from "react";
+import { Component, CSSProperties } from "react";
+import { SchedulerData } from "./Scheduler";
+import { RenderData } from "./SchedulerData";
 
-import Icon from 'antd/lib/icon'
-import { SchedulerData } from './Scheduler';
-import { RenderData } from './SchedulerData';
+import Icon from "antd/lib/icon";
 
 interface ResourceViewProps {
-    schedulerData: SchedulerData,
-    contentScrollbarHeight: number,
-    slotClickedFunc?: (schedulerData: SchedulerData, item: RenderData) => void,
+    schedulerData: SchedulerData;
+    contentScrollbarHeight: number;
+    slotClickedFunc?: (schedulerData: SchedulerData, item: RenderData) => void;
     slotItemTemplateResolver?: (
         schedulerData: SchedulerData,
-        item: RenderData, 
+        item: RenderData,
         slotClickedFunc: (schedulerData: SchedulerData, item: RenderData) => void,
         width: number,
-        css: string) => JSX.Element,
-    toggleExpandFunc?: (schedulerData: SchedulerData, slotId: string) => void
+        css: string) => JSX.Element;
+    toggleExpandFunc?: (schedulerData: SchedulerData, slotId: string) => void;
 }
 
 class ResourceView extends Component<ResourceViewProps> {
@@ -24,16 +24,16 @@ class ResourceView extends Component<ResourceViewProps> {
         super(props);
     }
 
-    render() {
+    public render() {
 
         const { schedulerData, contentScrollbarHeight, slotClickedFunc, slotItemTemplateResolver, toggleExpandFunc } = this.props;
         const { renderData } = schedulerData;
 
-        let width = schedulerData.getResourceTableWidth() - 2;
-        let paddingBottom = contentScrollbarHeight;
-        let displayRenderData = renderData.filter(o => o.render);
-        let resourceList = displayRenderData.map((item) => {
-            let indents = [];
+        const width = schedulerData.getResourceTableWidth() - 2;
+        const paddingBottom = contentScrollbarHeight;
+        const displayRenderData = renderData.filter((o) => o.render);
+        const resourceList = displayRenderData.map((item) => {
+            const indents = [];
             for (let i = 0; i < item.indent; i++) {
                 indents.push(<span key={`es${i}`} className="expander-space"></span>);
             }
@@ -42,20 +42,22 @@ class ResourceView extends Component<ResourceViewProps> {
                 indent = item.expanded ? (
                     <Icon type="minus-square" key={`es${item.indent}`} style={{}} className=""
                         onClick={() => {
-                            if (!!toggleExpandFunc)
+                            if (!!toggleExpandFunc) {
                                 toggleExpandFunc(schedulerData, item.slotId);
+                            }
                         }} />
                 ) : (
                         <Icon type="plus-square" key={`es${item.indent}`} style={{}} className=""
                             onClick={() => {
-                                if (!!toggleExpandFunc)
+                                if (!!toggleExpandFunc) {
                                     toggleExpandFunc(schedulerData, item.slotId);
+                                }
                             }} />
                     );
             }
             indents.push(indent);
 
-            let a = slotClickedFunc != undefined ? <span className="slot-cell">{indents}<a className="slot-text" onClick={() => {
+            const a = slotClickedFunc != undefined ? <span className="slot-cell">{indents}<a className="slot-text" onClick={() => {
                 slotClickedFunc(schedulerData, item);
             }}>{item.slotName}</a></span>
                 : <span className="slot-cell">{indents}<span className="slot-text">{item.slotName}</span></span>;
@@ -65,14 +67,15 @@ class ResourceView extends Component<ResourceViewProps> {
                 </div>
             );
             if (!!slotItemTemplateResolver) {
-                let temp = slotItemTemplateResolver(schedulerData, item, slotClickedFunc, width, "overflow-text header2-text");
-                if (!!temp)
+                const temp = slotItemTemplateResolver(schedulerData, item, slotClickedFunc, width, "overflow-text header2-text");
+                if (!!temp) {
                     slotItem = temp;
+                }
             }
 
-            let tdStyle: CSSProperties = { height: item.rowHeight };
+            const tdStyle: CSSProperties = { height: item.rowHeight };
             if (item.groupOnly) {
-                tdStyle.backgroundColor = schedulerData.config.groupOnlySlotColor
+                tdStyle.backgroundColor = schedulerData.config.groupOnlySlotColor;
             }
 
             return (
@@ -85,15 +88,15 @@ class ResourceView extends Component<ResourceViewProps> {
         });
 
         return (
-            <div style={{ paddingBottom: paddingBottom }}>
+            <div style={{ paddingBottom }}>
                 <table className="resource-table">
                     <tbody>
                         {resourceList}
                     </tbody>
                 </table>
             </div>
-        )
+        );
     }
 }
 
-export default ResourceView
+export default ResourceView;

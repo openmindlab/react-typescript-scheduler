@@ -1,49 +1,49 @@
-import * as React from 'react'
-import { Component, useState } from 'react'
+import * as React from "react";
+import { Component, useState } from "react";
 import Scheduler, {
     SchedulerData,
     SCHEDULER_DATE_FORMAT,
     SchedulerResource,
     SchedulerViewTypes,
-    SchedulerEvent
-} from '../src/Scheduler'
-import * as ExampleFunction from './ExampleFunctions'
+    SchedulerEvent,
+} from "../src/Scheduler";
+import * as ExampleFunction from "./ExampleFunctions";
 
-import { DemoData } from './DemoData'
-import Nav from './Nav'
-import ViewSrcCode from './ViewSrcCode'
-import withDragDropContext from './withDnDContext'
+import { DemoData } from "./DemoData";
+import Nav from "./Nav";
+import ViewSrcCode from "./ViewSrcCode";
+import withDragDropContext from "./withDnDContext";
 
 interface CustomEventStyleState {
-    viewModel: SchedulerData
+    viewModel: SchedulerData;
 }
 
-class CustomEventStyle extends Component<{}, CustomEventStyleState>{
+class CustomEventStyle extends Component<{}, CustomEventStyleState> {
     constructor(props) {
         super(props);
 
-        let schedulerData = new SchedulerData('2017-12-18', SchedulerViewTypes.Week, false, false, {
+        const schedulerData = new SchedulerData(ExampleFunction.getNow(), SchedulerViewTypes.Week, false, false, {
             views: [
-                { viewName: 'Day(Agenda)', viewType: SchedulerViewTypes.Day, showAgenda: true, isEventPerspective: false },
-                { viewName: 'Week', viewType: SchedulerViewTypes.Week, showAgenda: false, isEventPerspective: false },
-                { viewName: 'Month(TaskView)', viewType: SchedulerViewTypes.Month, showAgenda: false, isEventPerspective: true },
-                { viewName: 'Year', viewType: SchedulerViewTypes.Year, showAgenda: false, isEventPerspective: false },
-            ]
+                { viewName: "Day(Agenda)", viewType: SchedulerViewTypes.Day, showAgenda: true, isEventPerspective: false },
+                { viewName: "Week", viewType: SchedulerViewTypes.Week, showAgenda: false, isEventPerspective: false },
+                { viewName: "Month(TaskView)", viewType: SchedulerViewTypes.Month, showAgenda: false, isEventPerspective: true },
+                { viewName: "Year", viewType: SchedulerViewTypes.Year, showAgenda: false, isEventPerspective: false },
+            ],
         });
         schedulerData.setResources(DemoData.resources);
         schedulerData.setEvents(DemoData.eventsForCustomEventStyle);
         this.state = {
-            viewModel: schedulerData
-        }
+            viewModel: schedulerData,
+        };
     }
 
-    render() {
+    public render() {
         const { viewModel } = this.state;
         return (
             <div>
                 <Nav />
                 <div>
-                    <h3 style={{ textAlign: 'center' }}>Custom event style<ViewSrcCode srcCodeUrl="https://github.com/StephenChou1017/react-big-scheduler/blob/master/example/CustomEventStyle.js" /></h3>
+                    <h3 style={{ textAlign: "center" }}>Custom event style<ViewSrcCode srcCodeUrl="https://github.com/StephenChou1017/react-big-scheduler/blob/master/example/CustomEventStyle.js" /></h3>
                     <Scheduler schedulerData={viewModel}
                         prevClick={ExampleFunction.prevClick.bind(this)}
                         nextClick={ExampleFunction.nextClick.bind(this)}
@@ -66,18 +66,10 @@ class CustomEventStyle extends Component<{}, CustomEventStyleState>{
                     />
                 </div>
             </div>
-        )
+        );
     }
 
-    prevClick = (schedulerData) => {
-        schedulerData.prev();
-        schedulerData.setEvents(DemoData.eventsForCustomEventStyle);
-        this.setState({
-            viewModel: schedulerData
-        })
-    }
-
-    eventItemTemplateResolver = (
+    public eventItemTemplateResolver = (
         schedulerData: SchedulerData,
         event: SchedulerEvent,
         bgColor: string,

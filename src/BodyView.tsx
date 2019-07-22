@@ -1,9 +1,9 @@
-import * as React from 'react'
-import { Component, CSSProperties } from 'react'
-import { SchedulerData } from './Scheduler';
+import * as React from "react";
+import { Component, CSSProperties } from "react";
+import { SchedulerData } from "./Scheduler";
 
 interface BodyViewProps {
-    schedulerData: SchedulerData
+    schedulerData: SchedulerData;
 }
 
 class BodyView extends Component<BodyViewProps> {
@@ -12,33 +12,36 @@ class BodyView extends Component<BodyViewProps> {
         super(props);
     }
 
-    render() {
+    public render() {
         const { schedulerData } = this.props;
         const { renderData, headers, config, behaviors } = schedulerData;
 
-        let cellWidth = schedulerData.getContentCellWidth();
-        let displayRenderData = renderData.filter(o => o.render);
-        let tableRows = displayRenderData.map((item) => {
-            let rowCells = headers.map((header, index) => {
-                let key = item.slotId + '_' + header.time;
-                let style: CSSProperties = {
+        const cellWidth = schedulerData.getContentCellWidth();
+        const displayRenderData = renderData.filter((o) => o.render);
+        const tableRows = displayRenderData.map((item) => {
+            const rowCells = headers.map((header, index) => {
+                const key = item.slotId + "_" + header.time;
+                const style: CSSProperties = {
                     width: index === headers.length - 1 ? undefined : cellWidth,
-                    backgroundColor: undefined
+                    backgroundColor: undefined,
+                };
+
+                if (!!header.nonWorkingTime) {
+                    style.backgroundColor = config.nonWorkingTimeBodyBgColor;
+                }
+                if (item.groupOnly) {
+                    style.backgroundColor = config.groupOnlySlotColor;
                 }
 
-                if (!!header.nonWorkingTime)
-                    style.backgroundColor = config.nonWorkingTimeBodyBgColor
-                if (item.groupOnly)
-                    style.backgroundColor = config.groupOnlySlotColor
-
                 if (!!behaviors.getNonAgendaViewBodyCellBgColorFunc) {
-                    let cellBgColor = behaviors.getNonAgendaViewBodyCellBgColorFunc(schedulerData, item.slotId, header);
-                    if (!!cellBgColor)
-                        style.backgroundColor = cellBgColor
+                    const cellBgColor = behaviors.getNonAgendaViewBodyCellBgColorFunc(schedulerData, item.slotId, header);
+                    if (!!cellBgColor) {
+                        style.backgroundColor = cellBgColor;
+                    }
                 }
                 return (
                     <td key={key} style={style}><div></div></td>
-                )
+                );
             });
 
             return (
@@ -56,4 +59,4 @@ class BodyView extends Component<BodyViewProps> {
     }
 }
 
-export default BodyView
+export default BodyView;

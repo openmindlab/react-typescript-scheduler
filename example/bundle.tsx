@@ -1,26 +1,28 @@
-import * as React from 'react'
-import { render } from 'react-dom'
-import { HashRouter as Router, Route } from 'react-router-dom'
-import Basic from './Basic'
-import Readonly from './Readonly'
-import Locale from './Locale'
-import Views from './Views'
-import CustomHeader from './CustomHeader'
-import CustomTableHeaders from './CustomTableHeaders'
-import CustomEventStyle from './CustomEventStyle'
-import AddResource from './AddResource'
-import DragAndDrop from './DragAndDrop'
-import Summary from './Summary'
-import AddMore from './AddMore'
-import OverlapCheck from './OverlapCheck'
-import NoCrossSlotMove from './NoCrossSlotMove'
-import FreezeFirstRow from './FreezeFirstRow'
-import ResourceClickable from './ResourceClickable'
-import HideWeekends from './HideWeekends'
-import CustomTimeWindow from './CustomTimeWindow'
-import InfiniteScroll from './InfiniteScroll'
-import InfiniteScroll2 from './InfiniteScroll2'
-import CustomPopoverStyle from './CustomPopoverStyle'
+import * as React from "react";
+import { render } from "react-dom";
+import { HashRouter as Router, Route } from "react-router-dom";
+import Basic from "./Basic";
+import Readonly from "./Readonly";
+import Locale from "./Locale";
+import Views from "./Views";
+import CustomHeader from "./CustomHeader";
+import CustomTableHeaders from "./CustomTableHeaders";
+import CustomEventStyle from "./CustomEventStyle";
+import AddResource from "./AddResource";
+import DragAndDrop from "./DragAndDrop";
+import Summary from "./Summary";
+import AddMore from "./AddMore";
+import OverlapCheck from "./OverlapCheck";
+import NoCrossSlotMove from "./NoCrossSlotMove";
+import FreezeFirstRow from "./FreezeFirstRow";
+import ResourceClickable from "./ResourceClickable";
+import HideWeekends from "./HideWeekends";
+import CustomTimeWindow from "./CustomTimeWindow";
+import InfiniteScroll from "./InfiniteScroll";
+import InfiniteScroll2 from "./InfiniteScroll2";
+import CustomPopoverStyle from "./CustomPopoverStyle";
+
+import "../src/css/style.css";
 
 render((
     <Router>
@@ -45,5 +47,4 @@ render((
         <Route path="/infinitescroll2" component={InfiniteScroll2} />
         <Route path="/custompopover" component={CustomPopoverStyle} />
     </Router>
-), document.getElementById('root'))
-
+), document.getElementById("root"));

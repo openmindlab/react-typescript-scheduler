@@ -1,44 +1,42 @@
-import * as React from 'react'
-import { Component, useState } from 'react'
+import * as React from "react";
+import { Component, useState } from "react";
 import Scheduler, {
     SchedulerData,
     SchedulerViewTypes,
-    SCHEDULER_DATE_FORMAT,
-    SchedulerResource
-} from '../src/Scheduler'
-import * as ExampleFunction from './ExampleFunctions'
-import { DemoData } from './DemoData'
-import Nav from './Nav'
-import ViewSrcCode from './ViewSrcCode'
-import withDragDropContext from './withDnDContext'
+} from "../src/Scheduler";
+import * as ExampleFunction from "./ExampleFunctions";
+import { DemoData } from "./DemoData";
+import Nav from "./Nav";
+import ViewSrcCode from "./ViewSrcCode";
+import withDragDropContext from "./withDnDContext";
 
-class CustomHeader extends Component<{}, { viewModel: SchedulerData }>{
+class CustomHeader extends Component<{}, { viewModel: SchedulerData }> {
     constructor(props: Readonly<{}>) {
         super(props);
 
-        let schedulerData = new SchedulerData('2017-12-18', SchedulerViewTypes.Week);
+        const schedulerData = new SchedulerData(ExampleFunction.getNow(), SchedulerViewTypes.Week);
         schedulerData.setResources(DemoData.resources);
         schedulerData.setEvents(DemoData.events);
         this.state = {
-            viewModel: schedulerData
-        }
+            viewModel: schedulerData,
+        };
     }
 
-    render() {
+    public render() {
         const { viewModel } = this.state;
 
-        let leftCustomHeader = (
-            <div><span style={{ fontWeight: 'bold', color: 'red' }}>Put your content here</span></div>
+        const leftCustomHeader = (
+            <div><span style={{ fontWeight: "bold", color: "red" }}>Put your content here</span></div>
         );
-        let rightCustomHeader = (
-            <div><span style={{ fontWeight: 'bold', color: 'red' }}>or here</span></div>
+        const rightCustomHeader = (
+            <div><span style={{ fontWeight: "bold", color: "red" }}>or here</span></div>
         );
 
         return (
             <div>
                 <Nav />
                 <div>
-                    <h3 style={{ textAlign: 'center' }}>Custom header<ViewSrcCode srcCodeUrl="https://github.com/StephenChou1017/react-big-scheduler/blob/master/example/CustomHeader.js" /></h3>
+                    <h3 style={{ textAlign: "center" }}>Custom header<ViewSrcCode srcCodeUrl="https://github.com/StephenChou1017/react-big-scheduler/blob/master/example/CustomHeader.js" /></h3>
                     <Scheduler schedulerData={viewModel}
                         prevClick={ExampleFunction.prevClick.bind(this)}
                         nextClick={ExampleFunction.nextClick.bind(this)}
@@ -59,8 +57,8 @@ class CustomHeader extends Component<{}, { viewModel: SchedulerData }>{
                     />
                 </div>
             </div>
-        )
+        );
     }
 }
 
-export default withDragDropContext(CustomHeader)
+export default withDragDropContext(CustomHeader);

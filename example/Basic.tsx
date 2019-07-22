@@ -1,43 +1,43 @@
-import * as React from 'react'
-import { Component } from 'react'
+import * as moment from "moment";
+import * as React from "react";
+import { Component } from "react";
 import Scheduler, {
     SchedulerData,
     SchedulerViewTypes,
-} from '../src/Scheduler'
-import * as ExampleFunction from './ExampleFunctions'
-import * as moment from 'moment'
-import { DemoData } from './DemoData'
-import Nav from './Nav'
-import Tips from './Tips'
-import ViewSrcCode from './ViewSrcCode'
-import withDragDropContext from './withDnDContext'
-import '../src/css/style.css'
+} from "../src/Scheduler";
+import { DemoData } from "./DemoData";
+import * as ExampleFunction from "./ExampleFunctions";
+import Nav from "./Nav";
+import Tips from "./Tips";
+import ViewSrcCode from "./ViewSrcCode";
+import withDragDropContext from "./withDnDContext";
 
-interface BasicState {
-    viewModel: SchedulerData
+interface IBasicState {
+    viewModel: SchedulerData;
 }
 
-class Basic extends Component<{}, BasicState>{
+class Basic extends Component<{}, IBasicState> {
     constructor(props: Readonly<{}>) {
         super(props);
-
-        //let schedulerData = new SchedulerData(new moment("2017-12-18").format(DATE_FORMAT), ViewTypes.Week);
-        let schedulerData = new SchedulerData("2017-12-18", SchedulerViewTypes.Week);
-        moment.locale('en');
-        let demoData = DemoData
+        const schedulerData = new SchedulerData(ExampleFunction.getNow(), SchedulerViewTypes.Week);
+        // To set locale
+        moment.locale("en");
+        const demoData = DemoData;
         schedulerData.setResources(demoData.resources);
         schedulerData.setEvents(DemoData.events);
         this.state = {
-            viewModel: schedulerData
-        }
+            viewModel: schedulerData,
+        };
     }
-    render() {
+    public render() {
         const { viewModel } = this.state;
         return (
             <div>
                 <Nav />
                 <div>
-                    <h3 style={{ textAlign: 'center' }}>Basic example<ViewSrcCode srcCodeUrl="https://github.com/StephenChou1017/react-big-scheduler/blob/master/example/Basic.js" /></h3>
+                    <h3 style={{ textAlign: "center" }}>Basic example<ViewSrcCode
+                        srcCodeUrl="https://github.com/StephenChou1017/react-big-scheduler/blob/master/example/Basic.js"/>
+                    </h3>
                     <Scheduler schedulerData={viewModel}
                         prevClick={ExampleFunction.prevClick.bind(this)}
                         nextClick={ExampleFunction.nextClick.bind(this)}
@@ -58,8 +58,8 @@ class Basic extends Component<{}, BasicState>{
                 </div>
                 <Tips />
             </div>
-        )
+        );
     }
 }
 
-export default withDragDropContext(Basic)
+export default withDragDropContext(Basic);

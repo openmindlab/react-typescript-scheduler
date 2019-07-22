@@ -1,41 +1,39 @@
-import * as React from 'react'
-import { Component, useState } from 'react'
+import * as React from "react";
+import { Component, useState } from "react";
 import Scheduler, {
     SchedulerData,
     SchedulerViewTypes,
-    SCHEDULER_DATE_FORMAT,
-    SchedulerResource,
-    SchedulerEvent
-} from '../src/Scheduler'
-import * as ExampleFunction from './ExampleFunctions'
-import * as moment from 'moment'
-import Col from 'antd/lib/col'
-import Row from 'antd/lib/row'
-import Button from 'antd/lib/button'
-import { DemoData } from './DemoData'
-import Nav from './Nav'
-import ViewSrcCode from './ViewSrcCode'
-import withDragDropContext from './withDnDContext'
+    SchedulerEvent,
+} from "../src/Scheduler";
+import * as ExampleFunction from "./ExampleFunctions";
+import * as moment from "moment";
+import Col from "antd/lib/col";
+import Row from "antd/lib/row";
+import Button from "antd/lib/button";
+import { DemoData } from "./DemoData";
+import Nav from "./Nav";
+import ViewSrcCode from "./ViewSrcCode";
+import withDragDropContext from "./withDnDContext";
 
-class CustomPopoverStyle extends Component<{}, { viewModel: SchedulerData }>{
+class CustomPopoverStyle extends Component<{}, { viewModel: SchedulerData }> {
     constructor(props: Readonly<{}>) {
         super(props);
 
-        let schedulerData = new SchedulerData('2017-12-18', SchedulerViewTypes.Week);
+        const schedulerData = new SchedulerData(ExampleFunction.getNow(), SchedulerViewTypes.Week);
         schedulerData.setResources(DemoData.resources);
         schedulerData.setEvents(DemoData.events);
         this.state = {
-            viewModel: schedulerData
-        }
+            viewModel: schedulerData,
+        };
     }
 
-    render() {
+    public render() {
         const { viewModel } = this.state;
         return (
             <div>
                 <Nav />
                 <div>
-                    <h3 style={{ textAlign: 'center' }}>Custom popover style example<ViewSrcCode srcCodeUrl="https://github.com/StephenChou1017/react-big-scheduler/blob/master/example/CustomPopoverStyle.js" /></h3>
+                    <h3 style={{ textAlign: "center" }}>Custom popover style example<ViewSrcCode srcCodeUrl="https://github.com/StephenChou1017/react-big-scheduler/blob/master/example/CustomPopoverStyle.js" /></h3>
                     <Scheduler schedulerData={viewModel}
                         prevClick={ExampleFunction.prevClick.bind(this)}
                         nextClick={ExampleFunction.nextClick.bind(this)}
@@ -55,17 +53,17 @@ class CustomPopoverStyle extends Component<{}, { viewModel: SchedulerData }>{
                     />
                 </div>
             </div>
-        )
+        );
     }
 
-    eventItemPopoverTemplateResolver = (schedulerData: SchedulerData, eventItem: SchedulerEvent, title: string, start: moment.Moment, end: moment.Moment, statusColor: string) => {
+    public eventItemPopoverTemplateResolver = (schedulerData: SchedulerData, eventItem: SchedulerEvent, title: string, start: moment.Moment, end: moment.Moment, statusColor: string) => {
         return (
             // <React.Fragment>
             //     <h3>{title}</h3>
             //     <h5>{start.format("HH:mm")} - {end.format("HH:mm")}</h5>
             //     <img src="./icons8-ticket-96.png" />
             // </React.Fragment>
-            <div style={{ width: '300px' }}>
+            <div style={{ width: "300px" }}>
                 <Row type="flex" align="middle">
                     <Col span={2}>
                         <div className="status-dot" style={{ backgroundColor: statusColor }} />
@@ -94,9 +92,9 @@ class CustomPopoverStyle extends Component<{}, { viewModel: SchedulerData }>{
         );
     }
 
-    demoButtonClicked = (eventItem: SchedulerEvent) => {
+    public demoButtonClicked = (eventItem: SchedulerEvent) => {
         alert(`You just clicked demo button. event title: ${eventItem.title}`);
     }
 }
 
-export default withDragDropContext(CustomPopoverStyle)
+export default withDragDropContext(CustomPopoverStyle);

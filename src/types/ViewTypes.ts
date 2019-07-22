@@ -6,5 +6,5 @@ export const ViewTypes = {
     Year: 4,
     Custom: 5,
     Custom1: 6,
-    Custom2: 7
+    Custom2: 7,
 };

@@ -1,55 +1,54 @@
-import * as React from 'react'
-import { Component } from 'react'
+import * as React from "react";
+import { Component } from "react";
 import Scheduler, {
     SchedulerData,
     SchedulerViewTypes,
     SCHEDULER_DATE_FORMAT,
-    SchedulerCellUnits
-} from '../src/Scheduler'
-import * as ExampleFunction from './ExampleFunctions'
-import * as moment from 'moment'
-import { DemoData } from './DemoData'
-import Nav from './Nav'
-import ViewSrcCode from './ViewSrcCode'
-import withDragDropContext from './withDnDContext'
+    SchedulerCellUnits,
+} from "../src/Scheduler";
+import * as ExampleFunction from "./ExampleFunctions";
+import * as moment from "moment";
+import { DemoData } from "./DemoData";
+import Nav from "./Nav";
+import ViewSrcCode from "./ViewSrcCode";
+import withDragDropContext from "./withDnDContext";
 
-class CustomTimeWindow extends Component<{}, { viewModel: SchedulerData }>{
+class CustomTimeWindow extends Component<{}, { viewModel: SchedulerData }> {
     constructor(props: Readonly<{}>) {
         super(props);
 
-        let schedulerData = new SchedulerData(
-            moment().format(SCHEDULER_DATE_FORMAT),
+        const schedulerData = new SchedulerData(ExampleFunction.getNow(),
             SchedulerViewTypes.Custom,
             false,
             false,
             {
                 customCellWidth: 30,
-                nonAgendaDayCellHeaderFormat: 'M/D|HH:mm',
+                nonAgendaDayCellHeaderFormat: "M/D|HH:mm",
                 views: [
-                    { viewName: 'Two days', viewType: SchedulerViewTypes.Custom, showAgenda: false, isEventPerspective: false },
-                    { viewName: 'Two weeks', viewType: SchedulerViewTypes.Custom1, showAgenda: false, isEventPerspective: false },
-                    { viewName: 'Two months', viewType: SchedulerViewTypes.Custom2, showAgenda: false, isEventPerspective: false },
+                    { viewName: "Two days", viewType: SchedulerViewTypes.Custom, showAgenda: false, isEventPerspective: false },
+                    { viewName: "Two weeks", viewType: SchedulerViewTypes.Custom1, showAgenda: false, isEventPerspective: false },
+                    { viewName: "Two months", viewType: SchedulerViewTypes.Custom2, showAgenda: false, isEventPerspective: false },
                 ],
             },
             {
                 getCustomDateFunc: this.getCustomDate,
-                isNonWorkingTimeFunc: this.isNonWorkingTime
-            }
+                isNonWorkingTimeFunc: this.isNonWorkingTime,
+            },
         );
         schedulerData.setResources(DemoData.resources);
         schedulerData.setEvents(DemoData.events);
         this.state = {
             viewModel: schedulerData,
-        }
+        };
     }
 
-    render() {
+    public render() {
         const { viewModel } = this.state;
         return (
             <div>
                 <Nav />
                 <div>
-                    <h3 style={{ textAlign: 'center' }}>Custom time window<ViewSrcCode srcCodeUrl="https://github.com/StephenChou1017/react-big-scheduler/blob/master/example/CustomTimeWindow.js" /></h3>
+                    <h3 style={{ textAlign: "center" }}>Custom time window<ViewSrcCode srcCodeUrl="https://github.com/StephenChou1017/react-big-scheduler/blob/master/example/CustomTimeWindow.js" /></h3>
                     <Scheduler schedulerData={viewModel}
                         prevClick={ExampleFunction.prevClick.bind(this)}
                         nextClick={ExampleFunction.nextClick.bind(this)}
@@ -118,4 +117,4 @@ class CustomTimeWindow extends Component<{}, { viewModel: SchedulerData }>{
 
 }
 
-export default withDragDropContext(CustomTimeWindow)
+export default withDragDropContext(CustomTimeWindow);

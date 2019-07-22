@@ -1,13 +1,13 @@
-import * as React from 'react'
-import { Component, CSSProperties } from 'react'
-import { CellUnits } from './types/CellUnits'
-import * as moment from 'moment';
-import { SchedulerData } from './Scheduler';
-import {Header} from './SchedulerData';
+import * as React from "react";
+import { Component, CSSProperties } from "react";
+import { CellUnits } from "./types/CellUnits";
+import * as moment from "moment";
+import { SchedulerData } from "./Scheduler";
+import {Header} from "./SchedulerData";
 
 interface HeaderViewProps {
-    schedulerData: SchedulerData,
-    nonAgendaCellHeaderTemplateResolver?: (schedulerData: SchedulerData, item: Header, formattedDateItems: any, style: CSSProperties) => JSX.Element
+    schedulerData: SchedulerData;
+    nonAgendaCellHeaderTemplateResolver?: (schedulerData: SchedulerData, item: Header, formattedDateItems: any, style: CSSProperties) => JSX.Element;
 }
 
 class HeaderView extends Component<HeaderViewProps> {
@@ -15,34 +15,34 @@ class HeaderView extends Component<HeaderViewProps> {
         super(props);
     }
 
-    render() {
+    public render() {
         const { schedulerData } = this.props;
         const { headers, cellUnit, config } = schedulerData;
-        let headerHeight = schedulerData.getTableHeaderHeight();
-        let cellWidth = schedulerData.getContentCellWidth();
-        let minuteStepsInHour = schedulerData.getMinuteStepsInHour();
+        const headerHeight = schedulerData.getTableHeaderHeight();
+        const cellWidth = schedulerData.getContentCellWidth();
+        const minuteStepsInHour = schedulerData.getMinuteStepsInHour();
 
         let headerList = [];
         let style = {};
         if (cellUnit === CellUnits.Hour) {
             headers.forEach((item, index) => {
                 if (index % minuteStepsInHour === 0) {
-                    let datetime = moment(item.time);
+                    const datetime = moment(item.time);
 
                     style = !!item.nonWorkingTime ? { width: cellWidth * minuteStepsInHour, color: config.nonWorkingTimeHeadColor, backgroundColor: config.nonWorkingTimeHeadBgColor } : { width: cellWidth * minuteStepsInHour };
 
-                    if (index === headers.length - minuteStepsInHour)
+                    if (index === headers.length - minuteStepsInHour) {
                         style = !!item.nonWorkingTime ? { color: config.nonWorkingTimeHeadColor, backgroundColor: config.nonWorkingTimeHeadBgColor } : {};
+                    }
 
-                    let pFormattedList = config.nonAgendaDayCellHeaderFormat.split('|').map(item => datetime.format(item));
+                    const pFormattedList = config.nonAgendaDayCellHeaderFormat.split("|").map((i) => datetime.format(i));
                     let element;
 
-                    if (typeof this.props.nonAgendaCellHeaderTemplateResolver === 'function') {
-                        element = this.props.nonAgendaCellHeaderTemplateResolver(schedulerData, item, pFormattedList, style)
-                    }
-                    else {
-                        const pList = pFormattedList.map((item, index) => (
-                            <div key={index}>{item}</div>
+                    if (typeof this.props.nonAgendaCellHeaderTemplateResolver === "function") {
+                        element = this.props.nonAgendaCellHeaderTemplateResolver(schedulerData, item, pFormattedList, style);
+                    } else {
+                        const pList = pFormattedList.map((i, ind) => (
+                            <div key={ind}>{i}</div>
                         ));
 
                         element = (
@@ -56,23 +56,23 @@ class HeaderView extends Component<HeaderViewProps> {
 
                     headerList.push(element);
                 }
-            })
-        }
-        else {
+            });
+        } else {
             headerList = headers.map((item, index) => {
-                let datetime = moment(item.time);
+                const datetime = moment(item.time);
                 style = !!item.nonWorkingTime ? { width: cellWidth, color: config.nonWorkingTimeHeadColor, backgroundColor: config.nonWorkingTimeHeadBgColor } : { width: cellWidth };
-                if (index === headers.length - 1)
+                if (index === headers.length - 1) {
                     style = !!item.nonWorkingTime ? { color: config.nonWorkingTimeHeadColor, backgroundColor: config.nonWorkingTimeHeadBgColor } : {};
-
-                let pFormattedList = config.nonAgendaOtherCellHeaderFormat.split('|').map(item => datetime.format(item));
-
-                if (typeof this.props.nonAgendaCellHeaderTemplateResolver === 'function') {
-                    return this.props.nonAgendaCellHeaderTemplateResolver(schedulerData, item, pFormattedList, style)
                 }
 
-                const pList = pFormattedList.map((item, index) => (
-                    <div key={index}>{item}</div>
+                const pFormattedList = config.nonAgendaOtherCellHeaderFormat.split("|").map((i) => datetime.format(i));
+
+                if (typeof this.props.nonAgendaCellHeaderTemplateResolver === "function") {
+                    return this.props.nonAgendaCellHeaderTemplateResolver(schedulerData, item, pFormattedList, style);
+                }
+
+                const pList = pFormattedList.map((i, ind) => (
+                    <div key={ind}>{i}</div>
                 ));
 
                 return (
@@ -95,4 +95,4 @@ class HeaderView extends Component<HeaderViewProps> {
     }
 }
 
-export default HeaderView
+export default HeaderView;
