@@ -2,7 +2,7 @@ import * as React from "react";
 import { Component } from "react";
 import {
     SchedulerData, SchedulerDnDSource,
-} from "../src/Scheduler";
+} from "../../src/Scheduler";
 
 class TaskList extends Component<{
     schedulerData: SchedulerData,

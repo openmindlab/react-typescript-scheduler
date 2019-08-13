@@ -70,7 +70,7 @@ class ResourceEvents extends Component<ResourceEventsProps, ResourceEventsState>
         const { config } = schedulerData;
         if (config.creatable === true) {
             if (supportTouch) {
-                // this.eventContainer.addEventListener('touchstart', this.initDrag, false);
+                this.eventContainer.addEventListener("touchstart", this.initDrag, false);
             } else {
                 this.eventContainer.addEventListener("mousedown", this.initDrag, false);
             }
@@ -79,13 +79,13 @@ class ResourceEvents extends Component<ResourceEventsProps, ResourceEventsState>
 
     public componentWillReceiveProps(np: any) {
         if (supportTouch) {
-            // this.eventContainer.removeEventListener('touchstart', this.initDrag, false);
+            this.eventContainer.removeEventListener("touchstart", this.initDrag, false);
         } else {
             this.eventContainer.removeEventListener("mousedown", this.initDrag, false);
         }
         if (np.schedulerData.config.creatable) {
             if (supportTouch) {
-                // this.eventContainer.addEventListener('touchstart', this.initDrag, false);
+                this.eventContainer.addEventListener("touchstart", this.initDrag, false);
             } else {
                 this.eventContainer.addEventListener("mousedown", this.initDrag, false);
             }

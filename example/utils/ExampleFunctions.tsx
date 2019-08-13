@@ -3,7 +3,7 @@ import {
     SchedulerViewTypes,
     SchedulerEvent,
     SchedulerContentState,
-} from "../src/Scheduler";
+} from "../../src/Scheduler";
 import { DemoData } from "./DemoData";
 
 export const getNow = (): string => {

@@ -5,12 +5,13 @@ import Scheduler, {
     SchedulerData,
     SchedulerViewTypes,
 } from "../src/Scheduler";
-import { DemoData } from "./DemoData";
-import * as ExampleFunction from "./ExampleFunctions";
-import Nav from "./Nav";
-import Tips from "./Tips";
-import ViewSrcCode from "./ViewSrcCode";
-import withDragDropContext from "./withDnDContext";
+import { DemoData } from "./utils/DemoData";
+import * as ExampleFunction from "./utils/ExampleFunctions";
+import Nav from "./utils/Nav";
+import Tips from "./utils/Tips";
+import withDragDropContext from "./utils/withDnDContext";
+import "antd/lib/style/index.css";
+import { popoverPlugin } from "./plugins/PopoverPlugin";
 
 interface IBasicState {
     viewModel: SchedulerData;
@@ -35,9 +36,7 @@ class Basic extends Component<{}, IBasicState> {
             <div>
                 <Nav />
                 <div>
-                    <h3 style={{ textAlign: "center" }}>Basic example<ViewSrcCode
-                        srcCodeUrl="https://github.com/StephenChou1017/react-big-scheduler/blob/master/example/Basic.js"/>
-                    </h3>
+                    <h3 style={{ textAlign: "center" }}>Basic example</h3>
                     <Scheduler schedulerData={viewModel}
                         prevClick={ExampleFunction.prevClick.bind(this)}
                         nextClick={ExampleFunction.nextClick.bind(this)}
@@ -54,6 +53,7 @@ class Basic extends Component<{}, IBasicState> {
                         newEvent={ExampleFunction.newEvent.bind(this)}
                         toggleExpandFunc={ExampleFunction.toggleExpandFunc.bind(this)}
                         onSetAddMoreState={ExampleFunction.onSetAddMoreState.bind(this)}
+                        eventItemPopoverTemplateResolver={popoverPlugin}
                     />
                 </div>
                 <Tips />

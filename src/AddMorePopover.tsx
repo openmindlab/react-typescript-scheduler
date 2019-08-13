@@ -7,11 +7,11 @@ import EventItem from "./EventItem";
 import DnDSource from "./DnDSource";
 import * as moment from "moment";
 import { SchedulerData } from "./Scheduler";
-import { Event } from "./SchedulerData";
+import { Event, Header } from "./SchedulerData";
 
 interface AddMorePopoverProps {
-    schedulerData: any;
-    headerItem: any;
+    schedulerData: SchedulerData;
+    headerItem: Header;
     left: number;
     top: number;
     height: number;

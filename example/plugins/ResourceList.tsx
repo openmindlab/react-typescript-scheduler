@@ -2,9 +2,9 @@ import * as React from "react";
 import { Component } from "react";
 import {
     SchedulerData,
-} from "../src/Scheduler";
+} from "../../src/Scheduler";
 
-import DnDSource from "../src/DnDSource";
+import DnDSource from "../../src/DnDSource";
 
 class ResourceList extends Component<{
     schedulerData: SchedulerData,

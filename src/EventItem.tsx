@@ -2,7 +2,6 @@ import * as React from "react";
 import * as moment from "moment";
 import { Component, CSSProperties } from "react";
 import Popover from "antd/lib/popover";
-import "antd/lib/popover/style/index.css";
 import EventItemPopover from "./EventItemPopover";
 import { CellUnits } from "./types/CellUnits";
 import { DATETIME_FORMAT } from "./types/DateFormats";
@@ -539,7 +538,9 @@ class EventItem extends Component<EventItemProps, EventItemState> {
         </a>;
 
         return (
-            isDragging ? null : (schedulerData.isResizing() || config.eventItemPopoverEnabled === false || eventItem.showPopover === false ?
+            isDragging ?
+            null :
+            (schedulerData.isResizing() || config.eventItemPopoverEnabled === false || eventItem.showPopover === false ?
                 <div>
                     {
                         connectDragPreview(

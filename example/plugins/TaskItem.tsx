@@ -1,8 +1,8 @@
 import * as React from "react";
 import { Component } from "react";
 
-class TaskItem extends Component<
-    {
+class TaskItem extends Component
+    <{
         task: any,
         isDragging: boolean,
         connectDragSource: (a?: any) => any,

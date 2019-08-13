@@ -5,12 +5,11 @@ import Scheduler, {
     SchedulerViewTypes,
     SchedulerHeader,
 } from "../src/Scheduler";
-import * as ExampleFunction from "./ExampleFunctions";
+import * as ExampleFunction from "./utils/ExampleFunctions";
 import * as moment from "moment";
-import { DemoData } from "./DemoData";
-import Nav from "./Nav";
-import ViewSrcCode from "./ViewSrcCode";
-import withDragDropContext from "./withDnDContext";
+import { DemoData } from "./utils/DemoData";
+import Nav from "./utils/Nav";
+import withDragDropContext from "./utils/withDnDContext";
 import Header from "antd/lib/calendar/Header";
 
 class Locale extends Component<{}, { viewModel: SchedulerData, headerItem: SchedulerHeader, left: number, top: number, height: number }> {
@@ -69,7 +68,7 @@ class Locale extends Component<{}, { viewModel: SchedulerData, headerItem: Sched
             <div>
                 <Nav />
                 <div>
-                    <h3 style={{ textAlign: "center" }}>Locale<ViewSrcCode srcCodeUrl="https://github.com/StephenChou1017/react-big-scheduler/blob/master/example/Locale.js" /></h3>
+                    <h3 style={{ textAlign: "center" }}>Locale</h3>
                     <Scheduler schedulerData={viewModel}
                         prevClick={ExampleFunction.prevClick.bind(this)}
                         nextClick={ExampleFunction.nextClick.bind(this)}

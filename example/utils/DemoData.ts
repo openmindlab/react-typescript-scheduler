@@ -1,4 +1,4 @@
-import { Resource, Event } from "../src/SchedulerData";
+import { Resource, Event } from "../../src/SchedulerData";
 
 export interface DemoData {
     resources: Resource[];

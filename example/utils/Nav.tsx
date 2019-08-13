@@ -22,9 +22,6 @@ class Nav extends Component<{}, {}> {
             <div>
                 <ul style={ulStyle}>
                     <li style={liStyle}>
-                        <span style={{ fontWeight: "bold" }}><a href="https://github.com/StephenChou1017/react-big-scheduler" target="_blank">React Big Scheduler</a></span>
-                    </li>
-                    <li style={liStyle}>
                         <Link target="_self"
                             to="/">
                             <span>Basic</span>
@@ -62,12 +59,6 @@ class Nav extends Component<{}, {}> {
                     </li>
                     <li style={liStyle}>
                         <Link target="_self"
-                            to="/addresource">
-                            <span>Add resource</span>
-                        </Link>
-                    </li>
-                    <li style={liStyle}>
-                        <Link target="_self"
                             to="/draganddrop">
                             <span>Drag&Drop</span>
                         </Link>
@@ -76,12 +67,6 @@ class Nav extends Component<{}, {}> {
                         <Link target="_self"
                             to="/summary">
                             <span>Summary</span>
-                        </Link>
-                    </li>
-                    <li style={liStyle}>
-                        <Link target="_self"
-                            to="/addmore">
-                            <span>Add more</span>
                         </Link>
                     </li>
                     <li style={liStyle}>
@@ -130,18 +115,6 @@ class Nav extends Component<{}, {}> {
                         <Link target="_self"
                             to="/infinitescroll">
                             <span>Infinite scroll</span>
-                        </Link>
-                    </li>
-                    <li style={liStyle}>
-                        <Link target="_self"
-                            to="/infinitescroll2">
-                            <span>Infinite scroll 2</span>
-                        </Link>
-                    </li>
-                    <li style={liStyle}>
-                        <Link target="_self"
-                            to="/custompopover">
-                            <span>Custom popover style</span>
                         </Link>
                     </li>
                 </ul>

@@ -2,7 +2,7 @@ import * as React from "react";
 import { Component } from "react";
 import {
     SchedulerResource,
-} from "../src/Scheduler";
+} from "../../src/Scheduler";
 class ResourceItem extends Component<{
     resource: SchedulerResource,
     isDragging: boolean,

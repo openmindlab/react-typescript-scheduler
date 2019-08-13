@@ -5,11 +5,10 @@ import Scheduler, {
     SchedulerViewTypes,
     SchedulerContentState,
 } from "../src/Scheduler";
-import * as ExampleFunction from "./ExampleFunctions";
-import { DemoData } from "./DemoData";
-import Nav from "./Nav";
-import ViewSrcCode from "./ViewSrcCode";
-import withDragDropContext from "./withDnDContext";
+import * as ExampleFunction from "./utils/ExampleFunctions";
+import { DemoData } from "./utils/DemoData";
+import Nav from "./utils/Nav";
+import withDragDropContext from "./utils/withDnDContext";
 import * as moment from "moment";
 
 class InfiniteScroll extends Component<{}, { viewModel: SchedulerData }> {
@@ -35,7 +34,7 @@ class InfiniteScroll extends Component<{}, { viewModel: SchedulerData }> {
             <div>
                 <Nav />
                 <div>
-                    <h3 style={{ textAlign: "center" }}>Infinite scroll<ViewSrcCode srcCodeUrl="https://github.com/StephenChou1017/react-big-scheduler/blob/master/example/InfiniteScroll.js" /></h3>
+                    <h3 style={{ textAlign: "center" }}>Infinite scroll</h3>
                     <Scheduler schedulerData={viewModel}
                         prevClick={ExampleFunction.prevClick.bind(this)}
                         nextClick={ExampleFunction.nextClick.bind(this)}

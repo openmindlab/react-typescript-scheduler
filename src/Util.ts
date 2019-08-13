@@ -5,7 +5,7 @@ function getPos(element: any) {
         do {
             x += element.offsetLeft - element.scrollLeft;
             y += element.offsetTop - element.scrollTop;
-        } while (element === element.offsetParent);
+        } while (element = element.offsetParent);
     }
     return { x, y };
 }

@@ -3,17 +3,15 @@ import { Component } from "react";
 import Col from "antd/lib/col";
 import Row from "antd/lib/row";
 import Scheduler, { SchedulerData, SchedulerViewTypes, SchedulerDnDSource, SchedulerEvent, SchedulerEventGroup } from "../src/Scheduler";
-import { DemoData } from "./DemoData";
+import { DemoData } from "./utils/DemoData";
 import { DnDTypes } from "../src/types/DnDTypes";
-import TaskItem from "./TaskItem";
-import TaskList from "./TaskList";
-import ResourceItem from "./ResourceItem";
-import ResourceList from "./ResourceList";
-import Nav from "./Nav";
-import ViewSrcCode from "./ViewSrcCode";
-import withDragDropContext from "./withDnDContext";
-import { Event } from "../src/SchedulerData";
-import * as ExampleFunction from "./ExampleFunctions";
+import TaskItem from "./plugins/TaskItem";
+import TaskList from "./plugins/TaskList";
+import ResourceItem from "./plugins/ResourceItem";
+import ResourceList from "./plugins/ResourceList";
+import Nav from "./utils/Nav";
+import withDragDropContext from "./utils/withDnDContext";
+import * as ExampleFunction from "./utils/ExampleFunctions";
 
 interface DragAndDropState {
     viewModel: SchedulerData;
@@ -48,7 +46,7 @@ class DragAndDrop extends Component<{}, DragAndDropState> {
         schedulerData.setEvents(DemoData.eventsForTaskView);
         this.state = {
             viewModel: schedulerData,
-            taskDndSource: new SchedulerDnDSource((p: { task: any; }) => p.task, TaskItem, DnDTypes.TASK),
+            taskDndSource: new SchedulerDnDSource((p: { task: TaskItem; }) => p.task, TaskItem, DnDTypes.TASK),
             resourceDndSource: new SchedulerDnDSource((p: { resource: any; }) => p.resource, ResourceItem, DnDTypes.RESOURCE),
         };
     }
@@ -69,7 +67,7 @@ class DragAndDrop extends Component<{}, DragAndDropState> {
             <div>
                 <Nav />
                 <div>
-                    <h3 style={{ textAlign: "center" }}>{h3}<ViewSrcCode srcCodeUrl="https://github.com/StephenChou1017/react-big-scheduler/blob/master/example/DragAndDrop.js" /></h3>
+                    <h3 style={{ textAlign: "center" }}>{h3}</h3>
                     <Row>
                         <Col span={20}>
                             <Scheduler schedulerData={viewModel}
