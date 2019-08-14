@@ -1,7 +1,7 @@
 import { Resource, Event } from "../../src/SchedulerData";
 import * as moment from "moment";
 
-export const DEMO_DATE_FORMAT = "DD MM YYYY";
+export const DEMO_DATE_FORMAT = "DD.MM.YYYY";
 
 export interface DemoData {
     resources: Resource[];

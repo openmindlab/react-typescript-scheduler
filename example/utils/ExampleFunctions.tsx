@@ -1,11 +1,16 @@
 import {
     SchedulerData,
     SchedulerViewTypes,
-    SchedulerEvent,
     SchedulerContentState,
     MoveEventArgs,
     NewEventArgs,
     ConflictOccurredArgs,
+    OnViewChangeArgs,
+    UpdateEventEndArgs,
+    UpdateEventStartArgs,
+    EventActionFuncArgs,
+    OnSelectDateArgs,
+    ToggleExpandFuncArgs,
 } from "../../src/Scheduler";
 import { DemoData } from "./DemoData";
 import moment = require("moment");
@@ -22,10 +27,10 @@ export function prevClick(schedulerData: SchedulerData) {
     });
 }
 
-export function toggleExpandFunc(schedulerData: SchedulerData, slotId: string) {
-    schedulerData.toggleExpandStatus(slotId);
+export function toggleExpandFunc(args: ToggleExpandFuncArgs) {
+    args.schedulerData.toggleExpandStatus(args.slotId);
     this.setState({
-        viewModel: schedulerData,
+        viewModel: args.schedulerData,
     });
 }
 
@@ -37,32 +42,32 @@ export function nextClick(schedulerData: SchedulerData) {
     });
 }
 
-export function onViewChange(schedulerData: SchedulerData, view: { viewType: any; showAgenda: any; isEventPerspective: any; }) {
-    schedulerData.setViewType(view.viewType, view.showAgenda, view.isEventPerspective);
-    schedulerData.setEvents(DemoData.events);
+export function onViewChange(args: OnViewChangeArgs) {
+    args.schedulerData.setViewType(args.view.viewType, args.view.showAgenda, args.view.isEventPerspective);
+    args.schedulerData.setEvents(DemoData.events);
     this.setState({
-        viewModel: schedulerData,
+        viewModel: args.schedulerData,
     });
 }
 
-export function onSelectDate(schedulerData: SchedulerData, date: moment.Moment) {
-    schedulerData.setDate(date);
-    schedulerData.setEvents(DemoData.events);
+export function onSelectDate(args: OnSelectDateArgs) {
+    args.schedulerData.setDate(args.date);
+    args.schedulerData.setEvents(DemoData.events);
     this.setState({
-        viewModel: schedulerData,
+        viewModel: args.schedulerData,
     });
 }
 
-export function eventClicked(schedulerData: SchedulerData, event: SchedulerEvent) {
-    alert(`You just clicked an event: {id: ${event.id}, title: ${event.title}}`);
+export function eventClicked(args: EventActionFuncArgs) {
+    alert(`You just clicked an event: {id: ${args.event.id}, title: ${args.event.title}}`);
 }
 
-export function ops1(schedulerData: SchedulerData, event: SchedulerEvent) {
-    alert(`You just executed ops1 to event: {id: ${event.id}, title: ${event.title}}`);
+export function ops1(args: EventActionFuncArgs) {
+    alert(`You just executed ops1 to event: {id: ${args.event.id}, title: ${args.event.title}}`);
 }
 
-export function ops2(schedulerData: SchedulerData, event: SchedulerEvent) {
-    alert(`You just executed ops2 to event: {id: ${event.id}, title: ${event.title}}`);
+export function ops2(args: EventActionFuncArgs) {
+    alert(`You just executed ops2 to event: {id: ${args.event.id}, title: ${args.event.title}}`);
 }
 
 export function newEvent(args: NewEventArgs) {
@@ -90,21 +95,21 @@ export function newEvent(args: NewEventArgs) {
     }
 }
 
-export function updateEventStart(schedulerData: SchedulerData, event: SchedulerEvent, newStart: moment.Moment) {
-    if (confirm(`Do you want to adjust the start of the event? {eventId: ${event.id}, eventTitle: ${event.title}, newStart: ${newStart}}`)) {
-        schedulerData.updateEventStart(event, newStart);
+export function updateEventStart(args: UpdateEventStartArgs) {
+    if (confirm(`Do you want to adjust the start of the event? {eventId: ${args.event.id}, eventTitle: ${args.event.title}, newStart: ${args.newStart}}`)) {
+        args.schedulerData.updateEventStart(args.event, args.newStart);
     }
     this.setState({
-        viewModel: schedulerData,
+        viewModel: args.schedulerData,
     });
 }
 
-export function updateEventEnd(schedulerData: SchedulerData, event: SchedulerEvent, newEnd: moment.Moment) {
-    if (confirm(`Do you want to adjust the end of the event? {eventId: ${event.id}, eventTitle: ${event.title}, newEnd: ${newEnd}}`)) {
-        schedulerData.updateEventEnd(event, newEnd);
+export function updateEventEnd(args: UpdateEventEndArgs) {
+    if (confirm(`Do you want to adjust the end of the event? {eventId: ${args.event.id}, eventTitle: ${args.event.title}, newEnd: ${args.newEnd}}`)) {
+        args.schedulerData.updateEventEnd(args.event, args.newEnd);
     }
     this.setState({
-        viewModel: schedulerData,
+        viewModel: args.schedulerData,
     });
 }
 

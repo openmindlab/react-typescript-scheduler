@@ -1,10 +1,11 @@
 import * as React from "react";
 import { Component, CSSProperties } from "react";
 import * as moment from "moment";
-import { SchedulerData, EventItemPopoverResolverArgs } from "./Scheduler";
+import { SchedulerData, EventItemPopoverResolverArgs, EventItemPopoverResolverDnDArgs } from "./Scheduler";
 import { Event } from "./SchedulerData";
 
 import Popover from "antd/lib/popover";
+import { resolve } from "path";
 
 interface EventItemPopoverProps {
     schedulerData: SchedulerData;
@@ -16,7 +17,7 @@ interface EventItemPopoverProps {
     timelineEvent?: JSX.Element;
     connectDragSource?: (action: any) => any;
     connectDragPreview?: (action: any) => any;
-    eventItemPopoverTemplateResolver?: (resolver: EventItemPopoverResolverArgs) => JSX.Element;
+    eventItemPopoverTemplateResolver?: (resolver: EventItemPopoverResolverArgs, dnd: EventItemPopoverResolverDnDArgs) => JSX.Element;
 }
 
 class EventItemPopover extends Component<EventItemPopoverProps> {
@@ -28,35 +29,23 @@ class EventItemPopover extends Component<EventItemPopoverProps> {
         const { schedulerData, eventItem, title, startTime, endTime, statusColor, eventItemPopoverTemplateResolver, connectDragPreview, connectDragSource, timelineEvent } = this.props;
         const start = moment(startTime);
         const end = moment(endTime);
-        {/* From agendaEventItem
-            <Popover placement="bottomLeft" content={content} trigger="hover">
-        <a className="day-event" onClick={() => { if (!!eventItemClick) { eventItemClick(schedulerData, eventItem); } }}>
-            {eventItemTemplate}
-        </a>
-    </Popover> :
-    */}
         if (eventItemPopoverTemplateResolver) {
-            const c: EventItemPopoverResolverArgs = {
-                schedulerData,
-                eventItem,
-                title,
-                statusColor,
-                end,
-                start,
-                timelineEvent,
-                connectDragPreview,
-                connectDragSource,
-            };
-            return eventItemPopoverTemplateResolver(c);
+            return eventItemPopoverTemplateResolver(
+                {
+                    schedulerData,
+                    eventItem,
+                    title,
+                    statusColor,
+                    end,
+                    start,
+                }, {
+                    timelineEvent,
+                    connectDragPreview,
+                    connectDragSource,
+                },
+            );
         } else {
-            return <>
-                <Popover placement="bottomLeft" content={<>Agoiii</>} trigger="hover">
-                    {
-                        connectDragPreview(
-                            connectDragSource(timelineEvent),
-                        )
-                    }
-                </Popover></>;
+            return <>Missing popover plugin</>;
         }
     }
 }

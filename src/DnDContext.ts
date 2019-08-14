@@ -2,7 +2,6 @@ import { DropTarget } from "react-dnd";
 import { getPos } from "./Util";
 import { DnDTypes } from "./types/DnDTypes";
 import { CellUnits } from "./types/CellUnits";
-import { DATETIME_FORMAT } from "./types/DateFormats";
 import { ViewTypes } from "./types/ViewTypes";
 import * as moment from "moment";
 import { SchedulerData } from "./Scheduler";

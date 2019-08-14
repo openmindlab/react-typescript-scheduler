@@ -46,14 +46,15 @@ class AgendaEventItem extends Component<AgendaEventItemProps> {
         );
         if (this.props.eventItemTemplateResolver != undefined) {
             eventItemTemplate = this.props.eventItemTemplateResolver({
-                schedulerData, 
-                event: eventItem, 
-                bgColor, 
-                isStart, 
-                isEnd, 
-                mustAddCssClass: "event-item", 
-                mustBeHeight: config.eventItemHeight, 
-                agendaMaxEventWidth: config.agendaMaxEventWidth});
+                schedulerData,
+                event: eventItem,
+                bgColor,
+                isStart,
+                isEnd,
+                mustAddCssClass: "event-item",
+                mustBeHeight: config.eventItemHeight,
+                agendaMaxEventWidth: config.agendaMaxEventWidth,
+            });
         }
 
         return (config.eventItemPopoverEnabled ? (
@@ -66,7 +67,7 @@ class AgendaEventItem extends Component<AgendaEventItemProps> {
             />
         ) : (
                 <span>
-                    <a className="day-event" onClick={() => { if (!!eventItemClick) { eventItemClick({schedulerData, event: eventItem}); } }}>
+                    <a className="day-event" onClick={() => { if (!!eventItemClick) { eventItemClick({ schedulerData, event: eventItem }); } }}>
                         {eventItemTemplate}
                     </a>
                 </span>

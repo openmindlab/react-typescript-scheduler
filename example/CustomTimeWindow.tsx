@@ -3,7 +3,6 @@ import { Component } from "react";
 import Scheduler, {
     SchedulerData,
     SchedulerViewTypes,
-    SCHEDULER_DATE_FORMAT,
     SchedulerCellUnits,
 } from "../src/Scheduler";
 import * as ExampleFunction from "./utils/ExampleFunctions";
@@ -16,7 +15,8 @@ class CustomTimeWindow extends Component<{}, { viewModel: SchedulerData }> {
     constructor(props: Readonly<{}>) {
         super(props);
 
-        const schedulerData = new SchedulerData(ExampleFunction.getNow(),
+        const schedulerData = new SchedulerData(
+            ExampleFunction.getNow(),
             SchedulerViewTypes.Custom,
             false,
             false,

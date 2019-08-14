@@ -4,6 +4,7 @@ import Scheduler, {
     SchedulerData,
     SchedulerViewTypes,
     SchedulerRenderData,
+    SlotClickedFuncArgs,
 } from "../src/Scheduler";
 import * as ExampleFunction from "./utils/ExampleFunctions";
 import { DemoData } from "./utils/DemoData";
@@ -50,8 +51,8 @@ class Basic extends Component<{}, { viewModel: SchedulerData }> {
             </div>
         );
     }
-    public slotClickedFunc = (schedulerData: SchedulerData, slot: SchedulerRenderData) => {
-        alert(`You just clicked a ${schedulerData.isEventPerspective ? "task" : "resource"}.{id: ${slot.slotId}, name: ${slot.slotName}}`);
+    public slotClickedFunc = (args: SlotClickedFuncArgs) => {
+        alert(`You just clicked a ${args.schedulerData.isEventPerspective ? "task" : "resource"}.{id: ${args.slot.slotId}, name: ${args.slot.slotName}}`);
     }
 }
 

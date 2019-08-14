@@ -5,18 +5,18 @@ import Row from "antd/lib/row";
 import Button from "antd/lib/button";
 import Popover from "antd/lib/popover";
 import {
-    EventItemPopoverResolverArgs,
+    EventItemPopoverResolverArgs, EventItemPopoverResolverDnDArgs,
 } from "../../src/Scheduler";
 import { DEMO_DATE_FORMAT } from "../utils/DemoData";
 
-export const popoverPlugin = (resolver: EventItemPopoverResolverArgs) => <PopoverComponent resolver={resolver} />;
+export const popoverPlugin = (resolver: EventItemPopoverResolverArgs, dnd?: EventItemPopoverResolverDnDArgs) => <PopoverComponent resolver={resolver} dnd={dnd}/>;
 
-export class PopoverComponent extends Component<{ resolver: EventItemPopoverResolverArgs }, {}> {
+export class PopoverComponent extends Component<{ resolver: EventItemPopoverResolverArgs, dnd?: EventItemPopoverResolverDnDArgs }, {}> {
     constructor(props: Readonly<{ resolver: EventItemPopoverResolverArgs; }>) {
         super(props);
     }
     public render() {
-        const { connectDragSource, connectDragPreview, timelineEvent } = this.props.resolver;
+        const { connectDragSource, connectDragPreview, timelineEvent } = this.props.dnd;
         return (
             <Popover placement="bottomLeft" content={
                 <div style={{ width: "300px" }}>
@@ -47,7 +47,7 @@ export class PopoverComponent extends Component<{ resolver: EventItemPopoverReso
                 </div >
             } trigger="hover">
                 {
-                    connectDragPreview(
+                    this.props.dnd && connectDragPreview(
                         connectDragSource(timelineEvent),
                     )
                 }

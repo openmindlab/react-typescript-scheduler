@@ -3,15 +3,17 @@ import * as moment from "moment";
 import { Component, CSSProperties } from "react";
 import EventItemPopover from "./EventItemPopover";
 import { CellUnits } from "./types/CellUnits";
-import { DATETIME_FORMAT } from "./types/DateFormats";
 import { DnDTypes } from "./types/DnDTypes";
-import { SchedulerData } from "./Scheduler";
+import { SchedulerData, UpdateEventStartArgs, UpdateEventEndArgs, MoveEventArgs, EventActionFuncArgs, ConflictOccurredArgs, EventItemTemplateResolverArgs } from "./Scheduler";
 import { Event } from "./SchedulerData";
 
+/**
+ * Datetime
+ */
 const supportTouch = "ontouchstart" in window;
 interface EventItemProps {
     schedulerData: SchedulerData;
-    eventItem: any;
+    eventItem: Event;
     isStart: boolean;
     isEnd: boolean;
     left: number;
@@ -23,17 +25,17 @@ interface EventItemProps {
     isDragging: boolean;
     connectDragSource: (action: any) => any;
     connectDragPreview: (action: any) => any;
-    updateEventStart?: (schedulerData: SchedulerData, eventItem: Event, newStart: string) => any;
-    updateEventEnd?: (schedulerData: SchedulerData, eventItem: Event, newEnd: string) => any;
-    moveEvent?: (schedulerData: SchedulerData, event: Event, slotId: string, slotName: string, start: string, end: string) => void;
-    eventItemClick: (schedulerData: SchedulerData, eventItem: Event) => any;
-    conflictOccurred?: (schedulerData: SchedulerData, name: string, evI: EventItem, ev: any, slotId: string, slotName: string, newStart: string, evItEnd: any) => any;
-    subtitleGetter?: (schedulerData: SchedulerData, eventItem: Event) => string;
-    viewEventClick?: (schedulerData: SchedulerData, eventItem: Event) => any;
+    updateEventStart?: (args: UpdateEventStartArgs) => any;
+    updateEventEnd?: (args: UpdateEventEndArgs) => any;
+    moveEvent?: (args: MoveEventArgs) => void;
+    eventItemClick: (args: EventActionFuncArgs) => any;
+    conflictOccurred?: (args: ConflictOccurredArgs) => any;
+    subtitleGetter?: (args: MoveEventArgs) => string;
+    viewEventClick?: (args: MoveEventArgs) => void;
     viewEventText?: string;
-    viewEvent2Click?: (schedulerData: SchedulerData, eventItem: Event) => any;
+    viewEvent2Click?: (args: MoveEventArgs) => void;
     viewEvent2Text?: string;
-    eventItemTemplateResolver?: (schedulerData: SchedulerData, eventItem: Event, bgColor: string, isStart: boolean, isEnd: boolean, name: string, eventItemHeight: number, agendaMaxEventWidth: number) => JSX.Element;
+    eventItemTemplateResolver?: (plugin: EventItemTemplateResolverArgs) => JSX.Element;
 }
 interface EventItemState {
     left: number;
@@ -186,7 +188,7 @@ class EventItem extends Component<EventItemProps, EventItemState> {
         } else if (newWidth > maxWidth) {
             count = -leftIndex;
         }
-        let newStart = moment(eventItem.start).add(cellUnit === CellUnits.Hour ? count * config.minuteStep : count, cellUnit === CellUnits.Hour ? "minutes" : "days").format(DATETIME_FORMAT);
+        let newStart = moment(eventItem.start).add(cellUnit === CellUnits.Hour ? count * config.minuteStep : count, cellUnit === CellUnits.Hour ? "minutes" : "days");
         if (count !== 0 && cellUnit !== CellUnits.Hour && config.displayWeekend === false) {
             if (count > 0) {
                 let tempCount = 0;
@@ -198,7 +200,7 @@ class EventItem extends Component<EventItemProps, EventItemState> {
                     if (dayOfWeek !== 0 && dayOfWeek !== 6) {
                         tempCount++;
                         if (tempCount === count) {
-                            newStart = tempStart.format(DATETIME_FORMAT);
+                            newStart = tempStart;
                             break;
                         }
                     }
@@ -214,7 +216,7 @@ class EventItem extends Component<EventItemProps, EventItemState> {
                     if (dayOfWeek !== 0 && dayOfWeek !== 6) {
                         tempCount--;
                         if (tempCount === count) {
-                            newStart = tempStart.format(DATETIME_FORMAT);
+                            newStart = tempStart;
                             break;
                         }
                     }
@@ -252,14 +254,23 @@ class EventItem extends Component<EventItemProps, EventItemState> {
             });
 
             if (conflictOccurred != undefined) {
-                conflictOccurred(schedulerData, "StartResize", eventItem, DnDTypes.EVENT, slotId, slotName, newStart, eventItem.end);
+                conflictOccurred({
+                    schedulerData,
+                    action: "StartResize",
+                    event: eventItem,
+                    type: DnDTypes.EVENT,
+                    slotId,
+                    slotName,
+                    start: newStart,
+                    end: eventItem.end,
+                });
             } else {
                 console.log("Conflict occurred, set conflictOccurred func in Scheduler to handle it");
             }
             this.subscribeResizeEvent(this.props);
         } else {
             if (updateEventStart != undefined) {
-                updateEventStart(schedulerData, eventItem, newStart);
+                updateEventStart({ schedulerData, event: eventItem, newStart });
             }
         }
     }
@@ -395,7 +406,7 @@ class EventItem extends Component<EventItemProps, EventItemState> {
         } else if (newWidth > maxWidth) {
             count = headers.length - rightIndex;
         }
-        let newEnd = moment(eventItem.end).add(cellUnit === CellUnits.Hour ? count * config.minuteStep : count, cellUnit === CellUnits.Hour ? "minutes" : "days").format(DATETIME_FORMAT);
+        let newEnd = moment(eventItem.end).add(cellUnit === CellUnits.Hour ? count * config.minuteStep : count, cellUnit === CellUnits.Hour ? "minutes" : "days");
         if (count !== 0 && cellUnit !== CellUnits.Hour && config.displayWeekend === false) {
             let tempCount = 0;
             let i = 0;
@@ -407,7 +418,7 @@ class EventItem extends Component<EventItemProps, EventItemState> {
                     if (dayOfWeek !== 0 && dayOfWeek !== 6) {
                         tempCount++;
                         if (tempCount === count) {
-                            newEnd = tempEnd.format(DATETIME_FORMAT);
+                            newEnd = tempEnd;
                             break;
                         }
                     }
@@ -421,7 +432,7 @@ class EventItem extends Component<EventItemProps, EventItemState> {
                     if (dayOfWeek !== 0 && dayOfWeek !== 6) {
                         tempCount--;
                         if (tempCount === count) {
-                            newEnd = tempEnd.format(DATETIME_FORMAT);
+                            newEnd = tempEnd;
                             break;
                         }
                     }
@@ -459,14 +470,23 @@ class EventItem extends Component<EventItemProps, EventItemState> {
             });
 
             if (conflictOccurred != undefined) {
-                conflictOccurred(schedulerData, "EndResize", eventItem, DnDTypes.EVENT, slotId, slotName, eventItem.start, newEnd);
+                conflictOccurred({
+                    schedulerData,
+                    action: "EndResize",
+                    event: eventItem,
+                    type: DnDTypes.EVENT,
+                    slotId,
+                    slotName,
+                    start: newEnd,
+                    end: eventItem.end,
+                });
             } else {
                 console.log("Conflict occurred, set conflictOccurred func in Scheduler to handle it");
             }
             this.subscribeResizeEvent(this.props);
         } else {
             if (updateEventEnd != undefined) {
-                updateEventEnd(schedulerData, eventItem, newEnd);
+                updateEventEnd({ schedulerData, event: eventItem, newEnd });
             }
         }
     }
@@ -517,10 +537,18 @@ class EventItem extends Component<EventItemProps, EventItemState> {
             </div>
         );
         if (eventItemTemplateResolver != undefined) {
-            eventItemTemplate = eventItemTemplateResolver(schedulerData, eventItem, bgColor, isStart, isEnd, "event-item", config.eventItemHeight, undefined);
+            eventItemTemplate = eventItemTemplateResolver({
+                schedulerData,
+                event: eventItem,
+                bgColor,
+                isStart,
+                isEnd,
+                mustAddCssClass: "event-item",
+                mustBeHeight: config.eventItemHeight,
+            });
         }
 
-        const timelineEvent = <a className="timeline-event" style={{ left, width, top }} onClick={() => { if (!!eventItemClick) { eventItemClick(schedulerData, eventItem); } }}>
+        const timelineEvent = <a className="timeline-event" style={{ left, width, top }} onClick={() => { if (!!eventItemClick) { eventItemClick({schedulerData, event: eventItem}); } }}>
             {eventItemTemplate}
             {startResizeDiv}
             {endResizeDiv}
@@ -585,9 +613,9 @@ class EventItem extends Component<EventItemProps, EventItemState> {
     }) => {
         if (this.startResizer != undefined) {
             if (supportTouch) {
-                this.startResizer.removeEventListener('touchstart', this.initStartDrag, false);
+                this.startResizer.removeEventListener("touchstart", this.initStartDrag, false);
                 if (this.startResizable(props)) {
-                    this.startResizer.addEventListener('touchstart', this.initStartDrag, false);
+                    this.startResizer.addEventListener("touchstart", this.initStartDrag, false);
                 }
             } else {
                 this.startResizer.removeEventListener("mousedown", this.initStartDrag, false);
@@ -598,9 +626,9 @@ class EventItem extends Component<EventItemProps, EventItemState> {
         }
         if (this.endResizer != undefined) {
             if (supportTouch) {
-                this.endResizer.removeEventListener('touchstart', this.initEndDrag, false);
+                this.endResizer.removeEventListener("touchstart", this.initEndDrag, false);
                 if (this.endResizable(props)) {
-                    this.endResizer.addEventListener('touchstart', this.initEndDrag, false);
+                    this.endResizer.addEventListener("touchstart", this.initEndDrag, false);
                 }
             } else {
                 this.endResizer.removeEventListener("mousedown", this.initEndDrag, false);

@@ -2,10 +2,7 @@ import * as React from "react";
 import { Component, useState } from "react";
 import Scheduler, {
     SchedulerData,
-    SCHEDULER_DATE_FORMAT,
-    SchedulerResource,
     SchedulerViewTypes,
-    SchedulerEvent,
     EventItemTemplateResolverArgs,
 } from "../src/Scheduler";
 import * as ExampleFunction from "./utils/ExampleFunctions";

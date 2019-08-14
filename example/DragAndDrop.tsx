@@ -2,7 +2,7 @@ import * as React from "react";
 import { Component } from "react";
 import Col from "antd/lib/col";
 import Row from "antd/lib/row";
-import Scheduler, { SchedulerData, SchedulerViewTypes, SchedulerDnDSource, SchedulerEvent, SchedulerEventGroup } from "../src/Scheduler";
+import Scheduler, { SchedulerData, SchedulerViewTypes, SchedulerDnDSource, SchedulerEvent, SchedulerEventGroup, EventActionFuncArgs } from "../src/Scheduler";
 import { DemoData } from "./utils/DemoData";
 import { DnDTypes } from "../src/types/DnDTypes";
 import TaskItem from "./plugins/TaskItem";
@@ -98,8 +98,8 @@ class DragAndDrop extends Component<{}, DragAndDropState> {
             </div>
         );
     }
-    public subtitleGetter = (schedulerData: SchedulerData, event: SchedulerEvent) => {
-        return schedulerData.isEventPerspective ? schedulerData.getResourceById(event.resourceId).name : event.groupName;
+    public subtitleGetter = (args: EventActionFuncArgs) => {
+        return args.schedulerData.isEventPerspective ? args.schedulerData.getResourceById(args.event.resourceId).name : args.event.groupName;
     }
 }
 

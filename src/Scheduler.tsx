@@ -46,13 +46,11 @@ import ResourceEvents from "./ResourceEvents";
 import AgendaView from "./AgendaView";
 import AddMorePopover from "./AddMorePopover";
 import { ViewTypes } from "./types/ViewTypes";
+import { DnDTypes } from "./types/DnDTypes";
 import { CellUnits } from "./types/CellUnits";
 import { SummaryPos } from "./types/SummaryPos";
 import SchedulerData from "./SchedulerData";
 import { RenderData, Event, EventGroup, Header, Resource, EventRecurring } from "./SchedulerData";
-import { DATETIME_FORMAT, DATE_FORMAT } from "./types/DateFormats";
-import EventItemPopover from "./EventItemPopover";
-import { conflictOccurred } from "../example/utils/ExampleFunctions";
 const RadioButton = Radio.Button;
 const RadioGroup = Radio.Group;
 
@@ -98,10 +96,10 @@ export interface ToggleExpandFuncArgs {
 }
 export interface SlotClickedFuncArgs {
     schedulerData: SchedulerData;
-    item: RenderData;
+    slot: RenderData;
 }
 
-export interface NonAgendaCellHeaderTemplateResolverArgs{
+export interface NonAgendaCellHeaderTemplateResolverArgs {
     schedulerData: SchedulerData;
     item: any;
     formattedDateItems: any;
@@ -110,7 +108,7 @@ export interface NonAgendaCellHeaderTemplateResolverArgs{
 
 export interface SlotItemTemplateResolverArgs {
     schedulerData: SchedulerData;
-    slot: any;
+    slot: RenderData;
     slotClickedFunc: (args: SlotClickedFuncArgs) => void | JSX.Element;
     width: number;
     clsName: string;
@@ -122,7 +120,11 @@ export interface EventActionFuncArgs {
 
 export interface OnViewChangeArgs {
     schedulerData: SchedulerData;
-    view: any;
+    view: {
+        viewType: ViewTypes;
+        showAgenda: boolean;
+        isEventPerspective: boolean;
+    };
 }
 
 export interface OnSelectDateArgs {
@@ -131,15 +133,15 @@ export interface OnSelectDateArgs {
 }
 
 export interface UpdateEventStartArgs {
-    schedulerData: SchedulerData,
-    event: Event,
-    newStart: moment.Moment
+    schedulerData: SchedulerData;
+    event: Event;
+    newStart: moment.Moment;
 }
 
 export interface UpdateEventEndArgs {
-    schedulerData: SchedulerData,
-    event: Event,
-    newEnd: moment.Moment
+    schedulerData: SchedulerData;
+    event: Event;
+    newEnd: moment.Moment;
 }
 
 export interface EventItemTemplateResolverArgs {
@@ -148,16 +150,16 @@ export interface EventItemTemplateResolverArgs {
     bgColor: string;
     isStart: boolean;
     isEnd: boolean;
-    mustAddCssClass: any;
+    mustAddCssClass: string;
     mustBeHeight: number;
-    agendaMaxEventWidth: any;
+    agendaMaxEventWidth?: number;
 }
 
 export interface ConflictOccurredArgs {
     schedulerData: SchedulerData;
     action: string;
-    event: any; // {}
-    type: string; // DNDTypes
+    event: Event;
+    type: DnDTypes;
     slotId: string;
     slotName: string;
     start: moment.Moment;
@@ -183,6 +185,9 @@ export interface EventItemPopoverResolverArgs {
     start: moment.Moment;
     end: moment.Moment;
     statusColor: string;
+}
+
+export interface EventItemPopoverResolverDnDArgs {
     timelineEvent: JSX.Element;
     connectDragSource: (action: any) => any;
     connectDragPreview: (action: any) => any;
@@ -622,8 +627,6 @@ export {
     Header as SchedulerHeader,
     Resource as SchedulerResource,
     EventRecurring as SchedulerEventRecurring,
-    DATETIME_FORMAT as SCHEDULER_DATETIME_FORMAT,
-    DATE_FORMAT as SCHEDULER_DATE_FORMAT,
     ViewTypes as SchedulerViewTypes,
     AddMorePopover as SchedulerAddMorePopover,
     DnDSource as SchedulerDnDSource,

@@ -1,11 +1,13 @@
 import * as React from "react";
 import { Component, CSSProperties } from "react";
 import AgendaEventItem from "./AgendaEventItem";
-import { DATE_FORMAT } from "./types/DateFormats";
 import * as moment from "moment";
 import { SchedulerData, EventActionFuncArgs, SlotClickedFuncArgs, SlotItemTemplateResolverArgs } from "./Scheduler";
-import { RenderData, Event, Resource, EventGroup } from "./SchedulerData";
+import { RenderData} from "./SchedulerData";
 
+/**
+ * DateFORMAT
+ */
 interface AgendaResourceEventsProps {
     schedulerData: SchedulerData;
     subtitleGetter?: (args: EventActionFuncArgs) => string;
@@ -31,10 +33,10 @@ class AgendaResourceEvents extends Component<AgendaResourceEventsProps> {
 
         const events = [];
         resourceEvents.headerItems.forEach((item) => {
-            const start = moment(startDate).format(DATE_FORMAT);
-            const end = moment(endDate).add(1, "days").format(DATE_FORMAT);
-            const headerStart = moment(item.start).format(DATE_FORMAT);
-            const headerEnd = moment(item.end).format(DATE_FORMAT);
+            const start = moment(startDate);
+            const end = moment(endDate).add(1, "days");
+            const headerStart = moment(item.start);
+            const headerEnd = moment(item.end);
 
             if (start === headerStart && end === headerEnd) {
                 item.events.forEach((evt) => {
@@ -57,7 +59,7 @@ class AgendaResourceEvents extends Component<AgendaResourceEventsProps> {
         });
 
         const slotClickedFunc = this.props.slotClickedFunc != undefined ? <a onClick={() => {
-            this.props.slotClickedFunc({ schedulerData, item: resourceEvents });
+            this.props.slotClickedFunc({ schedulerData, slot: resourceEvents });
         }}>{resourceEvents.slotName}</a>
             : <span>{resourceEvents.slotName}</span>;
         let slotItem = (
@@ -66,7 +68,7 @@ class AgendaResourceEvents extends Component<AgendaResourceEventsProps> {
             </div>
         );
         if (!!this.props.slotItemTemplateResolver) {
-            const temp = this.props.slotItemTemplateResolver({schedulerData, resourceEvents: resourceEvents, slotClickedFunc: this.props.slotClickedFunc, width, clsName: "overflow-text header2-text"});
+            const temp = this.props.slotItemTemplateResolver({ schedulerData, slot: resourceEvents, slotClickedFunc: this.props.slotClickedFunc, width, clsName: "overflow-text header2-text" });
             if (!!temp) {
                 slotItem = temp;
             }

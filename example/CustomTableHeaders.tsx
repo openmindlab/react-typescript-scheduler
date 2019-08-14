@@ -3,6 +3,7 @@ import { Component, useState } from "react";
 import Scheduler, {
   SchedulerData,
   SchedulerViewTypes,
+  NonAgendaCellHeaderTemplateResolverArgs,
 } from "../src/Scheduler";
 import * as moment from "moment";
 import * as ExampleFunction from "./utils/ExampleFunctions";
@@ -24,25 +25,25 @@ class CustomHeaders extends Component<{}, { viewModel: SchedulerData }> {
     };
   }
 
-  public nonAgendaCellHeaderTemplateResolver = (schedulerData: SchedulerData, item: any, formattedDateItems: any, style: React.CSSProperties) => {
-    const datetime = moment(item.time);
+  public nonAgendaCellHeaderTemplateResolver = (args: NonAgendaCellHeaderTemplateResolverArgs) => {
+    const datetime = moment(args.item.time);
     let isCurrentDate = false;
 
-    if (schedulerData.viewType === SchedulerViewTypes.Day) {
+    if (args.schedulerData.viewType === SchedulerViewTypes.Day) {
       isCurrentDate = datetime.isSame(new Date(), "hour");
     } else {
       isCurrentDate = datetime.isSame(new Date(), "day");
     }
 
     if (isCurrentDate) {
-      style.backgroundColor = "#118dea";
-      style.color = "white";
+      args.style.backgroundColor = "#118dea";
+      args.style.color = "white";
     }
 
     return (
-      <th key={item.time} className={`header3-text`} style={style}>
+      <th key={args.item.time} className={`header3-text`} style={args.style}>
         {
-          formattedDateItems.map((formattedItem: any, index: any) => (
+          args.formattedDateItems.map((formattedItem: any, index: any) => (
             <div key={index}
               dangerouslySetInnerHTML={{ __html: formattedItem.replace(/[0-9]/g, "<b>$&</b>") }} />
           ))

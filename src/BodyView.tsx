@@ -51,8 +51,10 @@ class BodyView extends Component<BodyViewProps> {
             );
         });
 
+        const c: CSSProperties = {};
+
         return (
-            <tbody>
+            <tbody style={c}>
                 {tableRows}
             </tbody >
         );

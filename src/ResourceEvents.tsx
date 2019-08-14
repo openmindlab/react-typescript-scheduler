@@ -5,7 +5,7 @@ import AddMore from "./AddMore";
 import Summary from "./Summary";
 import SelectedArea from "./SelectedArea";
 import { CellUnits } from "./types/CellUnits";
-import { DATETIME_FORMAT } from "./types/DateFormats";
+
 import { SummaryPos } from "./types/SummaryPos";
 import { getPos } from "./Util";
 import { DnDTypes } from "./types/DnDTypes";
@@ -211,11 +211,10 @@ class ResourceEvents extends Component<ResourceEventsProps, ResourceEventsState>
             width: 0,
             isSelecting: false,
         });
-
+        const start = moment(startTime);
+        const end = moment(endTime);
         let hasConflict = false;
         if (config.checkConflict) {
-            const start = moment(startTime);
-            const end = moment(endTime);
 
             events.forEach((e) => {
                 if (schedulerData.getEventSlotId(e) === slotId) {
@@ -236,16 +235,16 @@ class ResourceEvents extends Component<ResourceEventsProps, ResourceEventsState>
                     action: "New",
                     event: {
                         id: undefined,
-                        start: startTime,
-                        end: endTime,
-                        slotId,
-                        slotName,
+                        start,
+                        end,
+                        resourceId: slotId,
+                        groupName: slotName,
                         title: undefined,
                     },
                     type: DnDTypes.EVENT,
                     slotId,
                     slotName,
-                    start: startTime,
+                    start,
                     end: endTime,
                 });
             } else {
@@ -253,7 +252,7 @@ class ResourceEvents extends Component<ResourceEventsProps, ResourceEventsState>
             }
         } else {
             if (newEvent != undefined) {
-                newEvent({ schedulerData, slotId, slotName, start: startTime, end: endTime });
+                newEvent({ schedulerData, slotId, slotName, start, end: endTime });
             }
         }
     }

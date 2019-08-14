@@ -2,11 +2,13 @@ import { DragSource } from "react-dnd";
 import * as moment from "moment";
 import { DnDTypes } from "./types/DnDTypes";
 import { ViewTypes } from "./types/ViewTypes";
-import { DATETIME_FORMAT } from "./types/DateFormats";
 import { SchedulerData, MoveEventArgs, NewEventArgs, ConflictOccurredArgs } from "./Scheduler";
 import ResourceEvents from "./ResourceEvents";
 import { Event } from "./SchedulerData";
 
+/**
+ * Datetime
+ */
 export default class DnDSource {
     public resolveDragObjFunc: (props: any) => any;
     public DecoratedComponent: any;
@@ -52,14 +54,14 @@ export default class DnDSource {
                 if (isEvent) {
                     const event = item;
                     if (config.relativeMove) {
-                        newStart = moment(event.start).add(moment(newStart).diff(moment(initialStart)), "ms").format(DATETIME_FORMAT);
+                        newStart = moment(event.start).add(moment(newStart).diff(moment(initialStart)), "ms").format();
                     } else {
                         if (viewType !== ViewTypes.Day) {
                             const tmpMoment = moment(newStart);
-                            newStart = moment(event.start).year(tmpMoment.year()).month(tmpMoment.month()).date(tmpMoment.date()).format(DATETIME_FORMAT);
+                            newStart = moment(event.start).year(tmpMoment.year()).month(tmpMoment.month()).date(tmpMoment.date()).format();
                         }
                     }
-                    newEnd = moment(newStart).add(moment(event.end).diff(moment(event.start)), "ms").format(DATETIME_FORMAT);
+                    newEnd = moment(newStart).add(moment(event.end).diff(moment(event.start)), "ms").format();
 
                     // if crossResourceMove disabled, slot returns old value
                     if (config.crossResourceMove === false) {

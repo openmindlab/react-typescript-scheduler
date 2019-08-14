@@ -2,12 +2,11 @@ import * as React from "react";
 import { Component, CSSProperties } from "react";
 import { CellUnits } from "./types/CellUnits";
 import * as moment from "moment";
-import { SchedulerData } from "./Scheduler";
-import {Header} from "./SchedulerData";
+import { SchedulerData, NonAgendaCellHeaderTemplateResolverArgs } from "./Scheduler";
 
 interface HeaderViewProps {
     schedulerData: SchedulerData;
-    nonAgendaCellHeaderTemplateResolver?: (schedulerData: SchedulerData, item: Header, formattedDateItems: any, style: CSSProperties) => JSX.Element;
+    nonAgendaCellHeaderTemplateResolver?: (args: NonAgendaCellHeaderTemplateResolverArgs) => JSX.Element;
 }
 
 class HeaderView extends Component<HeaderViewProps> {
@@ -39,7 +38,7 @@ class HeaderView extends Component<HeaderViewProps> {
                     let element;
 
                     if (typeof this.props.nonAgendaCellHeaderTemplateResolver === "function") {
-                        element = this.props.nonAgendaCellHeaderTemplateResolver(schedulerData, item, pFormattedList, style);
+                        element = this.props.nonAgendaCellHeaderTemplateResolver({schedulerData, item, formattedDateItems: pFormattedList, style});
                     } else {
                         const pList = pFormattedList.map((i, ind) => (
                             <div key={ind}>{i}</div>
@@ -68,7 +67,7 @@ class HeaderView extends Component<HeaderViewProps> {
                 const pFormattedList = config.nonAgendaOtherCellHeaderFormat.split("|").map((i) => datetime.format(i));
 
                 if (typeof this.props.nonAgendaCellHeaderTemplateResolver === "function") {
-                    return this.props.nonAgendaCellHeaderTemplateResolver(schedulerData, item, pFormattedList, style);
+                    return this.props.nonAgendaCellHeaderTemplateResolver({schedulerData, item, formattedDateItems: pFormattedList, style});
                 }
 
                 const pList = pFormattedList.map((i, ind) => (

@@ -1,7 +1,7 @@
 import * as moment from "moment";
 import { ViewTypes } from "./types/ViewTypes";
 import { CellUnits } from "./types/CellUnits";
-import { DATE_FORMAT } from "./types/DateFormats";
+
 import { SchedulerData } from "./Scheduler";
 import { Event } from "./SchedulerData";
 
@@ -18,18 +18,18 @@ export const getCustomDate = (schedulerData: SchedulerData, num: number, date: m
         selectDate = date;
     }
 
-    let startDate = num === 0 ? selectDate : moment(selectDate).add(2 * num, "days").format(DATE_FORMAT);
-    let endDate = moment(startDate).add(1, "days").format(DATE_FORMAT);
+    let startDate = num === 0 ? selectDate : moment(selectDate).add(2 * num, "days").format();
+    let endDate = moment(startDate).add(1, "days").format();
     let cellUnit = CellUnits.Hour;
     if (viewType === ViewTypes.Custom1) {
-        const monday = moment(selectDate).startOf("week").format(DATE_FORMAT);
-        startDate = num === 0 ? monday : moment(monday).add(2 * num, "weeks").format(DATE_FORMAT);
-        endDate = moment(startDate).add(1, "weeks").endOf("week").format(DATE_FORMAT);
+        const monday = moment(selectDate).startOf("week").format();
+        startDate = num === 0 ? monday : moment(monday).add(2 * num, "weeks").format();
+        endDate = moment(startDate).add(1, "weeks").endOf("week").format();
         cellUnit = CellUnits.Day;
     } else if (viewType === ViewTypes.Custom2) {
-        const firstDayOfMonth = moment(selectDate).startOf("month").format(DATE_FORMAT);
-        startDate = num === 0 ? firstDayOfMonth : moment(firstDayOfMonth).add(2 * num, "months").format(DATE_FORMAT);
-        endDate = moment(startDate).add(1, "months").endOf("month").format(DATE_FORMAT);
+        const firstDayOfMonth = moment(selectDate).startOf("month").format();
+        startDate = num === 0 ? firstDayOfMonth : moment(firstDayOfMonth).add(2 * num, "months").format();
+        endDate = moment(startDate).add(1, "months").endOf("month").format();
         cellUnit = CellUnits.Day;
     }
 
@@ -45,7 +45,6 @@ export const getNonAgendaViewBodyCellBgColor = (schedulerData: SchedulerData, sl
     if (!header.nonWorkingTime) {
         return "#87e8de";
     }
-
     return undefined;
 };
 
