@@ -17,7 +17,6 @@ class Basic extends Component<{}, { viewModel: SchedulerData }> {
         const schedulerData = new SchedulerData(ExampleFunction.getNow(), SchedulerViewTypes.Month, false, false, {
             eventItemPopoverEnabled: false,
             views: [
-                { viewName: "Agenda View", viewType: SchedulerViewTypes.Month, showAgenda: true, isEventPerspective: false },
                 { viewName: "Resource View", viewType: SchedulerViewTypes.Month, showAgenda: false, isEventPerspective: false },
                 { viewName: "Task View", viewType: SchedulerViewTypes.Month, showAgenda: false, isEventPerspective: true },
             ],

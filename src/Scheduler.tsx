@@ -43,7 +43,6 @@ import ResourceView from "./ResourceView";
 import HeaderView from "./HeaderView";
 import BodyView from "./BodyView";
 import ResourceEvents from "./ResourceEvents";
-import AgendaView from "./AgendaView";
 import AddMorePopover from "./AddMorePopover";
 import { ViewTypes } from "./types/ViewTypes";
 import { DnDTypes } from "./types/DnDTypes";
@@ -303,9 +302,8 @@ class Scheduler extends Component<SchedulerProps, SchedulerContentState> {
 
         let tbodyContent = <tr />;
         if (showAgenda) {
-            tbodyContent = <AgendaView
-                {...this.props}
-            />;
+            console.log("Agenda not supported");
+            tbodyContent = <>Not supported</>;
         } else {
             const resourceTableWidth = schedulerData.getResourceTableWidth();
             const schedulerContainerWidth = parseInt(width, undefined) - resourceTableWidth + 1;

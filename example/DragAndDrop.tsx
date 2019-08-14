@@ -31,7 +31,6 @@ class DragAndDrop extends Component<{}, DragAndDropState> {
         super(props);
 
         const views: View[] = [
-            { viewName: "Agenda View", viewType: SchedulerViewTypes.Month, showAgenda: true, isEventPerspective: false },
             { viewName: "Resource View", viewType: SchedulerViewTypes.Month, showAgenda: false, isEventPerspective: false },
             { viewName: "Task View", viewType: SchedulerViewTypes.Month, showAgenda: false, isEventPerspective: true },
         ];

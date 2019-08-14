@@ -17,12 +17,11 @@ interface CustomEventStyleState {
 }
 
 class CustomEventStyle extends Component<{}, CustomEventStyleState> {
-    constructor(props) {
+    constructor(props: Readonly<{}>) {
         super(props);
 
         const schedulerData = new SchedulerData(ExampleFunction.getNow(), SchedulerViewTypes.Week, false, false, {
             views: [
-                { viewName: "Day(Agenda)", viewType: SchedulerViewTypes.Day, showAgenda: true, isEventPerspective: false },
                 { viewName: "Week", viewType: SchedulerViewTypes.Week, showAgenda: false, isEventPerspective: false },
                 { viewName: "Month(TaskView)", viewType: SchedulerViewTypes.Month, showAgenda: false, isEventPerspective: true },
                 { viewName: "Year", viewType: SchedulerViewTypes.Year, showAgenda: false, isEventPerspective: false },
