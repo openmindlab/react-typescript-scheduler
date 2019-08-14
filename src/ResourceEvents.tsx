@@ -9,7 +9,7 @@ import { DATETIME_FORMAT } from "./types/DateFormats";
 import { SummaryPos } from "./types/SummaryPos";
 import { getPos } from "./Util";
 import { DnDTypes } from "./types/DnDTypes";
-import { SchedulerData } from "./Scheduler";
+import { SchedulerData, NewEventArgs, ConflictOccurredArgs } from "./Scheduler";
 import { RenderData, Header } from "./SchedulerData";
 import DnDSource from "./DnDSource";
 
@@ -30,9 +30,9 @@ interface ResourceEventsProps {
     viewEventText?: string;
     viewEvent2Click?: (schedulerData: SchedulerData, event: Event) => void;
     viewEvent2Text?: string;
-    newEvent?: (schedulerData: SchedulerData, slotId: string, slotName: string, startTime: string, endTime: string) => any;
+    newEvent?: (args: NewEventArgs) => any;
     eventItemTemplateResolver?: (schedulerData: SchedulerData, eventItem: Event, bgColor: string, isStart: boolean, isEnd: boolean, name: string, eventItemHeight: number, agendaMaxEventWidth: number) => JSX.Element;
-    conflictOccurred?: (schedulerData: SchedulerData, name: string, { }, DnDTypes: string, slotId: string, slotName: string, startTime: string, endTime: string) => void;
+    conflictOccurred?: (args: ConflictOccurredArgs) => void;
     // TODO
     connectDropTarget?: any;
 }
@@ -198,7 +198,7 @@ class ResourceEvents extends Component<ResourceEventsProps, ResourceEventsState>
         const startTime = headers[leftIndex].time;
         let endTime = resourceEvents.headerItems[rightIndex - 1].end;
         if (cellUnit !== CellUnits.Hour) {
-            endTime = moment(resourceEvents.headerItems[rightIndex - 1].start).hour(23).minute(59).second(59).format(DATETIME_FORMAT);
+            endTime = moment(resourceEvents.headerItems[rightIndex - 1].start).hour(23).minute(59).second(59);
         }
         const slotId = resourceEvents.slotId;
         const slotName = resourceEvents.slotName;
@@ -231,20 +231,29 @@ class ResourceEvents extends Component<ResourceEventsProps, ResourceEventsState>
         if (hasConflict) {
             const { conflictOccurred } = this.props;
             if (conflictOccurred != undefined) {
-                conflictOccurred(schedulerData, "New", {
-                    id: undefined,
-                    start: startTime,
-                    end: endTime,
+                conflictOccurred({
+                    schedulerData,
+                    action: "New",
+                    event: {
+                        id: undefined,
+                        start: startTime,
+                        end: endTime,
+                        slotId,
+                        slotName,
+                        title: undefined,
+                    },
+                    type: DnDTypes.EVENT,
                     slotId,
                     slotName,
-                    title: undefined,
-                }, DnDTypes.EVENT, slotId, slotName, startTime, endTime);
+                    start: startTime,
+                    end: endTime,
+                });
             } else {
                 console.log("Conflict occurred, set conflictOccurred func in Scheduler to handle it");
             }
         } else {
             if (newEvent != undefined) {
-                newEvent(schedulerData, slotId, slotName, startTime, endTime);
+                newEvent({ schedulerData, slotId, slotName, start: startTime, end: endTime });
             }
         }
     }
@@ -328,7 +337,7 @@ class ResourceEvents extends Component<ResourceEventsProps, ResourceEventsState>
                     const top = marginTop + headerItem.addMoreIndex * config.eventItemLineHeight;
                     const addMoreItem = <AddMore
                         {...this.props}
-                        key={headerItem.time}
+                        key={headerItem.time.toString()}
                         headerItem={headerItem}
                         number={headerItem.addMore}
                         left={l}

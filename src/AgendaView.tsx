@@ -2,18 +2,17 @@ import * as React from "react";
 import { Component, CSSProperties } from "react";
 
 import AgendaResourceEvents from "./AgendaResourceEvents";
-import { SchedulerData } from "./Scheduler";
-import { Event, RenderData } from "./SchedulerData";
+import { SchedulerData, EventActionFuncArgs, SlotClickedFuncArgs } from "./Scheduler";
 
 interface AgendaViewProps {
     schedulerData: SchedulerData;
-    subtitleGetter?: (schedulerData: SchedulerData, event: Event) => string;
-    eventItemClick?: (schedulerData: SchedulerData, event: Event) => any;
-    viewEventClick?: (schedulerData: SchedulerData, event: Event) => void;
+    subtitleGetter?: (args: EventActionFuncArgs) => string;
+    eventItemClick?: (args: EventActionFuncArgs) => any;
+    viewEventClick?: (args: EventActionFuncArgs) => void;
     viewEventText?: string;
-    viewEvent2Click?: (schedulerData: SchedulerData, event: Event) => void;
+    viewEvent2Click?: (args: EventActionFuncArgs) => void;
     viewEvent2Text?: string;
-    slotClickedFunc?: (schedulerData: SchedulerData, item: RenderData) => void | JSX.Element;
+    slotClickedFunc?: (args: SlotClickedFuncArgs) => void | JSX.Element;
 }
 
 class AgendaView extends Component<AgendaViewProps> {

@@ -45,7 +45,7 @@ export default class DnDContext {
                     initialStartTime = resourceEvents.headerItems[initialLeftIndex].start;
                     initialEndTime = resourceEvents.headerItems[initialLeftIndex].end;
                     if (cellUnit !== CellUnits.Hour) {
-                        initialEndTime = moment(resourceEvents.headerItems[initialLeftIndex].start).hour(23).minute(59).second(59).format(DATETIME_FORMAT);
+                        initialEndTime = moment(resourceEvents.headerItems[initialLeftIndex].start).hour(23).minute(59).second(59);
                     }
                 }
                 const point = monitor.getClientOffset();
@@ -53,7 +53,7 @@ export default class DnDContext {
                 const startTime = resourceEvents.headerItems[leftIndex].start;
                 let endTime = resourceEvents.headerItems[leftIndex].end;
                 if (cellUnit !== CellUnits.Hour) {
-                    endTime = moment(resourceEvents.headerItems[leftIndex].start).hour(23).minute(59).second(59).format(DATETIME_FORMAT);
+                    endTime = moment(resourceEvents.headerItems[leftIndex].start).hour(23).minute(59).second(59);
                 }
 
                 return {
@@ -70,7 +70,7 @@ export default class DnDContext {
                 {
                     schedulerData: SchedulerData,
                     resourceEvents: ResourceEvents,
-                    movingEvent: (schedulerData: SchedulerData, slotId: string, slotName: string, newStart: string, newEnd: string, action: string, type: Identifier, item: Event) => void,
+                    movingEvent: (schedulerData: SchedulerData, slotId: string, slotName: string, newStart: moment.Moment, newEnd: moment.Moment, action: string, type: Identifier, item: Event) => void,
                 },
                     monitor: any,
                     component: any) => {
@@ -88,7 +88,7 @@ export default class DnDContext {
                     initialStart = resourceEvents.headerItems[initialLeftIndex].start;
                     initialEnd = resourceEvents.headerItems[initialLeftIndex].end;
                     if (cellUnit !== CellUnits.Hour) {
-                        initialEnd = moment(resourceEvents.headerItems[initialLeftIndex].start).hour(23).minute(59).second(59).format(DATETIME_FORMAT);
+                        initialEnd = moment(resourceEvents.headerItems[initialLeftIndex].start).hour(23).minute(59).second(59);
                     }
                 }
                 const point = monitor.getClientOffset();
@@ -99,7 +99,7 @@ export default class DnDContext {
                 let newEnd = newEndH ? newEndH.end : schedulerData.endDate;
 
                 if (cellUnit !== CellUnits.Hour) {
-                    newEnd = moment(newStart).hour(23).minute(59).second(59).format(DATETIME_FORMAT);
+                    newEnd = moment(newStart).hour(23).minute(59).second(59);
                 }
 
                 let slotId = resourceEvents.slotId;
@@ -109,14 +109,14 @@ export default class DnDContext {
                 if (isEvent) {
                     const event = item;
                     if (config.relativeMove) {
-                        newStart = moment(event.start).add(moment(newStart).diff(moment(initialStart)), "ms").format(DATETIME_FORMAT);
+                        newStart = moment(event.start).add(moment(newStart).diff(moment(initialStart)), "ms");
                     } else {
                         if (viewType !== ViewTypes.Day) {
                             const tmpMoment = moment(newStart);
-                            newStart = moment(event.start).year(tmpMoment.year()).month(tmpMoment.month()).date(tmpMoment.date()).format(DATETIME_FORMAT);
+                            newStart = moment(event.start).year(tmpMoment.year()).month(tmpMoment.month()).date(tmpMoment.date());
                         }
                     }
-                    newEnd = moment(newStart).add(moment(event.end).diff(moment(event.start)), "ms").format(DATETIME_FORMAT);
+                    newEnd = moment(newStart).add(moment(event.end).diff(moment(event.start)), "ms");
 
                     // if crossResourceMove disabled, slot returns old value
                     if (config.crossResourceMove === false) {

@@ -2,29 +2,24 @@ import * as React from "react";
 import { Component, CSSProperties } from "react";
 import Popover from "antd/lib/popover";
 import EventItemPopover from "./EventItemPopover";
-import { SchedulerData } from "./Scheduler";
+import { SchedulerData, SlotItemTemplateResolverArgs, SlotClickedFuncArgs, EventItemTemplateResolverArgs, EventActionFuncArgs } from "./Scheduler";
 import { RenderData, Resource, EventGroup, Event } from "./SchedulerData";
 
 interface AgendaEventItemProps {
+    schedulerData: SchedulerData;
+    subtitleGetter?: (args: EventActionFuncArgs) => string;
+    eventItemClick?: (args: EventActionFuncArgs) => any;
+    viewEventClick?: (args: EventActionFuncArgs) => void;
+    viewEventText?: string;
+    viewEvent2Click?: (args: EventActionFuncArgs) => void;
+    viewEvent2Text?: string;
+    slotClickedFunc?: (args: SlotClickedFuncArgs) => void | JSX.Element;
+    resourceEvents: RenderData;
     isStart: boolean;
     isEnd: boolean;
     eventItem: Event;
-    eventItemTemplateResolver?: (schedulerData: SchedulerData, eventItem: Event, bgColor: string, isStart: boolean, isEnd: boolean, name: string, eventItemHeight: number, agendaMaxEventWidth: number) => JSX.Element;
-    schedulerData: SchedulerData;
-    resourceEvents: RenderData;
-    subtitleGetter?: (schedulerData: SchedulerData, event: Event) => string;
-    eventItemClick?: (schedulerData: SchedulerData, event: Event) => any;
-    viewEventClick?: (schedulerData: SchedulerData, event: Event) => void;
-    viewEventText?: string;
-    viewEvent2Click?: (schedulerData: SchedulerData, event: Event) => void;
-    viewEvent2Text?: string;
-    slotClickedFunc?: (schedulerData: SchedulerData, item: RenderData) => void | JSX.Element;
-    slotItemTemplateResolver?: (
-        schedulerData: SchedulerData,
-        slot: RenderData | Resource | EventGroup | Event,
-        slotClickedFunc: JSX.Element,
-        width: number,
-        clsName: string) => JSX.Element;
+    slotItemTemplateResolver?: (args: SlotItemTemplateResolverArgs) => JSX.Element;
+    eventItemTemplateResolver?: (args: EventItemTemplateResolverArgs) => JSX.Element;
 }
 
 class AgendaEventItem extends Component<AgendaEventItemProps> {
@@ -42,15 +37,6 @@ class AgendaEventItem extends Component<AgendaEventItemProps> {
         }
 
         const titleText = schedulerData.behaviors.getEventTextFunc(schedulerData, eventItem);
-        const content = (
-            <EventItemPopover
-                {...this.props}
-                title={eventItem.title}
-                startTime={eventItem.start}
-                endTime={eventItem.end}
-                statusColor={bgColor}
-            />
-        );
 
         let eventItemTemplate = (
             <div className={roundCls + " event-item"} key={eventItem.id}
@@ -59,20 +45,32 @@ class AgendaEventItem extends Component<AgendaEventItemProps> {
             </div>
         );
         if (this.props.eventItemTemplateResolver != undefined) {
-            eventItemTemplate = this.props.eventItemTemplateResolver(schedulerData, eventItem, bgColor, isStart, isEnd, "event-item", config.eventItemHeight, config.agendaMaxEventWidth);
+            eventItemTemplate = this.props.eventItemTemplateResolver({
+                schedulerData, 
+                event: eventItem, 
+                bgColor, 
+                isStart, 
+                isEnd, 
+                mustAddCssClass: "event-item", 
+                mustBeHeight: config.eventItemHeight, 
+                agendaMaxEventWidth: config.agendaMaxEventWidth});
         }
 
-        return (config.eventItemPopoverEnabled ?
-            <Popover placement="bottomLeft" content={content} trigger="hover">
-                <a className="day-event" onClick={() => { if (!!eventItemClick) { eventItemClick(schedulerData, eventItem); } }}>
-                    {eventItemTemplate}
-                </a>
-            </Popover> :
-            <span>
-                <a className="day-event" onClick={() => { if (!!eventItemClick) { eventItemClick(schedulerData, eventItem); } }}>
-                    {eventItemTemplate}
-                </a>
-            </span>
+        return (config.eventItemPopoverEnabled ? (
+            <EventItemPopover
+                {...this.props}
+                title={eventItem.title}
+                startTime={eventItem.start}
+                endTime={eventItem.end}
+                statusColor={bgColor}
+            />
+        ) : (
+                <span>
+                    <a className="day-event" onClick={() => { if (!!eventItemClick) { eventItemClick({schedulerData, event: eventItem}); } }}>
+                        {eventItemTemplate}
+                    </a>
+                </span>
+            )
         );
     }
 }

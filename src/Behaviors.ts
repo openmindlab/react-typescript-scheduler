@@ -11,7 +11,7 @@ export const getSummary = (schedulerData: SchedulerData, headerEvents: Event[], 
 };
 
 // getCustomDate example
-export const getCustomDate = (schedulerData: SchedulerData, num: number, date: string = undefined) => {
+export const getCustomDate = (schedulerData: SchedulerData, num: number, date: moment.Moment = undefined) => {
     const { viewType } = schedulerData;
     let selectDate = schedulerData.startDate;
     if (date != undefined) {

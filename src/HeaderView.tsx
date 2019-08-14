@@ -46,7 +46,7 @@ class HeaderView extends Component<HeaderViewProps> {
                         ));
 
                         element = (
-                            <th key={item.time} className="header3-text" style={style}>
+                            <th key={item.time.toString()} className="header3-text" style={style}>
                                 <div>
                                     {pList}
                                 </div>
@@ -76,7 +76,7 @@ class HeaderView extends Component<HeaderViewProps> {
                 ));
 
                 return (
-                    <th key={item.time} className="header3-text" style={style}>
+                    <th key={item.time.toString()} className="header3-text" style={style}>
                         <div>
                             {pList}
                         </div>

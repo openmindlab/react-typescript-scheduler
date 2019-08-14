@@ -25,10 +25,10 @@ export interface RenderData {
 
 export interface Header {
     nonWorkingTime?: boolean;
-    time?: string;
+    time?: moment.Moment;
     length?: number;
-    start?: string;
-    end?: string;
+    start?: moment.Moment;
+    end?: moment.Moment;
     count?: number;
     addMore?: number;
     addMoreIndex?: number;
@@ -45,8 +45,8 @@ export interface EventGroup {
 }
 
 export interface Event {
-    end: string;
-    start: string;
+    end: moment.Moment;
+    start: moment.Moment;
     id: string;
     resourceId: string;
     title: string;
@@ -71,8 +71,8 @@ export interface EventRecurring {
     recurringEventStart: string;
     recurringEventEnd: string;
     id: string;
-    start: string;
-    end: string;
+    start: moment.Moment;
+    end: moment.Moment;
 }
 
 export interface Resource {
@@ -96,13 +96,13 @@ export default class SchedulerData {
     public documentWidth: number;
     public config: typeof Config;
     public behaviors: any;
-    public startDate: string;
-    public endDate: string;
-    public selectDate: string;
+    public startDate: moment.Moment;
+    public endDate: moment.Moment;
+    public selectDate: moment.Moment;
     public renderData: RenderData[];
     public headers: Header[];
     constructor(
-        date = moment().format(DATE_FORMAT),
+        date = moment(),
         viewType = ViewTypes.Week,
         showAgenda = false,
         isEventPerspective = false,
@@ -244,7 +244,7 @@ export default class SchedulerData {
         this._createRenderData();
     }
 
-    public setDate(date = moment().format(DATE_FORMAT)) {
+    public setDate(date = moment()) {
         this._resolveDate(0, date);
         this.events = [];
         this._createHeaders();
@@ -265,17 +265,17 @@ export default class SchedulerData {
             } else {
                 if (this.viewType < viewType) {
                     if (viewType === ViewTypes.Week) {
-                        this.startDate = moment(date).startOf("week").format(DATE_FORMAT);
-                        this.endDate = moment(this.startDate).endOf("week").format(DATE_FORMAT);
+                        this.startDate = moment(date).startOf("week");
+                        this.endDate = moment(this.startDate).endOf("week");
                     } else if (viewType === ViewTypes.Month) {
-                        this.startDate = moment(date).startOf("month").format(DATE_FORMAT);
-                        this.endDate = moment(this.startDate).endOf("month").format(DATE_FORMAT);
+                        this.startDate = moment(date).startOf("month");
+                        this.endDate = moment(this.startDate).endOf("month");
                     } else if (viewType === ViewTypes.Quarter) {
-                        this.startDate = moment(date).startOf("quarter").format(DATE_FORMAT);
-                        this.endDate = moment(this.startDate).endOf("quarter").format(DATE_FORMAT);
+                        this.startDate = moment(date).startOf("quarter");
+                        this.endDate = moment(this.startDate).endOf("quarter");
                     } else if (viewType === ViewTypes.Year) {
-                        this.startDate = moment(date).startOf("year").format(DATE_FORMAT);
-                        this.endDate = moment(this.startDate).endOf("year").format(DATE_FORMAT);
+                        this.startDate = moment(date).startOf("year");
+                        this.endDate = moment(this.startDate).endOf("year");
                     }
                 } else {
                     const start = moment(this.startDate);
@@ -290,7 +290,7 @@ export default class SchedulerData {
 
                     const now = moment();
                     if (now >= start && now < end) {
-                        date = now.format(DATE_FORMAT);
+                        date = now;
                     }
 
                     if (viewType === ViewTypes.Day) {
@@ -298,14 +298,14 @@ export default class SchedulerData {
                         this.endDate = this.startDate;
                         this.cellUnit = CellUnits.Hour;
                     } else if (viewType === ViewTypes.Week) {
-                        this.startDate = moment(date).startOf("week").format(DATE_FORMAT);
-                        this.endDate = moment(this.startDate).endOf("week").format(DATE_FORMAT);
+                        this.startDate = moment(date).startOf("week");
+                        this.endDate = moment(this.startDate).endOf("week");
                     } else if (viewType === ViewTypes.Month) {
-                        this.startDate = moment(date).startOf("month").format(DATE_FORMAT);
-                        this.endDate = moment(this.startDate).endOf("month").format(DATE_FORMAT);
+                        this.startDate = moment(date).startOf("month");
+                        this.endDate = moment(this.startDate).endOf("month");
                     } else if (viewType === ViewTypes.Quarter) {
-                        this.startDate = moment(date).startOf("quarter").format(DATE_FORMAT);
-                        this.endDate = moment(this.startDate).endOf("quarter").format(DATE_FORMAT);
+                        this.startDate = moment(date).startOf("quarter");
+                        this.endDate = moment(this.startDate).endOf("quarter");
                     }
                 }
 
@@ -482,19 +482,19 @@ export default class SchedulerData {
         this._createRenderData();
     }
 
-    public updateEventStart(event: Event, newStart: string) {
+    public updateEventStart(event: Event, newStart: moment.Moment) {
         this._detachEvent(event);
         event.start = newStart;
         this._attachEvent(event);
         this._createRenderData();
     }
 
-    public updateEventEnd(event: Event, newEnd: string) {
+    public updateEventEnd(event: Event, newEnd: moment.Moment) {
         event.end = newEnd;
         this._createRenderData();
     }
 
-    public moveEvent(event: Event, newSlotId: any, newSlotName: string, newStart: string, newEnd: string) {
+    public moveEvent(event: Event, newSlotId: any, newSlotName: string, newStart: moment.Moment, newEnd: moment.Moment) {
         this._detachEvent(event);
         if (this.isEventPerspective) {
             event.groupId = newSlotId;
@@ -508,7 +508,7 @@ export default class SchedulerData {
         this._createRenderData();
     }
 
-    public isEventInTimeWindow(eventStart: any, eventEnd: any, windowStart: any, windowEnd: any): boolean {
+    public isEventInTimeWindow(eventStart: moment.Moment, eventEnd: moment.Moment, windowStart: moment.Moment, windowEnd: moment.Moment): boolean {
         return eventStart < windowEnd && eventEnd > windowStart;
     }
 
@@ -520,7 +520,7 @@ export default class SchedulerData {
         }
     }
 
-    public removeEventById(eventId: any) {
+    public removeEventById(eventId: string) {
         let index = -1;
         this.events.forEach((item, idx) => {
             if (item.id === eventId) {
@@ -567,14 +567,30 @@ export default class SchedulerData {
         }
     }
 
-    public _detachEvent(event: Event) {
+    public startResizing() {
+        this.resizing = true;
+    }
+
+    public stopResizing() {
+        this.resizing = false;
+    }
+
+    public isResizing(): boolean {
+        return this.resizing;
+    }
+
+    public getEventSlotId(event: Event) {
+        return this.isEventPerspective ? this._getEventGroupId(event) : event.resourceId;
+    }
+
+    private _detachEvent(event: Event) {
         const index = this.events.indexOf(event);
         if (index !== -1) {
             this.events.splice(index, 1);
         }
     }
 
-    public _attachEvent(event: Event) {
+    private _attachEvent(event: Event) {
         let pos = 0;
         const eventStart = moment(event.start);
         this.events.forEach((item, index) => {
@@ -586,7 +602,7 @@ export default class SchedulerData {
         this.events.splice(pos, 0, event);
     }
 
-    public _handleRecurringEvents() {
+    private _handleRecurringEvents() {
         const recurringEvents = this.events.filter((x) => !!x.rrule);
         recurringEvents.forEach((item) => {
             this._detachEvent(item);
@@ -598,7 +614,7 @@ export default class SchedulerData {
             const oldStart = moment(item.start);
             const oldEnd = moment(item.end);
             let rule = rrulestr(item.rrule);
-            let oldDtstart: any;
+            let oldDtstart: moment.Moment;
             if (!!rule.origOptions.dtstart) {
                 oldDtstart = moment(rule.origOptions.dtstart);
             }
@@ -631,8 +647,8 @@ export default class SchedulerData {
                     recurringEventStart: item.start,
                     recurringEventEnd: item.end,
                     id: `${item.id}-${index}`,
-                    start: moment(time).format(DATETIME_FORMAT),
-                    end: moment(time).add(oldEnd.diff(oldStart), "ms").format(DATETIME_FORMAT),
+                    start: moment(time),
+                    end: moment(time).add(oldEnd.diff(oldStart), "ms"),
                 };
             });
             newEvents.forEach((newEvent) => {
@@ -645,34 +661,34 @@ export default class SchedulerData {
         });
     }
 
-    public _resolveDate(num: number, date?: string) {
+    private _resolveDate(num: number, date?: moment.Moment) {
         if (date != undefined) {
-            this.selectDate = moment(date).format(DATE_FORMAT);
+            this.selectDate = moment(date);
         }
-        this.selectDate = "12-07-2019";
+        this.selectDate = moment("2017-12-18");
 
         if (this.viewType === ViewTypes.Week) {
 
-            this.startDate = date != undefined ? moment(date).startOf("week").format(DATE_FORMAT)
-                : moment(this.startDate).add(num, "weeks").format(DATE_FORMAT);
-            this.endDate = moment(this.startDate).endOf("week").format(DATE_FORMAT);
+            this.startDate = date != undefined ? moment(date).startOf("week")
+                : moment(this.startDate).add(num, "weeks");
+            this.endDate = moment(this.startDate).endOf("week");
 
         } else if (this.viewType === ViewTypes.Day) {
             this.startDate = date != undefined ? this.selectDate
-                : moment(this.startDate).add(num, "days").format(DATE_FORMAT);
+                : moment(this.startDate).add(num, "days");
             this.endDate = this.startDate;
         } else if (this.viewType === ViewTypes.Month) {
-            this.startDate = date != undefined ? moment(date).startOf("month").format(DATE_FORMAT)
-                : moment(this.startDate).add(num, "months").format(DATE_FORMAT);
-            this.endDate = moment(this.startDate).endOf("month").format(DATE_FORMAT);
+            this.startDate = date != undefined ? moment(date).startOf("month")
+                : moment(this.startDate).add(num, "months");
+            this.endDate = moment(this.startDate).endOf("month");
         } else if (this.viewType === ViewTypes.Quarter) {
-            this.startDate = date != undefined ? moment(date).startOf("quarter").format(DATE_FORMAT)
-                : moment(this.startDate).add(num, "quarters").format(DATE_FORMAT);
-            this.endDate = moment(this.startDate).endOf("quarter").format(DATE_FORMAT);
+            this.startDate = date != undefined ? moment(date).startOf("quarter")
+                : moment(this.startDate).add(num, "quarters");
+            this.endDate = moment(this.startDate).endOf("quarter");
         } else if (this.viewType === ViewTypes.Year) {
-            this.startDate = date != undefined ? moment(date).startOf("year").format(DATE_FORMAT)
-                : moment(this.startDate).add(num, "years").format(DATE_FORMAT);
-            this.endDate = moment(this.startDate).endOf("year").format(DATE_FORMAT);
+            this.startDate = date != undefined ? moment(date).startOf("year")
+                : moment(this.startDate).add(num, "years");
+            this.endDate = moment(this.startDate).endOf("year");
         } else if (this.viewType === ViewTypes.Custom || this.viewType === ViewTypes.Custom1 || this.viewType === ViewTypes.Custom2) {
             if (this.behaviors.getCustomDateFunc != undefined) {
                 const customDate = this.behaviors.getCustomDateFunc(this, num, date);
@@ -687,7 +703,7 @@ export default class SchedulerData {
         }
     }
 
-    public _createHeaders() {
+    private _createHeaders() {
         const headers: any = [];
         let start = moment(this.startDate);
         let end = moment(this.endDate);
@@ -731,7 +747,7 @@ export default class SchedulerData {
         this.headers = headers;
     }
 
-    public _createInitHeaderEvents(header: Header) {
+    private _createInitHeaderEvents(header: Header) {
         const start = moment(header.time);
         const startValue = start.format(DATETIME_FORMAT);
         const endValue = this.showAgenda ? (this.viewType === ViewTypes.Week ? start.add(1, "weeks").format(DATETIME_FORMAT) : (
@@ -757,7 +773,7 @@ export default class SchedulerData {
         };
     }
 
-    public _createHeaderEvent(render: any, span: any, eventItem: Event) {
+    private _createHeaderEvent(render: any, span: any, eventItem: Event) {
         return {
             render,
             span,
@@ -765,19 +781,15 @@ export default class SchedulerData {
         };
     }
 
-    public getEventSlotId(event: Event) {
-        return this.isEventPerspective ? this._getEventGroupId(event) : event.resourceId;
-    }
-
-    public _getEventGroupId(event: Event): string {
+    private _getEventGroupId(event: Event): string {
         return !!event.groupId ? event.groupId.toString() : event.id.toString();
     }
 
-    public _getEventGroupName(event: Event): string {
+    private _getEventGroupName(event: Event): string {
         return !!event.groupName ? event.groupName : event.title;
     }
 
-    public _generateEventGroups() {
+    private _generateEventGroups() {
         const eventGroups: EventGroup[] = [];
         const set = new Set();
         this.events.forEach((item) => {
@@ -797,7 +809,7 @@ export default class SchedulerData {
         this.eventGroups = eventGroups;
     }
 
-    public _createInitRenderData(isEventPerspective: boolean, eventGroups: EventGroup[], resources: Resource[], headers: Header[]): RenderData[] {
+    private _createInitRenderData(isEventPerspective: boolean, eventGroups: EventGroup[], resources: Resource[], headers: Header[]): RenderData[] {
         const slots = isEventPerspective ? eventGroups : resources;
         const slotTree = [];
         const slotMap = new Map();
@@ -879,7 +891,7 @@ export default class SchedulerData {
         return initRenderData;
     }
 
-    public _getSpan(startTime: moment.MomentInput, endTime: string, headers: Header[]): number {
+    private _getSpan(startTime: moment.MomentInput, endTime: moment.Moment, headers: Header[]): number {
         if (this.showAgenda) { return 1; }
 
         const start = moment(startTime);
@@ -899,7 +911,7 @@ export default class SchedulerData {
         return span;
     }
 
-    public _validateResource(resources: Resource[]) {
+    private _validateResource(resources: Resource[]) {
         if (Object.prototype.toString.call(resources) !== "[object Array]") {
             throw new Error("Resources should be Array object");
         }
@@ -916,7 +928,7 @@ export default class SchedulerData {
         });
     }
 
-    public _validateEventGroups(eventGroups: EventGroup[]) {
+    private _validateEventGroups(eventGroups: EventGroup[]) {
         if (Object.prototype.toString.call(eventGroups) !== "[object Array]") {
             throw new Error("Event groups should be Array object");
         }
@@ -933,7 +945,7 @@ export default class SchedulerData {
         });
     }
 
-    public _validateEvents(events: Event[]) {
+    private _validateEvents(events: Event[]) {
         if (Object.prototype.toString.call(events) !== "[object Array]") {
             throw new Error("Events should be Array object");
         }
@@ -950,14 +962,14 @@ export default class SchedulerData {
         });
     }
 
-    public _validateMinuteStep(minuteStep: number) {
+    private _validateMinuteStep(minuteStep: number) {
         if (60 % minuteStep !== 0) {
             console.error("Minute step is not set properly - 60 minutes must be divisible without remainder by this number");
             throw new Error("Minute step is not set properly - 60 minutes must be divisible without remainder by this number");
         }
     }
 
-    public _compare(event1: Event, event2: Event): number {
+    private _compare(event1: Event, event2: Event): number {
         const start1 = moment(event1.start);
         const start2 = moment(event2.start);
         const end1 = moment(event1.end);
@@ -968,7 +980,7 @@ export default class SchedulerData {
         return event1.id < event2.id ? -1 : 1;
     }
 
-    public _createRenderData() {
+    private _createRenderData() {
         const initRenderData = this._createInitRenderData(this.isEventPerspective, this.eventGroups, this.resources, this.headers);
         // this.events.sort(this._compare);
         const cellMaxEventsCount = this.getCellMaxEvents();
@@ -1078,17 +1090,5 @@ export default class SchedulerData {
         }
 
         this.renderData = initRenderData;
-    }
-
-    public startResizing() {
-        this.resizing = true;
-    }
-
-    public stopResizing() {
-        this.resizing = false;
-    }
-
-    public isResizing(): boolean {
-        return this.resizing;
     }
 }

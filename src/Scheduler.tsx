@@ -51,6 +51,8 @@ import { SummaryPos } from "./types/SummaryPos";
 import SchedulerData from "./SchedulerData";
 import { RenderData, Event, EventGroup, Header, Resource, EventRecurring } from "./SchedulerData";
 import { DATETIME_FORMAT, DATE_FORMAT } from "./types/DateFormats";
+import EventItemPopover from "./EventItemPopover";
+import { conflictOccurred } from "../example/utils/ExampleFunctions";
 const RadioButton = Radio.Button;
 const RadioGroup = Radio.Group;
 
@@ -58,34 +60,132 @@ interface SchedulerProps {
     schedulerData: SchedulerData;
     prevClick: (action?: any) => any;
     nextClick: (action?: any) => any;
-    onViewChange: (schedulerData: SchedulerData, view) => any;
-    onSelectDate: (schedulerData: SchedulerData, date) => any;
+    onViewChange: (args: OnViewChangeArgs) => any;
+    onSelectDate: (args: OnSelectDateArgs) => any;
     onSetAddMoreState?: (action?: any) => void;
-    updateEventStart?: (schedulerData: SchedulerData, event: Event, newStart: string) => any;
-    updateEventEnd?: (schedulerData: SchedulerData, event: Event, newEnd: string) => any;
-    moveEvent?: (schedulerData: SchedulerData, event: Event, slotId: string, slotName: string, start: string, end: string) => void;
-    movingEvent?: (schedulerData: SchedulerData, slotId: string, slotName: string, newStart: string, newEnd: string, action: any, type: string, item: any) => void;
+    updateEventStart?: (args: UpdateEventStartArgs) => any;
+    updateEventEnd?: (args: UpdateEventEndArgs) => any;
+    moveEvent?: (args: MoveEventArgs) => void;
+    movingEvent?: (args: MovingEventArgs) => void;
     leftCustomHeader?: any;
     rightCustomHeader?: any;
-    newEvent?: (schedulerData: SchedulerData, slotId: string, slotName: string, start: string, end: string, type: string, item: Event|EventGroup) => void;
-    subtitleGetter?: (schedulerData: SchedulerData, event: Event) => string;
-    eventItemClick?: (schedulerData: SchedulerData, event: Event) => any;
-    viewEventClick?: (schedulerData: SchedulerData, event: Event) => void;
+    newEvent?: (args: NewEventArgs) => void;
+    subtitleGetter?: (args: EventActionFuncArgs) => string;
+    eventItemClick?: (args: EventActionFuncArgs) => any;
+    viewEventClick?: (args: EventActionFuncArgs) => void;
     viewEventText?: string;
-    viewEvent2Click?: (schedulerData: SchedulerData, event: Event) => void;
+    viewEvent2Click?: (args: EventActionFuncArgs) => void;
     viewEvent2Text?: string;
-    conflictOccurred?: (schedulerData: SchedulerData, action, event, type, slotId, slotName, start, end) => void;
-    eventItemTemplateResolver?: (schedulerData: SchedulerData, eventItem: Event, bgColor: string, isStart: boolean, isEnd: boolean, name: string, eventItemHeight: number, agendaMaxEventWidth: number) => JSX.Element;
-    eventItemPopoverTemplateResolver?: (schedulerData: SchedulerData, eventItem: Event, title: string, start: moment.Moment, end: moment.Moment, statusColor: string) => JSX.Element;
+    conflictOccurred?: (args: ConflictOccurredArgs) => void;
+    eventItemTemplateResolver?: (plugin: EventItemTemplateResolverArgs) => JSX.Element;
+    eventItemPopoverTemplateResolver?: (plugin: EventItemPopoverResolverArgs) => JSX.Element;
+
     dndSources?: DnDSource[];
-    slotClickedFunc?: (schedulerData: SchedulerData, item: RenderData) => void | JSX.Element;
-    toggleExpandFunc?: (schedulerData: SchedulerData, slotId: string) => any;
-    slotItemTemplateResolver?: (schedulerData: SchedulerData, slot, slotClickedFunc, width, clsName) => any;
-    nonAgendaCellHeaderTemplateResolver?: (schedulerData: SchedulerData, item: any, formattedDateItems: any, style: CSSProperties) => any;
+    slotClickedFunc?: (args: SlotClickedFuncArgs) => void | JSX.Element;
+    toggleExpandFunc?: (args: ToggleExpandFuncArgs) => any;
+    slotItemTemplateResolver?: (args: SlotItemTemplateResolverArgs) => any;
+    nonAgendaCellHeaderTemplateResolver?: (args: NonAgendaCellHeaderTemplateResolverArgs) => any;
+
     onScrollLeft?: (schedulerData: SchedulerData, schedulerContent, maxScrollLeft) => any;
     onScrollRight?: (schedulerData: SchedulerData, schedulerContent, maxScrollLeft) => any;
     onScrollTop?: (schedulerData: SchedulerData, schedulerContent, maxScrollTop) => any;
     onScrollBottom?: (schedulerData: SchedulerData, schedulerContent, maxScrollTop) => any;
+}
+
+export interface ToggleExpandFuncArgs {
+    schedulerData: SchedulerData;
+    slotId: string;
+}
+export interface SlotClickedFuncArgs {
+    schedulerData: SchedulerData;
+    item: RenderData;
+}
+
+export interface NonAgendaCellHeaderTemplateResolverArgs{
+    schedulerData: SchedulerData;
+    item: any;
+    formattedDateItems: any;
+    style: CSSProperties;
+}
+
+export interface SlotItemTemplateResolverArgs {
+    schedulerData: SchedulerData;
+    slot: any;
+    slotClickedFunc: (args: SlotClickedFuncArgs) => void | JSX.Element;
+    width: number;
+    clsName: string;
+}
+export interface EventActionFuncArgs {
+    schedulerData: SchedulerData;
+    event: Event;
+}
+
+export interface OnViewChangeArgs {
+    schedulerData: SchedulerData;
+    view: any;
+}
+
+export interface OnSelectDateArgs {
+    schedulerData: SchedulerData;
+    date: moment.Moment;
+}
+
+export interface UpdateEventStartArgs {
+    schedulerData: SchedulerData,
+    event: Event,
+    newStart: moment.Moment
+}
+
+export interface UpdateEventEndArgs {
+    schedulerData: SchedulerData,
+    event: Event,
+    newEnd: moment.Moment
+}
+
+export interface EventItemTemplateResolverArgs {
+    schedulerData: SchedulerData;
+    event: Event;
+    bgColor: string;
+    isStart: boolean;
+    isEnd: boolean;
+    mustAddCssClass: any;
+    mustBeHeight: number;
+    agendaMaxEventWidth: any;
+}
+
+export interface ConflictOccurredArgs {
+    schedulerData: SchedulerData;
+    action: string;
+    event: any; // {}
+    type: string; // DNDTypes
+    slotId: string;
+    slotName: string;
+    start: moment.Moment;
+    end: moment.Moment;
+}
+
+export interface NewEventArgs {
+    schedulerData: SchedulerData; slotId: string; slotName: string; start: moment.Moment; end: moment.Moment; type?: string; item?: Event | EventGroup;
+}
+
+export interface MoveEventArgs {
+    schedulerData: SchedulerData; event: Event; slotId: string; slotName: string; start: moment.Moment; end: moment.Moment;
+}
+
+export interface MovingEventArgs {
+    schedulerData: SchedulerData; slotId: string; slotName: string; newStart: moment.Moment; newEnd: moment.Moment; action: any; type: string; item: any;
+}
+
+export interface EventItemPopoverResolverArgs {
+    schedulerData: SchedulerData;
+    eventItem: Event;
+    title: string;
+    start: moment.Moment;
+    end: moment.Moment;
+    statusColor: string;
+    timelineEvent: JSX.Element;
+    connectDragSource: (action: any) => any;
+    connectDragPreview: (action: any) => any;
 }
 
 export interface SchedulerContentState {
@@ -395,7 +495,7 @@ class Scheduler extends Component<SchedulerProps, SchedulerContentState> {
         }
     }
 
-    public schedulerHeadRef = (element) => {
+    public schedulerHeadRef = (element: Element) => {
         this.schedulerHead = element;
     }
 
@@ -407,13 +507,13 @@ class Scheduler extends Component<SchedulerProps, SchedulerContentState> {
         this.currentArea = -1;
     }
 
-    public onSchedulerHeadScroll = (event) => {
+    public onSchedulerHeadScroll = (e: any) => {
         if ((this.currentArea === 2 || this.currentArea === -1) && this.schedulerContent.scrollLeft != this.schedulerHead.scrollLeft) {
             this.schedulerContent.scrollLeft = this.schedulerHead.scrollLeft;
         }
     }
 
-    public schedulerResourceRef = (element) => {
+    public schedulerResourceRef = (element: Element) => {
         this.schedulerResource = element;
     }
 
@@ -425,17 +525,17 @@ class Scheduler extends Component<SchedulerProps, SchedulerContentState> {
         this.currentArea = -1;
     }
 
-    public onSchedulerResourceScroll = (event) => {
+    public onSchedulerResourceScroll = (e: any) => {
         if ((this.currentArea === 1 || this.currentArea === -1) && this.schedulerContent.scrollTop != this.schedulerResource.scrollTop) {
             this.schedulerContent.scrollTop = this.schedulerResource.scrollTop;
         }
     }
 
-    public schedulerContentRef = (element) => {
+    public schedulerContentRef = (element: Element) => {
         this.schedulerContent = element;
     }
 
-    public schedulerContentBgTableRef = (element) => {
+    public schedulerContentBgTableRef = (element: any) => {
         this.schedulerContentBgTable = element;
     }
 
@@ -447,7 +547,7 @@ class Scheduler extends Component<SchedulerProps, SchedulerContentState> {
         this.currentArea = -1;
     }
 
-    public onSchedulerContentScroll = (event) => {
+    public onSchedulerContentScroll = (e: any) => {
         if (this.currentArea === 0 || this.currentArea === -1) {
             if (this.schedulerHead.scrollLeft != this.schedulerContent.scrollLeft) {
                 this.schedulerHead.scrollLeft = this.schedulerContent.scrollLeft;
@@ -480,12 +580,12 @@ class Scheduler extends Component<SchedulerProps, SchedulerContentState> {
         });
     }
 
-    public onViewChange = (e) => {
+    public onViewChange = (e: any) => {
         const { onViewChange, schedulerData } = this.props;
         const viewType = parseInt(e.target.value.charAt(0), undefined);
         const showAgenda = e.target.value.charAt(1) === "1";
         const isEventPerspective = e.target.value.charAt(2) === "1";
-        onViewChange(schedulerData, { viewType, showAgenda, isEventPerspective });
+        onViewChange({ schedulerData, view: { viewType, showAgenda, isEventPerspective } });
     }
 
     public goNext = () => {
@@ -498,17 +598,17 @@ class Scheduler extends Component<SchedulerProps, SchedulerContentState> {
         prevClick(schedulerData);
     }
 
-    public handleVisibleChange = (visible) => {
+    public handleVisibleChange = (visible: any) => {
         this.setState({ visible });
     }
 
-    public onSelect = (date) => {
+    public onSelect = (date: moment.Moment) => {
         this.setState({
             visible: false,
         });
 
         const { onSelectDate, schedulerData } = this.props;
-        onSelectDate(schedulerData, date);
+        onSelectDate({ schedulerData, date });
     }
 }
 

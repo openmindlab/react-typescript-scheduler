@@ -1,7 +1,6 @@
 import * as React from "react";
 import * as moment from "moment";
 import { Component, CSSProperties } from "react";
-import Popover from "antd/lib/popover";
 import EventItemPopover from "./EventItemPopover";
 import { CellUnits } from "./types/CellUnits";
 import { DATETIME_FORMAT } from "./types/DateFormats";
@@ -186,7 +185,7 @@ class EventItem extends Component<EventItemProps, EventItemState> {
             count = rightIndex - leftIndex - 1;
         } else if (newWidth > maxWidth) {
             count = -leftIndex;
- }
+        }
         let newStart = moment(eventItem.start).add(cellUnit === CellUnits.Hour ? count * config.minuteStep : count, cellUnit === CellUnits.Hour ? "minutes" : "days").format(DATETIME_FORMAT);
         if (count !== 0 && cellUnit !== CellUnits.Hour && config.displayWeekend === false) {
             if (count > 0) {
@@ -225,7 +224,7 @@ class EventItem extends Component<EventItemProps, EventItemState> {
 
         let hasConflict = false;
         const slotId = schedulerData.getEventSlotId(eventItem);
-        let slotName;
+        let slotName: string;
         const slot = schedulerData.getSlotById(slotId);
         if (!!slot) {
             slotName = slot.name;
@@ -343,7 +342,7 @@ class EventItem extends Component<EventItemProps, EventItemState> {
             newWidth = minWidth;
         } else if (newWidth > maxWidth) {
             newWidth = maxWidth;
- }
+        }
 
         this.setState({ width: newWidth });
     }
@@ -395,7 +394,7 @@ class EventItem extends Component<EventItemProps, EventItemState> {
             count = leftIndex - rightIndex + 1;
         } else if (newWidth > maxWidth) {
             count = headers.length - rightIndex;
- }
+        }
         let newEnd = moment(eventItem.end).add(cellUnit === CellUnits.Hour ? count * config.minuteStep : count, cellUnit === CellUnits.Hour ? "minutes" : "days").format(DATETIME_FORMAT);
         if (count !== 0 && cellUnit !== CellUnits.Hour && config.displayWeekend === false) {
             let tempCount = 0;
@@ -500,16 +499,6 @@ class EventItem extends Component<EventItemProps, EventItemState> {
         }
 
         const titleText = schedulerData.behaviors.getEventTextFunc(schedulerData, eventItem);
-        const content = (
-            <EventItemPopover
-                {...this.props}
-                eventItem={eventItem}
-                title={eventItem.title}
-                startTime={eventItem.start}
-                endTime={eventItem.end}
-                statusColor={bgColor} />
-        );
-
         const start = moment(eventItem.start);
         const eventTitle = isInPopover ? `${start.format("HH:mm")} ${titleText}` : titleText;
         let startResizeDiv = <div />;
@@ -531,7 +520,7 @@ class EventItem extends Component<EventItemProps, EventItemState> {
             eventItemTemplate = eventItemTemplateResolver(schedulerData, eventItem, bgColor, isStart, isEnd, "event-item", config.eventItemHeight, undefined);
         }
 
-        const a = <a className="timeline-event" style={{ left, width, top }} onClick={() => { if (!!eventItemClick) { eventItemClick(schedulerData, eventItem); } }}>
+        const timelineEvent = <a className="timeline-event" style={{ left, width, top }} onClick={() => { if (!!eventItemClick) { eventItemClick(schedulerData, eventItem); } }}>
             {eventItemTemplate}
             {startResizeDiv}
             {endResizeDiv}
@@ -539,23 +528,29 @@ class EventItem extends Component<EventItemProps, EventItemState> {
 
         return (
             isDragging ?
-            null :
-            (schedulerData.isResizing() || config.eventItemPopoverEnabled === false || eventItem.showPopover === false ?
-                <div>
-                    {
-                        connectDragPreview(
-                            connectDragSource(a),
-                        )
-                    }
-                </div> :
-                <Popover placement="bottomLeft" content={content} trigger="hover">
-                    {
-                        connectDragPreview(
-                            connectDragSource(a),
-                        )
-                    }
-                </Popover>
-            )
+                null :
+                (schedulerData.isResizing() || config.eventItemPopoverEnabled === false || eventItem.showPopover === false ?
+                    (<div>
+                        {
+                            connectDragPreview(
+                                connectDragSource(timelineEvent),
+                            )
+                        }
+                    </div>
+                    ) : (
+                        <EventItemPopover
+                            {...this.props}
+                            eventItem={eventItem}
+                            title={eventItem.title}
+                            startTime={eventItem.start}
+                            endTime={eventItem.end}
+                            statusColor={bgColor}
+                            connectDragSource={connectDragSource}
+                            connectDragPreview={connectDragPreview}
+                            timelineEvent={timelineEvent}
+                        />
+                    )
+                )
         );
     }
 
@@ -590,9 +585,10 @@ class EventItem extends Component<EventItemProps, EventItemState> {
     }) => {
         if (this.startResizer != undefined) {
             if (supportTouch) {
-                // this.startResizer.removeEventListener('touchstart', this.initStartDrag, false);
-                // if (this.startResizable(props))
-                //     this.startResizer.addEventListener('touchstart', this.initStartDrag, false);
+                this.startResizer.removeEventListener('touchstart', this.initStartDrag, false);
+                if (this.startResizable(props)) {
+                    this.startResizer.addEventListener('touchstart', this.initStartDrag, false);
+                }
             } else {
                 this.startResizer.removeEventListener("mousedown", this.initStartDrag, false);
                 if (this.startResizable(props)) {
@@ -602,9 +598,10 @@ class EventItem extends Component<EventItemProps, EventItemState> {
         }
         if (this.endResizer != undefined) {
             if (supportTouch) {
-                // this.endResizer.removeEventListener('touchstart', this.initEndDrag, false);
-                // if (this.endResizable(props))
-                //     this.endResizer.addEventListener('touchstart', this.initEndDrag, false);
+                this.endResizer.removeEventListener('touchstart', this.initEndDrag, false);
+                if (this.endResizable(props)) {
+                    this.endResizer.addEventListener('touchstart', this.initEndDrag, false);
+                }
             } else {
                 this.endResizer.removeEventListener("mousedown", this.initEndDrag, false);
                 if (this.endResizable(props)) {

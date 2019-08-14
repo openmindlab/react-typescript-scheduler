@@ -3,7 +3,7 @@ import * as moment from "moment";
 import { DnDTypes } from "./types/DnDTypes";
 import { ViewTypes } from "./types/ViewTypes";
 import { DATETIME_FORMAT } from "./types/DateFormats";
-import { SchedulerData } from "./Scheduler";
+import { SchedulerData, MoveEventArgs, NewEventArgs, ConflictOccurredArgs } from "./Scheduler";
 import ResourceEvents from "./ResourceEvents";
 import { Event } from "./SchedulerData";
 
@@ -24,17 +24,20 @@ export default class DnDSource {
             beginDrag: (props: any, monitor: any, component: any) => {
                 return this.resolveDragObjFunc(props);
             },
-            endDrag: (props: {
-                schedulerData: SchedulerData,
-                moveEvent: (schedulerData: SchedulerData, event: Event, slotId: string, slotName: string, start: string, end: string) => void,
-                newEvent: (schedulerData: SchedulerData, slotId: string, slotName: string, start: string, end: string, type: string, item: any) => void,
-                conflictOccurred?: (schedulerData: SchedulerData, action: any, event: Event, type: string, slotId: string, slotName: string, start: string, end: string) => void,
-            },        monitor: any, component: any) => {
+            endDrag: (
+                props: {
+                    schedulerData: SchedulerData,
+                    moveEvent: (args: MoveEventArgs) => void,
+                    newEvent: (args: NewEventArgs) => void,
+                    conflictOccurred?: (args: ConflictOccurredArgs) => void,
+                },
+                monitor: any, component: any,
+            ) => {
                 if (!monitor.didDrop()) { return; }
 
                 const { moveEvent, newEvent, schedulerData } = props;
                 const { events, config, viewType } = schedulerData;
-                const item = monitor.getItem();
+                const item: Event = monitor.getItem();
                 const type = monitor.getItemType();
                 const dropResult = monitor.getDropResult();
                 let slotId = dropResult.slotId;
@@ -90,18 +93,42 @@ export default class DnDSource {
                 if (hasConflict) {
                     const { conflictOccurred } = props;
                     if (conflictOccurred != undefined) {
-                        conflictOccurred(schedulerData, action, item, type, slotId, slotName, newStart, newEnd);
+                        conflictOccurred({
+                            schedulerData,
+                            action,
+                            event: item,
+                            type,
+                            slotId,
+                            slotName,
+                            start: newStart,
+                            end: newEnd,
+                        });
                     } else {
                         console.log("Conflict occurred, set conflictOccurred func in Scheduler to handle it");
                     }
                 } else {
                     if (isEvent) {
                         if (moveEvent !== undefined) {
-                            moveEvent(schedulerData, item, slotId, slotName, newStart, newEnd);
+                            moveEvent({
+                                schedulerData,
+                                event: item,
+                                slotId,
+                                slotName,
+                                start: newStart,
+                                end: newEnd,
+                            });
                         }
                     } else {
                         if (newEvent !== undefined) {
-                            newEvent(schedulerData, slotId, slotName, newStart, newEnd, type, item);
+                            newEvent({
+                                schedulerData,
+                                slotId,
+                                slotName,
+                                start: newStart,
+                                end: newEnd,
+                                type,
+                                item,
+                            });
                         }
                     }
                 }

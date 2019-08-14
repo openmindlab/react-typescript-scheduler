@@ -66,49 +66,49 @@ class CustomTimeWindow extends Component<{}, { viewModel: SchedulerData }> {
                     />
                 </div>
             </div>
-        )
+        );
     }
 
-
-    getCustomDate = (schedulerData: SchedulerData, num: number, date: string = undefined) => {
+    public getCustomDate = (schedulerData: SchedulerData, num: number, date: moment.Moment = undefined) => {
         const { viewType } = schedulerData;
         let selectDate = schedulerData.startDate;
-        if (date != undefined)
+        if (date != undefined) {
             selectDate = date;
+        }
 
-        let startDate = num === 0 ? selectDate :
-            moment(selectDate).add(2 * num, 'days').format(SCHEDULER_DATE_FORMAT),
-            endDate = moment(startDate).add(1, 'days').format(SCHEDULER_DATE_FORMAT),
-            cellUnit = SchedulerCellUnits.Hour;
+        let startDate = num === 0 ? selectDate : moment(selectDate).add(2 * num, "days");
+        let endDate = moment(startDate).add(1, "days");
+        let cellUnit = SchedulerCellUnits.Hour;
         if (viewType === SchedulerViewTypes.Custom1) {
-            let monday = moment(selectDate).startOf('week').format(SCHEDULER_DATE_FORMAT);
-            startDate = num === 0 ? monday : moment(monday).add(2 * num, 'weeks').format(SCHEDULER_DATE_FORMAT);
-            endDate = moment(startDate).add(1, 'weeks').endOf('week').format(SCHEDULER_DATE_FORMAT);
+            const monday = moment(selectDate).startOf("week");
+            startDate = num === 0 ? monday : moment(monday).add(2 * num, "weeks");
+            endDate = moment(startDate).add(1, "weeks").endOf("week");
             cellUnit = SchedulerCellUnits.Day;
         } else if (viewType === SchedulerViewTypes.Custom2) {
-            let firstDayOfMonth = moment(selectDate).startOf('month').format(SCHEDULER_DATE_FORMAT);
-            startDate = num === 0 ? firstDayOfMonth : moment(firstDayOfMonth).add(2 * num, 'months').format(SCHEDULER_DATE_FORMAT);
-            endDate = moment(startDate).add(1, 'months').endOf('month').format(SCHEDULER_DATE_FORMAT);
+            const firstDayOfMonth = moment(selectDate).startOf("month");
+            startDate = num === 0 ? firstDayOfMonth : moment(firstDayOfMonth).add(2 * num, "months");
+            endDate = moment(startDate).add(1, "months").endOf("month");
             cellUnit = SchedulerCellUnits.Day;
         }
 
         return {
             startDate,
             endDate,
-            cellUnit
+            cellUnit,
         };
     }
 
-    isNonWorkingTime = (schedulerData: SchedulerData, time: string) => {
+    public isNonWorkingTime = (schedulerData: SchedulerData, time: string) => {
         if (schedulerData.cellUnit === SchedulerCellUnits.Hour) {
-            let hour = moment(time).hour();
-            if (hour < 1)
+            const hour = moment(time).hour();
+            if (hour < 1) {
                 return true;
-        }
-        else {
-            let dayOfWeek = moment(time).weekday();
-            if (dayOfWeek === 0 || dayOfWeek === 6)
+            }
+        } else {
+            const dayOfWeek = moment(time).weekday();
+            if (dayOfWeek === 0 || dayOfWeek === 6) {
                 return true;
+            }
         }
 
         return false;

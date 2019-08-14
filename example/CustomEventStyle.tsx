@@ -6,6 +6,7 @@ import Scheduler, {
     SchedulerResource,
     SchedulerViewTypes,
     SchedulerEvent,
+    EventItemTemplateResolverArgs,
 } from "../src/Scheduler";
 import * as ExampleFunction from "./utils/ExampleFunctions";
 
@@ -69,30 +70,24 @@ class CustomEventStyle extends Component<{}, CustomEventStyleState> {
         );
     }
 
-    public eventItemTemplateResolver = (
-        schedulerData: SchedulerData,
-        event: SchedulerEvent,
-        bgColor: string,
-        isStart: boolean,
-        isEnd: boolean,
-        mustAddCssClass: any,
-        mustBeHeight: number,
-        agendaMaxEventWidth: any) => {
-        let borderWidth = isStart ? '4' : '0';
-        let borderColor = 'rgba(0,139,236,1)', backgroundColor = '#80C5F6';
-        let titleText = schedulerData.behaviors.getEventTextFunc(schedulerData, event);
+    public eventItemTemplateResolver = (args: EventItemTemplateResolverArgs) => {
+        const borderWidth = args.isStart ? "4" : "0";
+        let borderColor = "rgba(0,139,236,1)";
+        let backgroundColor = "#80C5F6";
+        const titleText = args.schedulerData.behaviors.getEventTextFunc(args.schedulerData, event);
         if (!!event.type) {
-            borderColor = event.type == 1 ? 'rgba(0,139,236,1)' : (event.type == 3 ? 'rgba(245,60,43,1)' : '#999');
-            backgroundColor = event.type == 1 ? '#80C5F6' : (event.type == 3 ? '#FA9E95' : '#D9D9D9');
+            borderColor = args.event.type == 1 ? "rgba(0,139,236,1)" : (args.event.type == 3 ? "rgba(245,60,43,1)" : "#999");
+            backgroundColor = args.event.type == 1 ? "#80C5F6" : (args.event.type == 3 ? "#FA9E95" : "#D9D9D9");
         }
-        let divStyle = { borderLeft: borderWidth + 'px solid ' + borderColor, backgroundColor: backgroundColor, height: mustBeHeight, maxWidth: undefined };
-        if (!!agendaMaxEventWidth)
-            divStyle = { ...divStyle, maxWidth: agendaMaxEventWidth };
+        let divStyle = { borderLeft: borderWidth + "px solid " + borderColor, backgroundColor, height: args.mustBeHeight, maxWidth: undefined };
+        if (!!args.agendaMaxEventWidth) {
+            divStyle = { ...divStyle, maxWidth: args.agendaMaxEventWidth };
+        }
 
-        return <div key={event.id} className={mustAddCssClass} style={divStyle}>
-            <span style={{ marginLeft: '4px', lineHeight: `${mustBeHeight}px` }}>{titleText}</span>
+        return <div key={args.event.id} className={args.mustAddCssClass} style={divStyle}>
+            <span style={{ marginLeft: "4px", lineHeight: `${args.mustBeHeight}px` }}>{titleText}</span>
         </div>;
     }
 }
 
-export default withDragDropContext(CustomEventStyle)
+export default withDragDropContext(CustomEventStyle);
