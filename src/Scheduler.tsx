@@ -43,7 +43,6 @@ import ResourceView from "./ResourceView";
 import HeaderView from "./HeaderView";
 import BodyView from "./BodyView";
 import ResourceEvents from "./ResourceEvents";
-import AddMorePopover from "./AddMorePopover";
 import { ViewTypes } from "./types/ViewTypes";
 import { DnDTypes } from "./types/DnDTypes";
 import { CellUnits } from "./types/CellUnits";
@@ -74,7 +73,7 @@ interface SchedulerProps {
     viewEvent2Click?: (args: EventActionFuncArgs) => void;
     viewEvent2Text?: string;
     conflictOccurred?: (args: ConflictOccurredArgs) => void;
-    eventItemTemplateResolver?: (plugin: EventItemTemplateResolverArgs) => JSX.Element;
+    eventItemPlugin?: (plugin: EventItemPluginArgs) => JSX.Element;
     eventItemPopoverTemplateResolver?: (plugin: EventItemPopoverResolverArgs) => JSX.Element;
 
     dndSources?: DnDSource[];
@@ -143,7 +142,7 @@ export interface UpdateEventEndArgs {
     newEnd: moment.Moment;
 }
 
-export interface EventItemTemplateResolverArgs {
+export interface EventItemPluginArgs {
     schedulerData: SchedulerData;
     event: Event;
     bgColor: string;
@@ -626,7 +625,6 @@ export {
     Resource as SchedulerResource,
     EventRecurring as SchedulerEventRecurring,
     ViewTypes as SchedulerViewTypes,
-    AddMorePopover as SchedulerAddMorePopover,
     DnDSource as SchedulerDnDSource,
     CellUnits as SchedulerCellUnits,
     SummaryPos as SchedulerSummaryPos,

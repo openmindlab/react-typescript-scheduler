@@ -1,7 +1,6 @@
 import * as React from "react";
 import * as moment from "moment";
-import { Component, CSSProperties } from "react";
-import AddMore from "./AddMore";
+import { Component} from "react";
 import Summary from "./Summary";
 import SelectedArea from "./SelectedArea";
 import { CellUnits } from "./types/CellUnits";
@@ -25,7 +24,6 @@ interface ResourceEventsProps {
     moveEvent?: (schedulerData: SchedulerData, event: Event, slotId: string, slotName: string, start: string, end: string) => void;
     movingEvent?: (schedulerData: SchedulerData, slotId: string, slotName: string, newStart: string, newEnd: string, action: any, type: string, item: RenderData) => void;
     subtitleGetter?: (schedulerData: SchedulerData, event: Event) => string;
-    eventItemClick?: (schedulerData: SchedulerData, event: Event) => any;
     viewEventClick?: (schedulerData: SchedulerData, event: Event) => void;
     viewEventText?: string;
     viewEvent2Click?: (schedulerData: SchedulerData, event: Event) => void;
@@ -329,23 +327,6 @@ class ResourceEvents extends Component<ResourceEventsProps, ResourceEventsState>
                         eventList.push(eventItem);
                     }
                 });
-
-                if (headerItem.addMore > 0) {
-                    const l = index * cellWidth + (index > 0 ? 2 : 3);
-                    const w = cellWidth - (index > 0 ? 5 : 6);
-                    const top = marginTop + headerItem.addMoreIndex * config.eventItemLineHeight;
-                    const addMoreItem = <AddMore
-                        {...this.props}
-                        key={headerItem.time.toString()}
-                        headerItem={headerItem}
-                        number={headerItem.addMore}
-                        left={l}
-                        width={w}
-                        top={top}
-                        clickAction={this.onAddMoreClick}
-                    />;
-                    eventList.push(addMoreItem);
-                }
 
                 if (headerItem.summary != undefined) {
                     const top = isTop ? 1 : resourceEvents.rowHeight - config.eventItemLineHeight + 1;

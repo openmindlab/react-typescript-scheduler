@@ -1,9 +1,11 @@
 import * as React from "react";
-import { Component, useState } from "react";
+import { Component } from "react";
 import Scheduler, {
     SchedulerData,
     SchedulerViewTypes,
-    EventItemTemplateResolverArgs,
+    EventItemPluginArgs,
+    EventItemPopoverResolverArgs,
+    EventItemPopoverResolverDnDArgs,
 } from "../src/Scheduler";
 import * as ExampleFunction from "./utils/ExampleFunctions";
 
@@ -11,13 +13,15 @@ import { DemoData } from "./utils/DemoData";
 import Nav from "./utils/Nav";
 
 import withDragDropContext from "./utils/withDnDContext";
+import { PopoverComponent } from "./plugins/PopoverPlugin";
+import { EventComponent } from "./plugins/EventPlugin";
 
 interface CustomEventStyleState {
     viewModel: SchedulerData;
 }
 
 class CustomEventStyle extends Component<{}, CustomEventStyleState> {
-    constructor(props: Readonly<{}>) {
+    constructor(props) {
         super(props);
 
         const schedulerData = new SchedulerData(ExampleFunction.getNow(), SchedulerViewTypes.Week, false, false, {
@@ -58,32 +62,17 @@ class CustomEventStyle extends Component<{}, CustomEventStyleState> {
                         onScrollLeft={ExampleFunction.onScrollLeft.bind(this)}
                         onScrollRight={ExampleFunction.onScrollRight.bind(this)}
                         onScrollTop={ExampleFunction.onScrollTop.bind(this)}
-                        eventItemTemplateResolver={this.eventItemTemplateResolver}
+                        eventItemPlugin={this.itemPlugin}
+                        eventItemPopoverTemplateResolver={this.popoverPlugin}
                         toggleExpandFunc={ExampleFunction.toggleExpandFunc.bind(this)}
                     />
                 </div>
             </div>
         );
     }
+    private popoverPlugin = (args: EventItemPopoverResolverArgs, dnd?: EventItemPopoverResolverDnDArgs) => <PopoverComponent args={args} dnd={dnd} />;
 
-    public eventItemTemplateResolver = (args: EventItemTemplateResolverArgs) => {
-        const borderWidth = args.isStart ? "4" : "0";
-        let borderColor = "rgba(0,139,236,1)";
-        let backgroundColor = "#80C5F6";
-        const titleText = args.schedulerData.behaviors.getEventTextFunc(args.schedulerData, event);
-        if (!!event.type) {
-            borderColor = args.event.type == 1 ? "rgba(0,139,236,1)" : (args.event.type == 3 ? "rgba(245,60,43,1)" : "#999");
-            backgroundColor = args.event.type == 1 ? "#80C5F6" : (args.event.type == 3 ? "#FA9E95" : "#D9D9D9");
-        }
-        let divStyle = { borderLeft: borderWidth + "px solid " + borderColor, backgroundColor, height: args.mustBeHeight, maxWidth: undefined };
-        if (!!args.agendaMaxEventWidth) {
-            divStyle = { ...divStyle, maxWidth: args.agendaMaxEventWidth };
-        }
-
-        return <div key={args.event.id} className={args.mustAddCssClass} style={divStyle}>
-            <span style={{ marginLeft: "4px", lineHeight: `${args.mustBeHeight}px` }}>{titleText}</span>
-        </div>;
-    }
+    private itemPlugin = (args: EventItemPluginArgs) => <EventComponent args={args}/>;
 }
 
 export default withDragDropContext(CustomEventStyle);

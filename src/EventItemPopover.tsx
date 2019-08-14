@@ -1,11 +1,8 @@
 import * as React from "react";
-import { Component, CSSProperties } from "react";
+import { Component} from "react";
 import * as moment from "moment";
 import { SchedulerData, EventItemPopoverResolverArgs, EventItemPopoverResolverDnDArgs } from "./Scheduler";
 import { Event } from "./SchedulerData";
-
-import Popover from "antd/lib/popover";
-import { resolve } from "path";
 
 interface EventItemPopoverProps {
     schedulerData: SchedulerData;

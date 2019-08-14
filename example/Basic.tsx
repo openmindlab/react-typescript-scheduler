@@ -4,6 +4,8 @@ import { Component } from "react";
 import Scheduler, {
     SchedulerData,
     SchedulerViewTypes,
+    EventItemPopoverResolverArgs,
+    EventItemPopoverResolverDnDArgs,
 } from "../src/Scheduler";
 import { DemoData } from "./utils/DemoData";
 import * as ExampleFunction from "./utils/ExampleFunctions";
@@ -11,7 +13,7 @@ import Nav from "./utils/Nav";
 import Tips from "./utils/Tips";
 import withDragDropContext from "./utils/withDnDContext";
 import "antd/lib/style/index.css";
-import { popoverPlugin } from "./plugins/PopoverPlugin";
+import { PopoverComponent } from "./plugins/PopoverPlugin";
 
 interface IBasicState {
     viewModel: SchedulerData;
@@ -22,7 +24,7 @@ class Basic extends Component<{}, IBasicState> {
         super(props);
         const schedulerData = new SchedulerData(ExampleFunction.getNow(), SchedulerViewTypes.Week);
         // To set locale
-        moment.locale("en");
+        moment.locale("en-gb");
         const demoData = DemoData;
         schedulerData.setResources(demoData.resources);
         schedulerData.setEvents(DemoData.events);
@@ -53,13 +55,15 @@ class Basic extends Component<{}, IBasicState> {
                         newEvent={ExampleFunction.newEvent.bind(this)}
                         toggleExpandFunc={ExampleFunction.toggleExpandFunc.bind(this)}
                         onSetAddMoreState={ExampleFunction.onSetAddMoreState.bind(this)}
-                        eventItemPopoverTemplateResolver={popoverPlugin}
+                        eventItemPopoverTemplateResolver={this.popoverPlugin}
                     />
                 </div>
                 <Tips />
             </div>
         );
     }
+    private popoverPlugin = (args: EventItemPopoverResolverArgs, dnd?: EventItemPopoverResolverDnDArgs) => <PopoverComponent args={args} dnd={dnd} />;
+
 }
 
 export default withDragDropContext(Basic);

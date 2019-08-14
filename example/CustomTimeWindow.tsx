@@ -22,7 +22,6 @@ class CustomTimeWindow extends Component<{}, { viewModel: SchedulerData }> {
             false,
             {
                 customCellWidth: 30,
-                nonAgendaDayCellHeaderFormat: "M/D|HH:mm",
                 views: [
                     { viewName: "Two days", viewType: SchedulerViewTypes.Custom, showAgenda: false, isEventPerspective: false },
                     { viewName: "Two weeks", viewType: SchedulerViewTypes.Custom1, showAgenda: false, isEventPerspective: false },
@@ -63,6 +62,7 @@ class CustomTimeWindow extends Component<{}, { viewModel: SchedulerData }> {
                         moveEvent={ExampleFunction.moveEvent.bind(this)}
                         newEvent={ExampleFunction.newEvent.bind(this)}
                         toggleExpandFunc={ExampleFunction.toggleExpandFunc.bind(this)}
+                        // eventItemPopoverTemplateResolver={popoverPlugin}
                     />
                 </div>
             </div>

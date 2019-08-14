@@ -2,7 +2,7 @@ import * as React from "react";
 import { Component } from "react";
 import Col from "antd/lib/col";
 import Row from "antd/lib/row";
-import Scheduler, { SchedulerData, SchedulerViewTypes, SchedulerDnDSource, SchedulerEvent, SchedulerEventGroup, EventActionFuncArgs } from "../src/Scheduler";
+import Scheduler, { SchedulerData, SchedulerViewTypes, SchedulerDnDSource, EventActionFuncArgs } from "../src/Scheduler";
 import { DemoData } from "./utils/DemoData";
 import { DnDTypes } from "../src/types/DnDTypes";
 import TaskItem from "./plugins/TaskItem";
@@ -32,7 +32,6 @@ class DragAndDrop extends Component<{}, DragAndDropState> {
 
         const views: View[] = [
             { viewName: "Resource View", viewType: SchedulerViewTypes.Month, showAgenda: false, isEventPerspective: false },
-            { viewName: "Task View", viewType: SchedulerViewTypes.Month, showAgenda: false, isEventPerspective: true },
         ];
 
         const schedulerData = new SchedulerData(ExampleFunction.getNow(), SchedulerViewTypes.Month, false, false, {
@@ -87,6 +86,7 @@ class DragAndDrop extends Component<{}, DragAndDropState> {
                                 onSetAddMoreState={ExampleFunction.onSetAddMoreState.bind(this)}
                                 subtitleGetter={this.subtitleGetter}
                                 dndSources={dndSources}
+                                // eventItemPopoverTemplateResolver={ExampleFunction.popoverPlugin}
                             />
                         </Col>
                         <Col span={4}>

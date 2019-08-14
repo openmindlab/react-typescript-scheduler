@@ -1,10 +1,18 @@
 import * as React from "react";
 import * as moment from "moment";
-import { Component, CSSProperties } from "react";
+import { Component } from "react";
 import EventItemPopover from "./EventItemPopover";
 import { CellUnits } from "./types/CellUnits";
 import { DnDTypes } from "./types/DnDTypes";
-import { SchedulerData, UpdateEventStartArgs, UpdateEventEndArgs, MoveEventArgs, EventActionFuncArgs, ConflictOccurredArgs, EventItemTemplateResolverArgs } from "./Scheduler";
+import {
+    SchedulerData,
+    UpdateEventStartArgs,
+    UpdateEventEndArgs,
+    MoveEventArgs,
+    EventActionFuncArgs,
+    ConflictOccurredArgs,
+    EventItemPluginArgs,
+} from "./Scheduler";
 import { Event } from "./SchedulerData";
 
 /**
@@ -35,7 +43,7 @@ interface EventItemProps {
     viewEventText?: string;
     viewEvent2Click?: (args: MoveEventArgs) => void;
     viewEvent2Text?: string;
-    eventItemTemplateResolver?: (plugin: EventItemTemplateResolverArgs) => JSX.Element;
+    eventItemPlugin?: (plugin: EventItemPluginArgs) => JSX.Element;
 }
 interface EventItemState {
     left: number;
@@ -509,7 +517,7 @@ class EventItem extends Component<EventItemProps, EventItemState> {
     }
 
     public render() {
-        const { eventItem, isStart, isEnd, isInPopover, eventItemClick, schedulerData, isDragging, connectDragSource, connectDragPreview, eventItemTemplateResolver } = this.props;
+        const { eventItem, isStart, isEnd, isInPopover, eventItemClick, schedulerData, isDragging, connectDragSource, connectDragPreview, eventItemPlugin: eventItemTemplateResolver } = this.props;
         const { config } = schedulerData;
         const { left, width, top } = this.state;
         const roundCls = isStart ? (isEnd ? "round-all" : "round-head") : (isEnd ? "round-tail" : "round-none");
@@ -548,7 +556,7 @@ class EventItem extends Component<EventItemProps, EventItemState> {
             });
         }
 
-        const timelineEvent = <a className="timeline-event" style={{ left, width, top }} onClick={() => { if (!!eventItemClick) { eventItemClick({schedulerData, event: eventItem}); } }}>
+        const timelineEvent = <a className="timeline-event" style={{ left, width, top }} onClick={() => { if (!!eventItemClick) { eventItemClick({ schedulerData, event: eventItem }); } }}>
             {eventItemTemplate}
             {startResizeDiv}
             {endResizeDiv}

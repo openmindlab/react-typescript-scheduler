@@ -18,18 +18,18 @@ export const getCustomDate = (schedulerData: SchedulerData, num: number, date: m
         selectDate = date;
     }
 
-    let startDate = num === 0 ? selectDate : moment(selectDate).add(2 * num, "days").format();
-    let endDate = moment(startDate).add(1, "days").format();
+    let startDate = num === 0 ? selectDate : moment(selectDate).add(2 * num, "days");
+    let endDate = moment(startDate).add(1, "days");
     let cellUnit = CellUnits.Hour;
     if (viewType === ViewTypes.Custom1) {
-        const monday = moment(selectDate).startOf("week").format();
-        startDate = num === 0 ? monday : moment(monday).add(2 * num, "weeks").format();
-        endDate = moment(startDate).add(1, "weeks").endOf("week").format();
+        const monday = moment(selectDate).startOf("week");
+        startDate = num === 0 ? monday : moment(monday).add(2 * num, "weeks");
+        endDate = moment(startDate).add(1, "weeks").endOf("week");
         cellUnit = CellUnits.Day;
     } else if (viewType === ViewTypes.Custom2) {
-        const firstDayOfMonth = moment(selectDate).startOf("month").format();
-        startDate = num === 0 ? firstDayOfMonth : moment(firstDayOfMonth).add(2 * num, "months").format();
-        endDate = moment(startDate).add(1, "months").endOf("month").format();
+        const firstDayOfMonth = moment(selectDate).startOf("month");
+        startDate = num === 0 ? firstDayOfMonth : moment(firstDayOfMonth).add(2 * num, "months");
+        endDate = moment(startDate).add(1, "months").endOf("month");
         cellUnit = CellUnits.Day;
     }
 

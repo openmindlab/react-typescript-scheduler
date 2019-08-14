@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Component, CSSProperties } from "react";
+import { Component} from "react";
 import { CellUnits } from "./types/CellUnits";
 import * as moment from "moment";
 import { SchedulerData, NonAgendaCellHeaderTemplateResolverArgs } from "./Scheduler";
