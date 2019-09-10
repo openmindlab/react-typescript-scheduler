@@ -48,12 +48,17 @@ import { DnDTypes } from "./types/DnDTypes";
 import { CellUnits } from "./types/CellUnits";
 import { SummaryPos } from "./types/SummaryPos";
 import SchedulerData from "./SchedulerData";
-import { RenderData, Event, EventGroup, Header, Resource, EventRecurring } from "./SchedulerData";
+import { RowRenderData, Event, EventGroup, Header, Resource, EventRecurring } from "./SchedulerData";
 const RadioButton = Radio.Button;
 const RadioGroup = Radio.Group;
 
 interface SchedulerProps {
     schedulerData: SchedulerData;
+    RowHeaderFC?: React.FC<RowHeaderProps>;
+    PopoverFC?: React.FC<EventItemPopoverProps>;
+    EventFC?: React.FC<EventProps>;
+    ColumnHeaderFC?: React.FC<ColumnHeaderProps>;
+
     prevClick: (action?: any) => any;
     nextClick: (action?: any) => any;
     onViewChange: (args: OnViewChangeArgs) => any;
@@ -66,51 +71,52 @@ interface SchedulerProps {
     leftCustomHeader?: any;
     rightCustomHeader?: any;
     newEvent?: (args: NewEventArgs) => void;
-    subtitleGetter?: (args: EventActionFuncArgs) => string;
-    eventItemClick?: (args: EventActionFuncArgs) => any;
-    viewEventClick?: (args: EventActionFuncArgs) => void;
-    viewEventText?: string;
-    viewEvent2Click?: (args: EventActionFuncArgs) => void;
-    viewEvent2Text?: string;
     conflictOccurred?: (args: ConflictOccurredArgs) => void;
-    eventItemPlugin?: (plugin: EventItemPluginArgs) => JSX.Element;
-    eventItemPopoverTemplateResolver?: (plugin: EventItemPopoverResolverArgs) => JSX.Element;
 
     dndSources?: DnDSource[];
-    slotClickedFunc?: (args: SlotClickedFuncArgs) => void | JSX.Element;
-    toggleExpandFunc?: (args: ToggleExpandFuncArgs) => any;
-    slotItemTemplateResolver?: (args: SlotItemTemplateResolverArgs) => any;
-    nonAgendaCellHeaderTemplateResolver?: (args: NonAgendaCellHeaderTemplateResolverArgs) => any;
 
     onScrollLeft?: (schedulerData: SchedulerData, schedulerContent, maxScrollLeft) => any;
     onScrollRight?: (schedulerData: SchedulerData, schedulerContent, maxScrollLeft) => any;
     onScrollTop?: (schedulerData: SchedulerData, schedulerContent, maxScrollTop) => any;
     onScrollBottom?: (schedulerData: SchedulerData, schedulerContent, maxScrollTop) => any;
+
+    // Delete
+    eventItemPopoverTemplateResolver?: (plugin: EventItemPopoverResolverArgs) => JSX.Element;
+    eventItemPlugin?: (plugin: EventItemProps) => JSX.Element;
+}
+
+export interface ColumnHeaderProps {
+    header: Header;
+    headersCount: number;
+    schedulerData: SchedulerData;
+    index: number;
+}
+export interface RowHeaderProps {
+    schedulerData: SchedulerData;
+    item: RowRenderData;
+    width: number;
+}
+
+export interface EventItemPopoverProps {
+    schedulerData: SchedulerData;
+    eventItem: Event;
+    title: string;
+    startTime: moment.Moment;
+    endTime: moment.Moment;
+    timelineEvent?: JSX.Element;
+    connectDragSource?: (action: any) => any;
+    connectDragPreview?: (action: any) => any;
 }
 
 export interface ToggleExpandFuncArgs {
     schedulerData: SchedulerData;
     slotId: string;
 }
-export interface SlotClickedFuncArgs {
-    schedulerData: SchedulerData;
-    slot: RenderData;
-}
-
 export interface NonAgendaCellHeaderTemplateResolverArgs {
     schedulerData: SchedulerData;
     item: any;
-    formattedDateItems: any;
-    style: CSSProperties;
 }
 
-export interface SlotItemTemplateResolverArgs {
-    schedulerData: SchedulerData;
-    slot: RenderData;
-    slotClickedFunc: (args: SlotClickedFuncArgs) => void | JSX.Element;
-    width: number;
-    clsName: string;
-}
 export interface EventActionFuncArgs {
     schedulerData: SchedulerData;
     event: Event;
@@ -142,17 +148,33 @@ export interface UpdateEventEndArgs {
     newEnd: moment.Moment;
 }
 
-export interface EventItemPluginArgs {
+export interface EventItemProps {
     schedulerData: SchedulerData;
-    event: Event;
+    eventItem: Event;
     bgColor: string;
     isStart: boolean;
     isEnd: boolean;
-    mustAddCssClass: string;
-    mustBeHeight: number;
+    left: number;
+    width: number;
+    top: number;
+    isInPopover: boolean;
+    leftIndex: number;
+    rightIndex: number;
+    isDragging: boolean;
+    connectDragSource: (action: any) => any;
+    connectDragPreview: (action: any) => any;
+    updateEventStart?: (args: UpdateEventStartArgs) => any;
+    updateEventEnd?: (args: UpdateEventEndArgs) => any;
+    moveEvent?: (args: MoveEventArgs) => void;
+    conflictOccurred?: (args: ConflictOccurredArgs) => any;
+    mustAddCssClass?: string;
+    mustBeHeight?: number;
     agendaMaxEventWidth?: number;
 }
-
+export interface EventProps extends EventItemProps {
+    startResizeDiv: JSX.Element;
+    endResizeDiv: JSX.Element;
+}
 export interface ConflictOccurredArgs {
     schedulerData: SchedulerData;
     action: string;
@@ -165,7 +187,7 @@ export interface ConflictOccurredArgs {
 }
 
 export interface NewEventArgs {
-    schedulerData: SchedulerData; slotId: string; slotName: string; start: moment.Moment; end: moment.Moment; type?: string; item?: Event | EventGroup;
+    schedulerData: SchedulerData; slotId: string; slotName: string; start: moment.Moment; end: moment.Moment; type?: DnDTypes; item?: Event | EventGroup;
 }
 
 export interface MoveEventArgs {
@@ -173,7 +195,7 @@ export interface MoveEventArgs {
 }
 
 export interface MovingEventArgs {
-    schedulerData: SchedulerData; slotId: string; slotName: string; newStart: moment.Moment; newEnd: moment.Moment; action: any; type: string; item: any;
+    schedulerData: SchedulerData; slotId: string; slotName: string; newStart: moment.Moment; newEnd: moment.Moment; action: any; type: DnDTypes; item: Event | EventGroup;
 }
 
 export interface EventItemPopoverResolverArgs {
@@ -616,9 +638,11 @@ class Scheduler extends Component<SchedulerProps, SchedulerContentState> {
 
 export {
     SchedulerData,
+    CellUnits,
+    SummaryPos,
 };
 export {
-    RenderData as SchedulerRenderData,
+    RowRenderData as SchedulerRenderData,
     Event as SchedulerEvent,
     EventGroup as SchedulerEventGroup,
     Header as SchedulerHeader,
@@ -626,7 +650,5 @@ export {
     EventRecurring as SchedulerEventRecurring,
     ViewTypes as SchedulerViewTypes,
     DnDSource as SchedulerDnDSource,
-    CellUnits as SchedulerCellUnits,
-    SummaryPos as SchedulerSummaryPos,
 };
 export default Scheduler;

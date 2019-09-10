@@ -8,8 +8,8 @@ import { CellUnits } from "./types/CellUnits";
 import { SummaryPos } from "./types/SummaryPos";
 import { getPos } from "./Util";
 import { DnDTypes } from "./types/DnDTypes";
-import { SchedulerData, NewEventArgs, ConflictOccurredArgs } from "./Scheduler";
-import { RenderData, Header } from "./SchedulerData";
+import { SchedulerData, NewEventArgs, ConflictOccurredArgs, MoveEventArgs, MovingEventArgs } from "./Scheduler";
+import { RowRenderData, Header } from "./SchedulerData";
 import DnDSource from "./DnDSource";
 
 const supportTouch = "ontouchstart" in window;
@@ -21,13 +21,8 @@ interface ResourceEventsProps {
     onSetAddMoreState?: (newState?: any) => void;
     updateEventStart?: (schedulerData: SchedulerData, event: Event, newStart: string) => any;
     updateEventEnd?: (schedulerData: SchedulerData, event: Event, newEnd: string) => any;
-    moveEvent?: (schedulerData: SchedulerData, event: Event, slotId: string, slotName: string, start: string, end: string) => void;
-    movingEvent?: (schedulerData: SchedulerData, slotId: string, slotName: string, newStart: string, newEnd: string, action: any, type: string, item: RenderData) => void;
-    subtitleGetter?: (schedulerData: SchedulerData, event: Event) => string;
-    viewEventClick?: (schedulerData: SchedulerData, event: Event) => void;
-    viewEventText?: string;
-    viewEvent2Click?: (schedulerData: SchedulerData, event: Event) => void;
-    viewEvent2Text?: string;
+    moveEvent?: (args: MoveEventArgs) => void;
+    movingEvent?: (args: MovingEventArgs) => void;
     newEvent?: (args: NewEventArgs) => any;
     eventItemTemplateResolver?: (schedulerData: SchedulerData, eventItem: Event, bgColor: string, isStart: boolean, isEnd: boolean, name: string, eventItemHeight: number, agendaMaxEventWidth: number) => JSX.Element;
     conflictOccurred?: (args: ConflictOccurredArgs) => void;

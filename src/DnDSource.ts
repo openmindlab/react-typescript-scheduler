@@ -1,4 +1,4 @@
-import { DragSource } from "react-dnd";
+import { DragSource, DragSourceMonitor } from "react-dnd";
 import * as moment from "moment";
 import { DnDTypes } from "./types/DnDTypes";
 import { ViewTypes } from "./types/ViewTypes";
@@ -12,9 +12,9 @@ import { Event } from "./SchedulerData";
 export default class DnDSource {
     public resolveDragObjFunc: (props: any) => any;
     public DecoratedComponent: any;
-    public dndType: string;
+    public dndType: DnDTypes;
     public dragSource: any;
-    constructor(resolveDragObjFunc: any, DecoratedComponent: any, dndType: string = DnDTypes.EVENT) {
+    constructor(resolveDragObjFunc: any, DecoratedComponent: any, dndType: DnDTypes = DnDTypes.EVENT) {
         this.resolveDragObjFunc = resolveDragObjFunc;
         this.DecoratedComponent = DecoratedComponent;
         this.dndType = dndType;
@@ -23,7 +23,7 @@ export default class DnDSource {
 
     public getDragSpec = () => {
         return {
-            beginDrag: (props: any, monitor: any, component: any) => {
+            beginDrag: (props: any, monitor: DragSourceMonitor, component: any) => {
                 return this.resolveDragObjFunc(props);
             },
             endDrag: (
@@ -33,35 +33,35 @@ export default class DnDSource {
                     newEvent: (args: NewEventArgs) => void,
                     conflictOccurred?: (args: ConflictOccurredArgs) => void,
                 },
-                monitor: any, component: any,
+                monitor: DragSourceMonitor, component: any,
             ) => {
                 if (!monitor.didDrop()) { return; }
 
                 const { moveEvent, newEvent, schedulerData } = props;
                 const { events, config, viewType } = schedulerData;
-                const item: Event = monitor.getItem();
-                const type = monitor.getItemType();
+                const item = monitor.getItem();
+                const type: string = monitor.getItemType().toString();
                 const dropResult = monitor.getDropResult();
                 let slotId = dropResult.slotId;
                 let slotName = dropResult.slotName;
-                let newStart = dropResult.start;
-                let newEnd = dropResult.end;
-                const initialStart = dropResult.initialStart;
-                const initialEnd = dropResult.initialEnd;
+                let newStart = moment(dropResult.start);
+                let newEnd = moment(dropResult.end);
+                const initialStart = moment(dropResult.initialStart);
+                // const initialEnd = moment(dropResult.initialEnd);
                 let action = "New";
 
                 const isEvent = type === DnDTypes.EVENT;
                 if (isEvent) {
                     const event = item;
                     if (config.relativeMove) {
-                        newStart = moment(event.start).add(moment(newStart).diff(moment(initialStart)), "ms").format();
+                        newStart = moment(event.start).add(moment(newStart).diff(moment(initialStart)), "ms");
                     } else {
                         if (viewType !== ViewTypes.Day) {
-                            const tmpMoment = moment(newStart);
-                            newStart = moment(event.start).year(tmpMoment.year()).month(tmpMoment.month()).date(tmpMoment.date()).format();
+                            const tmpMoment = newStart;
+                            newStart = moment(event.start).year(tmpMoment.year()).month(tmpMoment.month()).date(tmpMoment.date());
                         }
                     }
-                    newEnd = moment(newStart).add(moment(event.end).diff(moment(event.start)), "ms").format();
+                    newEnd = moment(newStart).add(moment(event.end).diff(moment(event.start)), "ms");
 
                     // if crossResourceMove disabled, slot returns old value
                     if (config.crossResourceMove === false) {
@@ -78,8 +78,8 @@ export default class DnDSource {
 
                 let hasConflict = false;
                 if (config.checkConflict) {
-                    const start = moment(newStart);
-                    const end = moment(newEnd);
+                    const start = newStart;
+                    const end = newEnd;
 
                     events.forEach((e: any) => {
                         if (schedulerData.getEventSlotId(e) === slotId && (!isEvent || e.id !== item.id)) {
@@ -99,7 +99,7 @@ export default class DnDSource {
                             schedulerData,
                             action,
                             event: item,
-                            type,
+                            type: DnDTypes[type],
                             slotId,
                             slotName,
                             start: newStart,
@@ -128,7 +128,7 @@ export default class DnDSource {
                                 slotName,
                                 start: newStart,
                                 end: newEnd,
-                                type,
+                                type: DnDTypes[type],
                                 item,
                             });
                         }
@@ -146,7 +146,7 @@ export default class DnDSource {
         };
     }
 
-    public getDragCollect = (connect: any, monitor: any) => {
+    public getDragCollect = (connect: any, monitor: DragSourceMonitor) => {
         return {
             connectDragSource: connect.dragSource(),
             isDragging: monitor.isDragging(),

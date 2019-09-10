@@ -17,26 +17,32 @@ class Locale extends Component<{}, { viewModel: SchedulerData, headerItem: Sched
         super(props);
 
         moment.locale("zh-cn");
-        const schedulerData = new SchedulerData(ExampleFunction.getNow(), SchedulerViewTypes.Week, false, false, {
-            dayMaxEvents: 2,
-            weekMaxEvents: 4,
-            monthMaxEvents: 4,
-            yearMaxEvents: 4,
-            resourceName: "资源名称",
-            taskName: "任务名称",
-            agendaViewHeader: "工作事项",
-            addMorePopoverHeaderFormat: "YYYY年M月D日 dddd",
-            eventItemPopoverDateFormat: "M月D日",
-            nonAgendaDayCellHeaderFormat: "HH:mm",
-            nonAgendaOtherCellHeaderFormat: "ddd|M/D",
-            views: [
-                { viewName: "天", viewType: SchedulerViewTypes.Day, showAgenda: false, isEventPerspective: false },
-                { viewName: "周", viewType: SchedulerViewTypes.Week, showAgenda: false, isEventPerspective: false },
-                { viewName: "月", viewType: SchedulerViewTypes.Month, showAgenda: false, isEventPerspective: false },
-                { viewName: "季", viewType: SchedulerViewTypes.Quarter, showAgenda: false, isEventPerspective: false },
-                { viewName: "年", viewType: SchedulerViewTypes.Year, showAgenda: false, isEventPerspective: false },
-            ],
-        }, {
+        const schedulerData = new SchedulerData(
+            ExampleFunction.updateSchedulerDataState.bind(this),
+            ExampleFunction.getNow(),
+            SchedulerViewTypes.Week,
+            false,
+            false,
+            {
+                dayMaxEvents: 2,
+                weekMaxEvents: 4,
+                monthMaxEvents: 4,
+                yearMaxEvents: 4,
+                resourceName: "资源名称",
+                taskName: "任务名称",
+                agendaViewHeader: "工作事项",
+                addMorePopoverHeaderFormat: "YYYY年M月D日 dddd",
+                eventItemPopoverDateFormat: "M月D日",
+                nonAgendaDayCellHeaderFormat: "HH:mm",
+                nonAgendaOtherCellHeaderFormat: "ddd|M/D",
+                views: [
+                    { viewName: "天", viewType: SchedulerViewTypes.Day, showAgenda: false, isEventPerspective: false },
+                    { viewName: "周", viewType: SchedulerViewTypes.Week, showAgenda: false, isEventPerspective: false },
+                    { viewName: "月", viewType: SchedulerViewTypes.Month, showAgenda: false, isEventPerspective: false },
+                    { viewName: "季", viewType: SchedulerViewTypes.Quarter, showAgenda: false, isEventPerspective: false },
+                    { viewName: "年", viewType: SchedulerViewTypes.Year, showAgenda: false, isEventPerspective: false },
+                ],
+            }, {
                 getDateLabelFunc: this.getDateLabel,
                 isNonWorkingTimeFunc: this.isNonWorkingTime,
             });
@@ -74,16 +80,10 @@ class Locale extends Component<{}, { viewModel: SchedulerData, headerItem: Sched
                         nextClick={ExampleFunction.nextClick.bind(this)}
                         onSelectDate={ExampleFunction.onSelectDate.bind(this)}
                         onViewChange={ExampleFunction.onViewChange.bind(this)}
-                        eventItemClick={ExampleFunction.eventClicked.bind(this)}
-                        viewEventClick={ExampleFunction.ops1.bind(this)}
-                        viewEventText="Ops 1"
-                        viewEvent2Text="Ops 2"
-                        viewEvent2Click={ExampleFunction.ops2.bind(this)}
                         updateEventStart={ExampleFunction.updateEventStart.bind(this)}
                         updateEventEnd={ExampleFunction.updateEventEnd.bind(this)}
                         moveEvent={ExampleFunction.moveEvent.bind(this)}
                         newEvent={ExampleFunction.newEvent.bind(this)}
-                        toggleExpandFunc={ExampleFunction.toggleExpandFunc.bind(this)}
                         onSetAddMoreState={ExampleFunction.onSetAddMoreState.bind(this)}
                     />
                     {popover}

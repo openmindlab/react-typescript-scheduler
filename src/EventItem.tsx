@@ -6,45 +6,13 @@ import { CellUnits } from "./types/CellUnits";
 import { DnDTypes } from "./types/DnDTypes";
 import {
     SchedulerData,
-    UpdateEventStartArgs,
-    UpdateEventEndArgs,
-    MoveEventArgs,
-    EventActionFuncArgs,
-    ConflictOccurredArgs,
-    EventItemPluginArgs,
+    EventItemProps,
+    EventProps,
 } from "./Scheduler";
 import { Event } from "./SchedulerData";
 
-/**
- * Datetime
- */
 const supportTouch = "ontouchstart" in window;
-interface EventItemProps {
-    schedulerData: SchedulerData;
-    eventItem: Event;
-    isStart: boolean;
-    isEnd: boolean;
-    left: number;
-    width: number;
-    top: number;
-    isInPopover: boolean;
-    leftIndex: number;
-    rightIndex: number;
-    isDragging: boolean;
-    connectDragSource: (action: any) => any;
-    connectDragPreview: (action: any) => any;
-    updateEventStart?: (args: UpdateEventStartArgs) => any;
-    updateEventEnd?: (args: UpdateEventEndArgs) => any;
-    moveEvent?: (args: MoveEventArgs) => void;
-    eventItemClick: (args: EventActionFuncArgs) => any;
-    conflictOccurred?: (args: ConflictOccurredArgs) => any;
-    subtitleGetter?: (args: MoveEventArgs) => string;
-    viewEventClick?: (args: MoveEventArgs) => void;
-    viewEventText?: string;
-    viewEvent2Click?: (args: MoveEventArgs) => void;
-    viewEvent2Text?: string;
-    eventItemPlugin?: (plugin: EventItemPluginArgs) => JSX.Element;
-}
+
 interface EventItemState {
     left: number;
     top: number;
@@ -52,10 +20,10 @@ interface EventItemState {
     startX?: number;
     endX?: number;
 }
-class EventItem extends Component<EventItemProps, EventItemState> {
+class EventItem extends Component<EventItemProps & { EventFC: React.FC<EventProps> }, EventItemState> {
     private startResizer: any;
     private endResizer: any;
-    constructor(props: Readonly<EventItemProps>) {
+    constructor(props: Readonly<EventItemProps & { EventFC: React.FunctionComponent<EventProps>; }>) {
         super(props);
 
         const { left, top, width } = props;
@@ -517,18 +485,10 @@ class EventItem extends Component<EventItemProps, EventItemState> {
     }
 
     public render() {
-        const { eventItem, isStart, isEnd, isInPopover, eventItemClick, schedulerData, isDragging, connectDragSource, connectDragPreview, eventItemPlugin: eventItemTemplateResolver } = this.props;
+        const { eventItem, schedulerData, isDragging, connectDragSource, connectDragPreview, EventFC } = this.props;
         const { config } = schedulerData;
         const { left, width, top } = this.state;
-        const roundCls = isStart ? (isEnd ? "round-all" : "round-head") : (isEnd ? "round-tail" : "round-none");
-        let bgColor = config.defaultEventBgColor;
-        if (!!eventItem.bgColor) {
-            bgColor = eventItem.bgColor;
-        }
 
-        const titleText = schedulerData.behaviors.getEventTextFunc(schedulerData, eventItem);
-        const start = moment(eventItem.start);
-        const eventTitle = isInPopover ? `${start.format("HH:mm")} ${titleText}` : titleText;
         let startResizeDiv = <div />;
         if (this.startResizable(this.props)) {
             startResizeDiv = <div className="event-resizer event-start-resizer" ref={(ref) => this.startResizer = ref}></div>;
@@ -537,30 +497,18 @@ class EventItem extends Component<EventItemProps, EventItemState> {
         if (this.endResizable(this.props)) {
             endResizeDiv = <div className="event-resizer event-end-resizer" ref={(ref) => this.endResizer = ref}></div>;
         }
-
-        let eventItemTemplate = (
-            <div className={roundCls + " event-item"} key={eventItem.id}
-                style={{ height: config.eventItemHeight, backgroundColor: bgColor }}>
-                <span style={{ marginLeft: "10px", lineHeight: `${config.eventItemHeight}px` }}>{eventTitle}</span>
-            </div>
-        );
-        if (eventItemTemplateResolver != undefined) {
-            eventItemTemplate = eventItemTemplateResolver({
-                schedulerData,
-                event: eventItem,
-                bgColor,
-                isStart,
-                isEnd,
-                mustAddCssClass: "event-item",
-                mustBeHeight: config.eventItemHeight,
-            });
+        let timelineEvent = <div></div>;
+        if (EventFC) {
+            timelineEvent = <EventFC
+                {...this.props}
+                endResizeDiv={endResizeDiv}
+                startResizeDiv={startResizeDiv}
+                mustAddCssClass={"event-item"}
+                mustBeHeight={config.eventItemHeight}
+            />;
         }
 
-        const timelineEvent = <a className="timeline-event" style={{ left, width, top }} onClick={() => { if (!!eventItemClick) { eventItemClick({ schedulerData, event: eventItem }); } }}>
-            {eventItemTemplate}
-            {startResizeDiv}
-            {endResizeDiv}
-        </a>;
+        const tt = <div className="timeline-event" style={{ left, width, top }}>{timelineEvent}</div>;
 
         return (
             isDragging ?
@@ -569,7 +517,7 @@ class EventItem extends Component<EventItemProps, EventItemState> {
                     (<div>
                         {
                             connectDragPreview(
-                                connectDragSource(timelineEvent),
+                                connectDragSource(tt),
                             )
                         }
                     </div>
@@ -580,10 +528,9 @@ class EventItem extends Component<EventItemProps, EventItemState> {
                             title={eventItem.title}
                             startTime={eventItem.start}
                             endTime={eventItem.end}
-                            statusColor={bgColor}
                             connectDragSource={connectDragSource}
                             connectDragPreview={connectDragPreview}
-                            timelineEvent={timelineEvent}
+                            timelineEvent={tt}
                         />
                     )
                 )

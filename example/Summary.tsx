@@ -3,7 +3,7 @@ import { Component } from "react";
 import Scheduler, {
     SchedulerData,
     SchedulerViewTypes,
-    SchedulerSummaryPos,
+    SummaryPos,
 } from "../src/Scheduler";
 import * as ExampleFunction from "./utils/ExampleFunctions";
 import { DemoData } from "./utils/DemoData";
@@ -14,9 +14,17 @@ class Summary extends Component<{}, { viewModel: SchedulerData }> {
     constructor(props: Readonly<{}>) {
         super(props);
 
-        const schedulerData = new SchedulerData(ExampleFunction.getNow(), SchedulerViewTypes.Week, false, false, undefined, {
-            getSummaryFunc: this.getSummary,
-        });
+        const schedulerData = new SchedulerData(
+            ExampleFunction.updateSchedulerDataState.bind(this),
+            ExampleFunction.getNow(),
+            SchedulerViewTypes.Week,
+            false,
+            false,
+            undefined,
+            {
+                getSummaryFunc: this.getSummary,
+            }
+        );
         schedulerData.setResources(DemoData.resources);
         schedulerData.setEvents(DemoData.events);
         this.state = {
@@ -41,16 +49,10 @@ class Summary extends Component<{}, { viewModel: SchedulerData }> {
                         nextClick={ExampleFunction.nextClick.bind(this)}
                         onSelectDate={ExampleFunction.onSelectDate.bind(this)}
                         onViewChange={ExampleFunction.onViewChange.bind(this)}
-                        eventItemClick={ExampleFunction.eventClicked.bind(this)}
-                        viewEventClick={ExampleFunction.ops1.bind(this)}
-                        viewEventText="Ops 1"
-                        viewEvent2Text="Ops 2"
-                        viewEvent2Click={ExampleFunction.ops2.bind(this)}
                         updateEventStart={ExampleFunction.updateEventStart.bind(this)}
                         updateEventEnd={ExampleFunction.updateEventEnd.bind(this)}
                         moveEvent={ExampleFunction.moveEvent.bind(this)}
                         newEvent={ExampleFunction.newEvent.bind(this)}
-                        toggleExpandFunc={ExampleFunction.toggleExpandFunc.bind(this)}
                         onSetAddMoreState={ExampleFunction.onSetAddMoreState.bind(this)}
                         leftCustomHeader={leftCustomHeader}
                     />
@@ -70,7 +72,7 @@ class Summary extends Component<{}, { viewModel: SchedulerData }> {
 
     public changeSummaryPos = () => {
         const schedulerData = this.state.viewModel;
-        schedulerData.config.summaryPos = schedulerData.config.summaryPos === SchedulerSummaryPos.TopRight ? SchedulerSummaryPos.BottomRight : SchedulerSummaryPos.TopRight;
+        schedulerData.config.summaryPos = schedulerData.config.summaryPos === SummaryPos.TopRight ? SummaryPos.BottomRight : SummaryPos.TopRight;
         this.setState({
             viewModel: schedulerData,
         });

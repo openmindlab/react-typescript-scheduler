@@ -21,40 +21,36 @@ class BodyView extends Component<BodyViewProps> {
         const tableRows = displayRenderData.map((item) => {
             const rowCells = headers.map((header, index) => {
                 const key = item.slotId + "_" + header.time;
-                const style: CSSProperties = {
+                const css: CSSProperties = {
                     width: index === headers.length - 1 ? undefined : cellWidth,
                     backgroundColor: undefined,
                 };
 
                 if (!!header.nonWorkingTime) {
-                    style.backgroundColor = config.nonWorkingTimeBodyBgColor;
+                    css.backgroundColor = config.nonWorkingTimeBodyBgColor;
                 }
                 if (item.groupOnly) {
-                    style.backgroundColor = config.groupOnlySlotColor;
+                    css.backgroundColor = config.groupOnlySlotColor;
                 }
 
-                if (!!behaviors.getNonAgendaViewBodyCellBgColorFunc) {
-                    const cellBgColor = behaviors.getNonAgendaViewBodyCellBgColorFunc(schedulerData, item.slotId, header);
-                    if (!!cellBgColor) {
-                        style.backgroundColor = cellBgColor;
-                    }
-                }
                 return (
-                    <td key={key} style={style}><div></div></td>
+                    <td key={key} style={css}><div></div></td>
                 );
             });
-
+            const cssParent: CSSProperties = {
+                height: item.rowHeight,
+            };
             return (
-                <tr key={item.slotId} style={{ height: item.rowHeight }}>
+                <tr key={item.slotId} style={cssParent}>
                     {rowCells}
                 </tr>
             );
         });
 
-        const c: CSSProperties = {};
+        const cssToParent: CSSProperties = {};
 
         return (
-            <tbody style={c}>
+            <tbody style={cssToParent}>
                 {tableRows}
             </tbody >
         );

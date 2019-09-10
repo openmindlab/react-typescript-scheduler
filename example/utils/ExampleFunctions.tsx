@@ -1,3 +1,4 @@
+import * as moment from "moment";
 import {
     SchedulerData,
     SchedulerViewTypes,
@@ -10,10 +11,15 @@ import {
     UpdateEventStartArgs,
     EventActionFuncArgs,
     OnSelectDateArgs,
-    ToggleExpandFuncArgs,
 } from "../../src/Scheduler";
 import { DemoData } from "./DemoData";
-import moment = require("moment");
+
+export function updateSchedulerDataState(sd?: SchedulerData) {
+    this.setState({
+        viewModel: sd ? sd : this.viewModel,
+        update: moment.now(),
+    });
+}
 
 export const getNow = (): moment.Moment => {
     return moment("2017-12-18");
@@ -24,13 +30,6 @@ export function prevClick(schedulerData: SchedulerData) {
     schedulerData.setEvents(DemoData.events);
     this.setState({
         viewModel: schedulerData,
-    });
-}
-
-export function toggleExpandFunc(args: ToggleExpandFuncArgs) {
-    args.schedulerData.toggleExpandStatus(args.slotId);
-    this.setState({
-        viewModel: args.schedulerData,
     });
 }
 
@@ -96,7 +95,7 @@ export function newEvent(args: NewEventArgs) {
 }
 
 export function updateEventStart(args: UpdateEventStartArgs) {
-    if (confirm(`Do you want to adjust the start of the event? {eventId: ${args.event.id}, eventTitle: ${args.event.title}, newStart: ${args.newStart}}`)) {
+    if (confirm(`Do you want to adjust the start of the event? {eventId: ${args.event.id}, eventTitle: ${args.event.title}, newStart: ${args.newStart.format()}}`)) {
         args.schedulerData.updateEventStart(args.event, args.newStart);
     }
     this.setState({
@@ -105,7 +104,7 @@ export function updateEventStart(args: UpdateEventStartArgs) {
 }
 
 export function updateEventEnd(args: UpdateEventEndArgs) {
-    if (confirm(`Do you want to adjust the end of the event? {eventId: ${args.event.id}, eventTitle: ${args.event.title}, newEnd: ${args.newEnd}}`)) {
+    if (confirm(`Do you want to adjust the end of the event? {eventId: ${args.event.id}, eventTitle: ${args.event.title}, newEnd: ${args.newEnd.format()}}`)) {
         args.schedulerData.updateEventEnd(args.event, args.newEnd);
     }
     this.setState({
@@ -114,7 +113,7 @@ export function updateEventEnd(args: UpdateEventEndArgs) {
 }
 
 export function moveEvent(args: MoveEventArgs) {
-    if (confirm(`Do you want to move the event? {eventId: ${args.event.id}, eventTitle: ${args.event.title}, newSlotId: ${args.slotId}, newSlotName: ${args.slotName}, newStart: ${args.start}, newEnd: ${args.end}`)) {
+    if (confirm(`Do you want to move the event? {eventId: ${args.event.id}, eventTitle: ${args.event.title}, newSlotId: ${args.slotId}, newSlotName: ${args.slotName}, newStart: ${args.start.format()}, newEnd: ${args.end.format()}`)) {
         args.schedulerData.moveEvent(args.event, args.slotId, args.slotName, args.start, args.end);
         this.setState({
             viewModel: args.schedulerData,

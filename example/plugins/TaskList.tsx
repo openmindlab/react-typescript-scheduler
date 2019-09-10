@@ -6,10 +6,10 @@ import {
 
 class TaskList extends Component<{
     schedulerData: SchedulerData,
-    newEvent: any,
+    newEvent: Event,
     taskDndSource: SchedulerDnDSource,
 }, {}> {
-    constructor(props: Readonly<{ schedulerData: SchedulerData; newEvent: any; taskDndSource: SchedulerDnDSource; }>) {
+    constructor(props: Readonly<{ schedulerData: SchedulerData; newEvent: Event; taskDndSource: SchedulerDnDSource; }>) {
         super(props);
     }
 

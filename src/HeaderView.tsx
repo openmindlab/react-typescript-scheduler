@@ -1,12 +1,10 @@
 import * as React from "react";
-import { Component} from "react";
-import { CellUnits } from "./types/CellUnits";
-import * as moment from "moment";
-import { SchedulerData, NonAgendaCellHeaderTemplateResolverArgs } from "./Scheduler";
+import { Component, CSSProperties } from "react";
+import { SchedulerData, ColumnHeaderProps } from "./Scheduler";
 
 interface HeaderViewProps {
     schedulerData: SchedulerData;
-    nonAgendaCellHeaderTemplateResolver?: (args: NonAgendaCellHeaderTemplateResolverArgs) => JSX.Element;
+    ColumnHeaderFC?: React.FC<ColumnHeaderProps>;
 }
 
 class HeaderView extends Component<HeaderViewProps> {
@@ -15,81 +13,27 @@ class HeaderView extends Component<HeaderViewProps> {
     }
 
     public render() {
-        const { schedulerData } = this.props;
-        const { headers, cellUnit, config } = schedulerData;
+        const { schedulerData, ColumnHeaderFC } = this.props;
+        const { headers } = schedulerData;
         const headerHeight = schedulerData.getTableHeaderHeight();
-        const cellWidth = schedulerData.getContentCellWidth();
-        const minuteStepsInHour = schedulerData.getMinuteStepsInHour();
+        const css: CSSProperties = {
+            height: headerHeight,
+        };
 
-        let headerList = [];
-        let style = {};
-        if (cellUnit === CellUnits.Hour) {
-            headers.forEach((item, index) => {
-                if (index % minuteStepsInHour === 0) {
-                    const datetime = moment(item.time);
-
-                    style = !!item.nonWorkingTime ? { width: cellWidth * minuteStepsInHour, color: config.nonWorkingTimeHeadColor, backgroundColor: config.nonWorkingTimeHeadBgColor } : { width: cellWidth * minuteStepsInHour };
-
-                    if (index === headers.length - minuteStepsInHour) {
-                        style = !!item.nonWorkingTime ? { color: config.nonWorkingTimeHeadColor, backgroundColor: config.nonWorkingTimeHeadBgColor } : {};
-                    }
-
-                    const pFormattedList = config.nonAgendaDayCellHeaderFormat.split("|").map((i) => datetime.format(i));
-                    let element;
-
-                    if (typeof this.props.nonAgendaCellHeaderTemplateResolver === "function") {
-                        element = this.props.nonAgendaCellHeaderTemplateResolver({schedulerData, item, formattedDateItems: pFormattedList, style});
-                    } else {
-                        const pList = pFormattedList.map((i, ind) => (
-                            <div key={ind}>{i}</div>
-                        ));
-
-                        element = (
-                            <th key={item.time.toString()} className="header3-text" style={style}>
-                                <div>
-                                    {pList}
-                                </div>
-                            </th>
-                        );
-                    }
-
-                    headerList.push(element);
-                }
-            });
-        } else {
-            headerList = headers.map((item, index) => {
-                const datetime = moment(item.time);
-                style = !!item.nonWorkingTime ? { width: cellWidth, color: config.nonWorkingTimeHeadColor, backgroundColor: config.nonWorkingTimeHeadBgColor } : { width: cellWidth };
-                if (index === headers.length - 1) {
-                    style = !!item.nonWorkingTime ? { color: config.nonWorkingTimeHeadColor, backgroundColor: config.nonWorkingTimeHeadBgColor } : {};
-                }
-
-                const pFormattedList = config.nonAgendaOtherCellHeaderFormat.split("|").map((i) => datetime.format(i));
-
-                if (typeof this.props.nonAgendaCellHeaderTemplateResolver === "function") {
-                    return this.props.nonAgendaCellHeaderTemplateResolver({schedulerData, item, formattedDateItems: pFormattedList, style});
-                }
-
-                const pList = pFormattedList.map((i, ind) => (
-                    <div key={ind}>{i}</div>
-                ));
-
-                return (
-                    <th key={item.time.toString()} className="header3-text" style={style}>
-                        <div>
-                            {pList}
-                        </div>
-                    </th>
-                );
-            });
+        let headerList = [<div className="InternalError">Missing ColumnHeaderFC</div>];
+        if (ColumnHeaderFC) {
+            const count = headers.length;
+            headerList = headers.map((header, index) =>
+                <ColumnHeaderFC key={index} schedulerData={schedulerData} header={header} headersCount={count} index={index} />,
+            );
         }
 
         return (
             <thead>
-                <tr style={{ height: headerHeight }}>
+                <tr style={css}>
                     {headerList}
                 </tr>
-            </thead>
+            </thead >
         );
     }
 }

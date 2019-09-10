@@ -13,9 +13,16 @@ class FreezeFirstRow extends Component<{}, { viewModel: SchedulerData }> {
     constructor(props: Readonly<{}>) {
         super(props);
 
-        const schedulerData = new SchedulerData(ExampleFunction.getNow(), SchedulerViewTypes.Month, false, false, {
-            schedulerMaxHeight: 400,
-        });
+        const schedulerData = new SchedulerData(
+            ExampleFunction.updateSchedulerDataState.bind(this),
+            ExampleFunction.getNow(),
+            SchedulerViewTypes.Month,
+            false,
+            false,
+            {
+                schedulerMaxHeight: 400,
+            },
+        );
         schedulerData.setResources(DemoData.resources);
         schedulerData.setEvents(DemoData.events);
         this.state = {
@@ -35,11 +42,6 @@ class FreezeFirstRow extends Component<{}, { viewModel: SchedulerData }> {
                         nextClick={ExampleFunction.nextClick.bind(this)}
                         onSelectDate={ExampleFunction.onSelectDate.bind(this)}
                         onViewChange={ExampleFunction.onViewChange.bind(this)}
-                        eventItemClick={ExampleFunction.eventClicked.bind(this)}
-                        viewEventClick={ExampleFunction.ops1.bind(this)}
-                        viewEventText="Ops 1"
-                        viewEvent2Text="Ops 2"
-                        viewEvent2Click={ExampleFunction.ops2.bind(this)}
                         updateEventStart={ExampleFunction.updateEventStart.bind(this)}
                         updateEventEnd={ExampleFunction.updateEventEnd.bind(this)}
                         moveEvent={ExampleFunction.moveEvent.bind(this)}
@@ -48,7 +50,6 @@ class FreezeFirstRow extends Component<{}, { viewModel: SchedulerData }> {
                         onScrollRight={ExampleFunction.onScrollRight.bind(this)}
                         onScrollTop={ExampleFunction.onScrollTop.bind(this)}
                         onScrollBottom={ExampleFunction.onScrollBottom.bind(this)}
-                        toggleExpandFunc={ExampleFunction.toggleExpandFunc.bind(this)}
                     />
                 </div>
             </div>

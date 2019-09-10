@@ -4,8 +4,6 @@ import { Component } from "react";
 import Scheduler, {
     SchedulerData,
     SchedulerViewTypes,
-    EventItemPopoverResolverArgs,
-    EventItemPopoverResolverDnDArgs,
 } from "../src/Scheduler";
 import { DemoData } from "./utils/DemoData";
 import * as ExampleFunction from "./utils/ExampleFunctions";
@@ -14,15 +12,23 @@ import Tips from "./utils/Tips";
 import withDragDropContext from "./utils/withDnDContext";
 import "antd/lib/style/index.css";
 import { PopoverComponent } from "./plugins/PopoverPlugin";
+import { RowHeaderComponent } from "./plugins/RowHeader";
+import { EventComponent, EventComponentRound } from "./plugins/EventPlugin";
+import { ColumnHeaderComponent } from "./plugins/ColumnHeader";
 
 interface IBasicState {
     viewModel: SchedulerData;
+    update: moment.Moment;
 }
 
 class Basic extends Component<{}, IBasicState> {
     constructor(props: Readonly<{}>) {
         super(props);
-        const schedulerData = new SchedulerData(ExampleFunction.getNow(), SchedulerViewTypes.Week);
+        const schedulerData = new SchedulerData(
+            ExampleFunction.updateSchedulerDataState.bind(this),
+            ExampleFunction.getNow(),
+            SchedulerViewTypes.Week,
+        );
         // To set locale
         moment.locale("en-gb");
         const demoData = DemoData;
@@ -30,8 +36,10 @@ class Basic extends Component<{}, IBasicState> {
         schedulerData.setEvents(DemoData.events);
         this.state = {
             viewModel: schedulerData,
+            update: ExampleFunction.getNow(),
         };
     }
+
     public render() {
         const { viewModel } = this.state;
         return (
@@ -39,31 +47,27 @@ class Basic extends Component<{}, IBasicState> {
                 <Nav />
                 <div>
                     <h3 style={{ textAlign: "center" }}>Basic example</h3>
-                    <Scheduler schedulerData={viewModel}
+                    <Scheduler
+                        RowHeaderFC={RowHeaderComponent}
+                        PopoverFC={PopoverComponent}
+                        EventFC={EventComponentRound}
+                        ColumnHeaderFC={ColumnHeaderComponent}
+                        schedulerData={viewModel}
                         prevClick={ExampleFunction.prevClick.bind(this)}
                         nextClick={ExampleFunction.nextClick.bind(this)}
                         onSelectDate={ExampleFunction.onSelectDate.bind(this)}
                         onViewChange={ExampleFunction.onViewChange.bind(this)}
-                        eventItemClick={ExampleFunction.eventClicked.bind(this)}
-                        viewEventClick={ExampleFunction.ops1.bind(this)}
-                        viewEventText="Ops 1"
-                        viewEvent2Text="Ops 2"
-                        viewEvent2Click={ExampleFunction.ops2.bind(this)}
                         updateEventStart={ExampleFunction.updateEventStart.bind(this)}
                         updateEventEnd={ExampleFunction.updateEventEnd.bind(this)}
                         moveEvent={ExampleFunction.moveEvent.bind(this)}
                         newEvent={ExampleFunction.newEvent.bind(this)}
-                        toggleExpandFunc={ExampleFunction.toggleExpandFunc.bind(this)}
                         onSetAddMoreState={ExampleFunction.onSetAddMoreState.bind(this)}
-                        eventItemPopoverTemplateResolver={this.popoverPlugin}
                     />
                 </div>
                 <Tips />
             </div>
         );
     }
-    private popoverPlugin = (args: EventItemPopoverResolverArgs, dnd?: EventItemPopoverResolverDnDArgs) => <PopoverComponent args={args} dnd={dnd} />;
-
 }
 
 export default withDragDropContext(Basic);

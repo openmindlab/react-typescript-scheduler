@@ -6,7 +6,7 @@ import { ViewTypes } from "./types/ViewTypes";
 import { CellUnits } from "./types/CellUnits";
 import { Config } from "./Config";
 
-export interface RenderData {
+export interface RowRenderData {
     slotId: string;
     slotName: string;
     parentId: string | undefined;
@@ -23,7 +23,7 @@ export interface RenderData {
 
 export interface Header {
     nonWorkingTime?: boolean;
-    time?: string;
+    time?: string; // TODO bug not wotking with moment.Moment
     length?: number;
     start?: moment.Moment;
     end?: moment.Moment;
@@ -81,6 +81,7 @@ export interface Resource {
 }
 
 export default class SchedulerData {
+    public stateUpdateHandler: (sd?: SchedulerData) => void;
     public resources: Resource[];
     public events: Event[];
     public eventGroups: EventGroup[];
@@ -97,11 +98,13 @@ export default class SchedulerData {
     public startDate: moment.Moment;
     public endDate: moment.Moment;
     public selectDate: moment.Moment;
-    public renderData: RenderData[];
+    public renderData: RowRenderData[];
     public headers: Header[];
+
     constructor(
-        date = moment(),
-        viewType = ViewTypes.Week,
+        stateUpdateHandler: (sd: SchedulerData) => void,
+        date: moment.Moment = moment(),
+        viewType: ViewTypes = ViewTypes.Week,
         showAgenda = false,
         isEventPerspective = false,
         // tslint:disable-next-line: no-unnecessary-initializer
@@ -109,6 +112,7 @@ export default class SchedulerData {
         // tslint:disable-next-line: no-unnecessary-initializer
         newBehaviors?: any,
     ) {
+        this.stateUpdateHandler = stateUpdateHandler;
         this.resources = [];
         this.events = [];
         this.eventGroups = [];
@@ -764,7 +768,7 @@ export default class SchedulerData {
             count: 0,
             addMore: 0,
             addMoreIndex: 0,
-            events: [  ],
+            events: [],
         };
     }
 
@@ -804,7 +808,7 @@ export default class SchedulerData {
         this.eventGroups = eventGroups;
     }
 
-    private _createInitRenderData(isEventPerspective: boolean, eventGroups: EventGroup[], resources: Resource[], headers: Header[]): RenderData[] {
+    private _createInitRenderData(isEventPerspective: boolean, eventGroups: EventGroup[], resources: Resource[], headers: Header[]): RowRenderData[] {
         const slots = isEventPerspective ? eventGroups : resources;
         const slotTree = [];
         const slotMap = new Map();
@@ -896,7 +900,7 @@ export default class SchedulerData {
         for (const header of headers) {
             const spanStart = moment(header.time);
             const spanEnd = this.cellUnit === CellUnits.Hour ? moment(header.time).add(this.config.minuteStep, "minutes")
-                    : moment(header.time).add(1, "days");
+                : moment(header.time).add(1, "days");
 
             if (spanStart < end && spanEnd > start) {
                 span++;

@@ -40,16 +40,8 @@ export const getCustomDate = (schedulerData: SchedulerData, num: number, date: m
     };
 };
 
-// getNonAgendaViewBodyCellBgColor example
-export const getNonAgendaViewBodyCellBgColor = (schedulerData: SchedulerData, slotId, header) => {
-    if (!header.nonWorkingTime) {
-        return "#87e8de";
-    }
-    return undefined;
-};
-
 // getDateLabel func example
-export const getDateLabel = (schedulerData: SchedulerData, viewType: number, startDate: string, endDate: string) => {
+export const getDateLabel = (schedulerData: SchedulerData, viewType: number, startDate: moment.Moment, endDate: moment.Moment) => {
     const start = moment(startDate);
     const end = moment(endDate);
     let dateLabel = start.format("MMM D, YYYY");
@@ -92,7 +84,7 @@ export const getScrollSpecialMoment = (schedulerData: SchedulerData, startMoment
     return endMoment;
 };
 
-export const isNonWorkingTime = (schedulerData: SchedulerData, time: string) => {
+export const isNonWorkingTime = (schedulerData: SchedulerData, time: moment.Moment) => {
     // const { localeMoment } = schedulerData;
     if (schedulerData.cellUnit === CellUnits.Hour) {
         const hour = moment(time).hour();
