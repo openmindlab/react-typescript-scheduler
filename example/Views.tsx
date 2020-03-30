@@ -1,12 +1,8 @@
 import * as React from "react";
 import { Component } from "react";
-import Scheduler, {
-    SchedulerData,
-    SchedulerViewTypes,
-    SchedulerEvent,
-} from "../src/Scheduler";
-import * as ExampleFunction from "./ExampleFunctions";
+import Scheduler, { SchedulerData, SchedulerEvent, SchedulerViewTypes } from "../src/Scheduler";
 import { DemoData } from "./DemoData";
+import * as ExampleFunction from "./ExampleFunctions";
 import Nav from "./Nav";
 import ViewSrcCode from "./ViewSrcCode";
 import withDragDropContext from "./withDnDContext";

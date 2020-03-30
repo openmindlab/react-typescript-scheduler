@@ -1,10 +1,8 @@
+import Paper from '@material-ui/core/Paper';
 import * as moment from "moment";
 import * as React from "react";
 import { Component } from "react";
-import Scheduler, {
-    SchedulerData,
-    SchedulerViewTypes,
-} from "../src/Scheduler";
+import Scheduler, { SchedulerData, SchedulerViewTypes } from "../src/Scheduler";
 import { DemoData } from "./DemoData";
 import * as ExampleFunction from "./ExampleFunctions";
 import Nav from "./Nav";
@@ -32,11 +30,11 @@ class Basic extends Component<{}, IBasicState> {
     public render() {
         const { viewModel } = this.state;
         return (
-            <div>
+            <Paper>
                 <Nav />
                 <div>
                     <h3 style={{ textAlign: "center" }}>Basic example<ViewSrcCode
-                        srcCodeUrl="https://github.com/StephenChou1017/react-big-scheduler/blob/master/example/Basic.js"/>
+                        srcCodeUrl="https://github.com/StephenChou1017/react-big-scheduler/blob/master/example/Basic.js" />
                     </h3>
                     <Scheduler schedulerData={viewModel}
                         prevClick={ExampleFunction.prevClick.bind(this)}
@@ -57,7 +55,7 @@ class Basic extends Component<{}, IBasicState> {
                     />
                 </div>
                 <Tips />
-            </div>
+            </Paper>
         );
     }
 }

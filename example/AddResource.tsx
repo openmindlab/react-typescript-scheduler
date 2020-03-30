@@ -1,3 +1,4 @@
+import Paper from '@material-ui/core/Paper';
 import moment from "moment";
 import * as React from "react";
 import { Component } from "react";
@@ -69,7 +70,7 @@ class AddResource extends Component<{}, AddResourceState> {
         );
 
         return (
-            <div>
+            <Paper>
                 <Nav />
                 <div>
                     <h3 style={{ textAlign: "center" }}>Add resource<ViewSrcCode srcCodeUrl="https://github.com/StephenChou1017/react-big-scheduler/blob/master/example/AddResource.js" /></h3>
@@ -91,7 +92,7 @@ class AddResource extends Component<{}, AddResourceState> {
                         toggleExpandFunc={ExampleFunction.toggleExpandFunc.bind(this)}
                     />
                 </div>
-            </div>
+            </Paper>
         );
     }
 }
