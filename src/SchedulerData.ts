@@ -1,12 +1,10 @@
 import * as moment from "moment";
 import { RRuleSet, rrulestr } from "rrule";
-import { Config as config } from "./Config";
 import behaviors from "./Behaviors";
-import { ViewTypes } from "./types/ViewTypes";
+import { Config as config, Config } from "./config";
 import { CellUnits } from "./types/CellUnits";
-import { DATE_FORMAT } from "./types/DateFormats";
-import { DATETIME_FORMAT } from "./types/DateFormats";
-import { Config } from "./Config";
+import { DATETIME_FORMAT, DATE_FORMAT } from "./types/DateFormats";
+import { ViewTypes } from "./types/ViewTypes";
 
 export interface RenderData {
     slotId: string;
@@ -753,7 +751,7 @@ export default class SchedulerData {
             count: 0,
             addMore: 0,
             addMoreIndex: 0,
-            events: [  ],
+            events: [],
         };
     }
 
@@ -889,7 +887,7 @@ export default class SchedulerData {
         for (const header of headers) {
             const spanStart = moment(header.time);
             const spanEnd = this.cellUnit === CellUnits.Hour ? moment(header.time).add(this.config.minuteStep, "minutes")
-                    : moment(header.time).add(1, "days");
+                : moment(header.time).add(1, "days");
 
             if (spanStart < end && spanEnd > start) {
                 span++;

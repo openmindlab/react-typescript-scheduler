@@ -1,8 +1,27 @@
+import { Icon } from '@material-ui/core';
 import Popover from '@material-ui/core/Popover';
 import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
 import * as moment from "moment";
 import * as React from "react";
 import { Component, CSSProperties } from "react";
+import Col from "../src/grid/Col";
+import Row from "../src/grid/Row";
+import AddMorePopover from "./AddMorePopover";
+import AgendaView from "./AgendaView";
+import BodyView from "./BodyView";
+import DnDContext from "./DnDContext";
+import DnDSource from "./DnDSource";
+import EventItem from "./EventItem";
+import HeaderView from "./HeaderView";
+import ResourceEvents from "./ResourceEvents";
+import ResourceView from "./ResourceView";
+import SchedulerData, { Event, EventGroup, RenderData } from "./SchedulerData";
+import { CellUnits } from "./types/CellUnits";
+import { DATETIME_FORMAT, DATE_FORMAT } from "./types/DateFormats";
+import { SummaryPos } from "./types/SummaryPos";
+import { ViewTypes } from "./types/ViewTypes";
+
 // Col, Row and Icon do not have their own less files for styling. They use
 // rules declared in antd's global css. If these styles are imported directly
 // from within antd, they'll include, for instance, reset rules. These will
@@ -27,27 +46,8 @@ import { Component, CSSProperties } from "react";
 // The next components have their own specific stylesheets which we import
 // separately here to avoid importing from files which have required the global
 // antd styles.
-import Col from "../src/grid/Col";
-import Row from "../src/grid/Row";
-import AddMorePopover from "./AddMorePopover";
-import AgendaView from "./AgendaView";
-import BodyView from "./BodyView";
-import DnDContext from "./DnDContext";
-import DnDSource from "./DnDSource";
-import EventItem from "./EventItem";
-import HeaderView from "./HeaderView";
-import ResourceEvents from "./ResourceEvents";
-import ResourceView from "./ResourceView";
-import SchedulerData, { Event, EventGroup, EventRecurring, Header, RenderData, Resource } from "./SchedulerData";
-import { CellUnits } from "./types/CellUnits";
-import { DATETIME_FORMAT, DATE_FORMAT } from "./types/DateFormats";
-import { SummaryPos } from "./types/SummaryPos";
-import { ViewTypes } from "./types/ViewTypes";
 
 
-
-const RadioButton = Radio.Button;
-const RadioGroup = Radio.Group;
 
 interface SchedulerProps {
     schedulerData: SchedulerData;
@@ -186,9 +186,9 @@ class Scheduler extends Component<SchedulerProps, SchedulerContentState> {
         const dateLabel = schedulerData.getDateLabel();
         const defaultValue = `${viewType}${showAgenda ? 1 : 0}${isEventPerspective ? 1 : 0}`;
         const radioButtonList = config.views.map((item) => {
-            return <RadioButton key={`${item.viewType}${item.showAgenda ? 1 : 0}${item.isEventPerspective ? 1 : 0}`}
+            return <Radio key={`${item.viewType}${item.showAgenda ? 1 : 0}${item.isEventPerspective ? 1 : 0}`}
                 value={`${item.viewType}${item.showAgenda ? 1 : 0}${item.isEventPerspective ? 1 : 0}`}><span
-                    style={{ margin: "0px 8px" }}>{item.viewName}</span></RadioButton>;
+                    style={{ margin: "0px 8px" }}>{item.viewName}</span></Radio >;
         });
 
         let tbodyContent = <tr />;
@@ -303,29 +303,27 @@ class Scheduler extends Component<SchedulerProps, SchedulerContentState> {
                     {leftCustomHeader}
                     <Col>
                         <div className="header2-text">
-                            <Icon type="left" style={{ marginRight: "8px" }} className="icon-nav"
-                                onClick={this.goBack} />
+                            <Icon style={{ marginRight: "8px" }} className="icon-nav"
+                                onClick={this.goBack}>left</Icon>
                             {
                                 calendarPopoverEnabled
                                     ?
-                                    <Popover content={popover} placement="bottom" trigger="click"
-                                        visible={this.state.visible}
-                                        onVisibleChange={this.handleVisibleChange}>
+                                    (<Popover>
                                         <span className={"header2-text-label"} style={{ cursor: "pointer" }}>{dateLabel}</span>
-                                    </Popover>
+                                    </Popover>)
                                     : <span className={"header2-text-label"}>{dateLabel}</span>
                             }
-                            <Icon type="right" style={{ marginLeft: "8px" }} className="icon-nav"
-                                onClick={this.goNext} />
+                            <Icon style={{ marginLeft: "8px" }} className="icon-nav"
+                                onClick={this.goNext}>KeyboardArrowRight</Icon>
                         </div>
-                    </Col>
+                    </Col >
                     <Col>
                         <RadioGroup defaultValue={defaultValue} size="default" onChange={this.onViewChange}>
                             {radioButtonList}
                         </RadioGroup>
                     </Col>
                     {rightCustomHeader}
-                </Row>
+                </Row >
             );
         }
 

@@ -1,4 +1,5 @@
 
+import { Icon } from '@material-ui/core';
 import * as moment from "moment";
 import * as React from "react";
 import { Component } from "react";
@@ -84,7 +85,7 @@ class AddMorePopover extends Component<AddMorePopoverProps, AddMorePopoverState>
                         <span className="base-text">{header}</span>
                     </Col>
                     <Col span={2}>
-                        <span onClick={() => { closeAction(undefined); }}><Icon type="cross"></Icon></span>
+                        <span onClick={() => { closeAction(undefined); }}><Icon>close</Icon></span>
                     </Col>
                 </Row>
                 {eventList}

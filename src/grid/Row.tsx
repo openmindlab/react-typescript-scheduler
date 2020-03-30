@@ -6,7 +6,6 @@ interface Props {
   justify?: string;
 }
 
-
 export default class Row extends React.Component<Props> {
 
   render() {

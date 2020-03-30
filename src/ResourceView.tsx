@@ -1,3 +1,4 @@
+import { Icon } from '@material-ui/core';
 import * as React from "react";
 import { Component, CSSProperties } from "react";
 import { SchedulerData } from "./Scheduler";
@@ -39,19 +40,19 @@ class ResourceView extends Component<ResourceViewProps> {
             let indent = <span key={`es${item.indent}`} className="expander-space"></span>;
             if (item.hasChildren) {
                 indent = item.expanded ? (
-                    <Icon type="minus-square" key={`es${item.indent}`} style={{}} className=""
+                    <Icon key={`es${item.indent}`} style={{}} className=""
                         onClick={() => {
                             if (!!toggleExpandFunc) {
                                 toggleExpandFunc(schedulerData, item.slotId);
                             }
-                        }} />
+                        }} >minimize</Icon>
                 ) : (
-                        <Icon type="plus-square" key={`es${item.indent}`} style={{}} className=""
+                        <Icon key={`es${item.indent}`} style={{}} className=""
                             onClick={() => {
                                 if (!!toggleExpandFunc) {
                                     toggleExpandFunc(schedulerData, item.slotId);
                                 }
-                            }} />
+                            }} >add</Icon>
                     );
             }
             indents.push(indent);
