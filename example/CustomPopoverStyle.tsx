@@ -1,16 +1,12 @@
-import * as React from "react";
-import { Component, useState } from "react";
-import Scheduler, {
-    SchedulerData,
-    SchedulerViewTypes,
-    SchedulerEvent,
-} from "../src/Scheduler";
-import * as ExampleFunction from "./ExampleFunctions";
+import { Button } from '@material-ui/core';
 import * as moment from "moment";
-import Col from "antd/lib/col";
-import Row from "antd/lib/row";
-import Button from "antd/lib/button";
+import * as React from "react";
+import { Component } from "react";
+import Col from "../src/grid/Col";
+import Row from "../src/grid/Row";
+import Scheduler, { SchedulerData, SchedulerEvent, SchedulerViewTypes } from "../src/Scheduler";
 import { DemoData } from "./DemoData";
+import * as ExampleFunction from "./ExampleFunctions";
 import Nav from "./Nav";
 import ViewSrcCode from "./ViewSrcCode";
 import withDragDropContext from "./withDnDContext";

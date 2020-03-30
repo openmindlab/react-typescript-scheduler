@@ -1,18 +1,12 @@
+import moment from "moment";
 import * as React from "react";
 import { Component } from "react";
-import Scheduler, {
-    SchedulerData,
-    SchedulerViewTypes,
-    SCHEDULER_DATE_FORMAT,
-} from "../src/Scheduler";
-import * as ExampleFunction from "./ExampleFunctions";
-import moment from "moment";
+import Scheduler, { SchedulerData, SchedulerViewTypes, SCHEDULER_DATE_FORMAT } from "../src/Scheduler";
 import { DemoData } from "./DemoData";
+import * as ExampleFunction from "./ExampleFunctions";
 import Nav from "./Nav";
 import ViewSrcCode from "./ViewSrcCode";
 import withDragDropContext from "./withDnDContext";
-import "antd/lib/style/index.css";
-import "antd/lib/input/style/index.css";
 
 interface AddResourceState {
     viewModel: SchedulerData;

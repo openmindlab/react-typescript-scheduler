@@ -1,5 +1,8 @@
-import Calendar from "antd/lib/calendar";
-import "antd/lib/calendar/style/index.css";
+import Popover from '@material-ui/core/Popover';
+import Radio from '@material-ui/core/Radio';
+import * as moment from "moment";
+import * as React from "react";
+import { Component, CSSProperties } from "react";
 // Col, Row and Icon do not have their own less files for styling. They use
 // rules declared in antd's global css. If these styles are imported directly
 // from within antd, they'll include, for instance, reset rules. These will
@@ -24,18 +27,8 @@ import "antd/lib/calendar/style/index.css";
 // The next components have their own specific stylesheets which we import
 // separately here to avoid importing from files which have required the global
 // antd styles.
-import Col from "antd/lib/col";
-import "antd/lib/grid/style/index.css";
-import Icon from "antd/lib/icon";
-import Popover from "antd/lib/popover";
-import "antd/lib/popover/style/index.css";
-import Radio from "antd/lib/radio";
-import "antd/lib/radio/style/index.css";
-import Row from "antd/lib/row";
-import "antd/lib/select/style/index.css";
-import * as moment from "moment";
-import * as React from "react";
-import { Component, CSSProperties } from "react";
+import Col from "../src/grid/Col";
+import Row from "../src/grid/Row";
 import AddMorePopover from "./AddMorePopover";
 import AgendaView from "./AgendaView";
 import BodyView from "./BodyView";
@@ -50,6 +43,9 @@ import { CellUnits } from "./types/CellUnits";
 import { DATETIME_FORMAT, DATE_FORMAT } from "./types/DateFormats";
 import { SummaryPos } from "./types/SummaryPos";
 import { ViewTypes } from "./types/ViewTypes";
+
+
+
 const RadioButton = Radio.Button;
 const RadioGroup = Radio.Group;
 

@@ -3,7 +3,6 @@ import { Component, CSSProperties } from "react";
 import { SchedulerData } from "./Scheduler";
 import { RenderData } from "./SchedulerData";
 
-import Icon from "antd/lib/icon";
 
 interface ResourceViewProps {
     schedulerData: SchedulerData;

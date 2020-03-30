@@ -1,19 +1,18 @@
 import * as React from "react";
 import { Component } from "react";
-import Col from "antd/lib/col";
-import Row from "antd/lib/row";
-import Scheduler, { SchedulerData, SchedulerViewTypes, SchedulerDnDSource, SchedulerEvent, SchedulerEventGroup } from "../src/Scheduler";
-import { DemoData } from "./DemoData";
+import Col from "../src/grid/Col";
+import Row from "../src/grid/Row";
+import Scheduler, { SchedulerData, SchedulerDnDSource, SchedulerEvent, SchedulerViewTypes } from "../src/Scheduler";
 import { DnDTypes } from "../src/types/DnDTypes";
-import TaskItem from "./TaskItem";
-import TaskList from "./TaskList";
+import { DemoData } from "./DemoData";
+import * as ExampleFunction from "./ExampleFunctions";
+import Nav from "./Nav";
 import ResourceItem from "./ResourceItem";
 import ResourceList from "./ResourceList";
-import Nav from "./Nav";
+import TaskItem from "./TaskItem";
+import TaskList from "./TaskList";
 import ViewSrcCode from "./ViewSrcCode";
 import withDragDropContext from "./withDnDContext";
-import { Event } from "../src/SchedulerData";
-import * as ExampleFunction from "./ExampleFunctions";
 
 interface DragAndDropState {
     viewModel: SchedulerData;

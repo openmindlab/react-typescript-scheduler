@@ -1,8 +1,8 @@
-import * as React from "react";
-import { Component, CSSProperties } from "react";
-import Col from "antd/lib/col";
-import Row from "antd/lib/row";
 import * as moment from "moment";
+import * as React from "react";
+import { Component } from "react";
+import Col from "../src/grid/Col";
+import Row from "../src/grid/Row";
 import { SchedulerData } from "./Scheduler";
 import { Event } from "./SchedulerData";
 

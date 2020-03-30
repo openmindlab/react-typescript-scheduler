@@ -1,9 +1,9 @@
+import Popover from '@material-ui/core/Popover';
 import * as React from "react";
-import { Component, CSSProperties } from "react";
-import Popover from "antd/lib/popover";
+import { Component } from "react";
 import EventItemPopover from "./EventItemPopover";
 import { SchedulerData } from "./Scheduler";
-import { RenderData, Resource, EventGroup, Event } from "./SchedulerData";
+import { Event, EventGroup, RenderData, Resource } from "./SchedulerData";
 
 interface AgendaEventItemProps {
     isStart: boolean;

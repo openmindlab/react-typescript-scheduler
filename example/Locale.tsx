@@ -1,17 +1,12 @@
+import * as moment from "moment";
 import * as React from "react";
 import { Component } from "react";
-import Scheduler, {
-    SchedulerData,
-    SchedulerViewTypes,
-    SchedulerHeader,
-} from "../src/Scheduler";
-import * as ExampleFunction from "./ExampleFunctions";
-import * as moment from "moment";
+import Scheduler, { SchedulerData, SchedulerHeader, SchedulerViewTypes } from "../src/Scheduler";
 import { DemoData } from "./DemoData";
+import * as ExampleFunction from "./ExampleFunctions";
 import Nav from "./Nav";
 import ViewSrcCode from "./ViewSrcCode";
 import withDragDropContext from "./withDnDContext";
-import Header from "antd/lib/calendar/Header";
 
 class Locale extends Component<{}, { viewModel: SchedulerData, headerItem: SchedulerHeader, left: number, top: number, height: number }> {
     constructor(props: Readonly<{}>) {
@@ -38,9 +33,9 @@ class Locale extends Component<{}, { viewModel: SchedulerData, headerItem: Sched
                 { viewName: "年", viewType: SchedulerViewTypes.Year, showAgenda: false, isEventPerspective: false },
             ],
         }, {
-                getDateLabelFunc: this.getDateLabel,
-                isNonWorkingTimeFunc: this.isNonWorkingTime,
-            });
+            getDateLabelFunc: this.getDateLabel,
+            isNonWorkingTimeFunc: this.isNonWorkingTime,
+        });
         schedulerData.setResources(DemoData.resources);
         schedulerData.setEvents(DemoData.events);
         this.state = {

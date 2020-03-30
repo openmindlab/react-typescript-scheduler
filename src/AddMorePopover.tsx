@@ -1,11 +1,11 @@
-import * as React from "react";
-import { Component, CSSProperties } from "react";
-import Col from "antd/lib/col";
-import Row from "antd/lib/row";
-import Icon from "antd/lib/icon";
-import EventItem from "./EventItem";
-import DnDSource from "./DnDSource";
+
 import * as moment from "moment";
+import * as React from "react";
+import { Component } from "react";
+import Col from "../src/grid/Col";
+import Row from "../src/grid/Row";
+import DnDSource from "./DnDSource";
+import EventItem from "./EventItem";
 import { SchedulerData } from "./Scheduler";
 import { Event } from "./SchedulerData";
 
@@ -36,7 +36,7 @@ class AddMorePopover extends Component<AddMorePopoverProps, AddMorePopoverState>
         super(props);
 
         this.state = {
-            dndSource: new DnDSource((p: {eventItem: Event}) => p.eventItem, EventItem),
+            dndSource: new DnDSource((p: { eventItem: Event }) => p.eventItem, EventItem),
         };
     }
 
@@ -80,10 +80,10 @@ class AddMorePopover extends Component<AddMorePopoverProps, AddMorePopoverState>
         return (
             <div className="add-more-popover-overlay" style={{ left, top, height, width: "170px" }}>
                 <Row type="flex" justify="space-between" align="middle">
-                    <Col span="22">
+                    <Col span={22}>
                         <span className="base-text">{header}</span>
                     </Col>
-                    <Col span="2">
+                    <Col span={2}>
                         <span onClick={() => { closeAction(undefined); }}><Icon type="cross"></Icon></span>
                     </Col>
                 </Row>

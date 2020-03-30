@@ -1,14 +1,14 @@
-import * as React from "react";
+import Popover from '@material-ui/core/Popover';
 import * as moment from "moment";
-import { Component, CSSProperties } from "react";
-import Popover from "antd/lib/popover";
-import "antd/lib/popover/style/index.css";
+import * as React from "react";
+import { Component } from "react";
 import EventItemPopover from "./EventItemPopover";
+import { SchedulerData } from "./Scheduler";
+import { Event } from "./SchedulerData";
 import { CellUnits } from "./types/CellUnits";
 import { DATETIME_FORMAT } from "./types/DateFormats";
 import { DnDTypes } from "./types/DnDTypes";
-import { SchedulerData } from "./Scheduler";
-import { Event } from "./SchedulerData";
+
 
 const supportTouch = "ontouchstart" in window;
 interface EventItemProps {
@@ -187,7 +187,7 @@ class EventItem extends Component<EventItemProps, EventItemState> {
             count = rightIndex - leftIndex - 1;
         } else if (newWidth > maxWidth) {
             count = -leftIndex;
- }
+        }
         let newStart = moment(eventItem.start).add(cellUnit === CellUnits.Hour ? count * config.minuteStep : count, cellUnit === CellUnits.Hour ? "minutes" : "days").format(DATETIME_FORMAT);
         if (count !== 0 && cellUnit !== CellUnits.Hour && config.displayWeekend === false) {
             if (count > 0) {
@@ -344,7 +344,7 @@ class EventItem extends Component<EventItemProps, EventItemState> {
             newWidth = minWidth;
         } else if (newWidth > maxWidth) {
             newWidth = maxWidth;
- }
+        }
 
         this.setState({ width: newWidth });
     }
@@ -396,7 +396,7 @@ class EventItem extends Component<EventItemProps, EventItemState> {
             count = leftIndex - rightIndex + 1;
         } else if (newWidth > maxWidth) {
             count = headers.length - rightIndex;
- }
+        }
         let newEnd = moment(eventItem.end).add(cellUnit === CellUnits.Hour ? count * config.minuteStep : count, cellUnit === CellUnits.Hour ? "minutes" : "days").format(DATETIME_FORMAT);
         if (count !== 0 && cellUnit !== CellUnits.Hour && config.displayWeekend === false) {
             let tempCount = 0;
