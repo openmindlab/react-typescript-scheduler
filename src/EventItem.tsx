@@ -547,7 +547,7 @@ class EventItem extends Component<EventItemProps, EventItemState> {
                         )
                     }
                 </div> :
-                <Popover>
+                <Popover open={false}>
                     {
                         connectDragPreview(
                             connectDragSource(a),

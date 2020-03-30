@@ -16,7 +16,7 @@ import EventItem from "./EventItem";
 import HeaderView from "./HeaderView";
 import ResourceEvents from "./ResourceEvents";
 import ResourceView from "./ResourceView";
-import SchedulerData, { Event, EventGroup, RenderData } from "./SchedulerData";
+import SchedulerData, { Event, EventGroup, EventRecurring, Header, RenderData, Resource } from "./SchedulerData";
 import { CellUnits } from "./types/CellUnits";
 import { DATETIME_FORMAT, DATE_FORMAT } from "./types/DateFormats";
 import { SummaryPos } from "./types/SummaryPos";
@@ -295,11 +295,11 @@ class Scheduler extends Component<SchedulerProps, SchedulerContentState> {
             );
         }
 
-        const popover = <div className="popover-calendar"><Calendar fullscreen={false} onSelect={this.onSelect} /></div>;
+        const popover = <div className="popover-calendar">missing calendar {/*<Calendar fullscreen={false} onSelect={this.onSelect} />*/}</div>;
         let schedulerHeader = <div />;
         if (config.headerEnabled) {
             schedulerHeader = (
-                <Row type="flex" align="middle" justify="space-between" style={{ marginBottom: "24px" }}>
+                <Row type="flex" align="middle" justify="space-between">
                     {leftCustomHeader}
                     <Col>
                         <div className="header2-text">
@@ -308,7 +308,7 @@ class Scheduler extends Component<SchedulerProps, SchedulerContentState> {
                             {
                                 calendarPopoverEnabled
                                     ?
-                                    (<Popover>
+                                    (<Popover open={false}>
                                         <span className={"header2-text-label"} style={{ cursor: "pointer" }}>{dateLabel}</span>
                                     </Popover>)
                                     : <span className={"header2-text-label"}>{dateLabel}</span>
@@ -318,7 +318,7 @@ class Scheduler extends Component<SchedulerProps, SchedulerContentState> {
                         </div>
                     </Col >
                     <Col>
-                        <RadioGroup defaultValue={defaultValue} size="default" onChange={this.onViewChange}>
+                        <RadioGroup defaultValue={defaultValue} onChange={this.onViewChange}>
                             {radioButtonList}
                         </RadioGroup>
                     </Col>
