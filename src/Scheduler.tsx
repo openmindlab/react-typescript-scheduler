@@ -1,6 +1,5 @@
-import * as React from "react";
-import * as moment from "moment";
-import { Component, CSSProperties } from "react";
+import Calendar from "antd/lib/calendar";
+import "antd/lib/calendar/style/index.css";
 // Col, Row and Icon do not have their own less files for styling. They use
 // rules declared in antd's global css. If these styles are imported directly
 // from within antd, they'll include, for instance, reset rules. These will
@@ -26,31 +25,31 @@ import { Component, CSSProperties } from "react";
 // separately here to avoid importing from files which have required the global
 // antd styles.
 import Col from "antd/lib/col";
-import Row from "antd/lib/row";
-import Icon from "antd/lib/icon";
-import "antd/lib/select/style/index.css";
 import "antd/lib/grid/style/index.css";
-import Radio from "antd/lib/radio";
-import "antd/lib/radio/style/index.css";
+import Icon from "antd/lib/icon";
 import Popover from "antd/lib/popover";
 import "antd/lib/popover/style/index.css";
-import Calendar from "antd/lib/calendar";
-import "antd/lib/calendar/style/index.css";
-import EventItem from "./EventItem";
-import DnDSource from "./DnDSource";
-import DnDContext from "./DnDContext";
-import ResourceView from "./ResourceView";
-import HeaderView from "./HeaderView";
-import BodyView from "./BodyView";
-import ResourceEvents from "./ResourceEvents";
-import AgendaView from "./AgendaView";
+import Radio from "antd/lib/radio";
+import "antd/lib/radio/style/index.css";
+import Row from "antd/lib/row";
+import "antd/lib/select/style/index.css";
+import * as moment from "moment";
+import * as React from "react";
+import { Component, CSSProperties } from "react";
 import AddMorePopover from "./AddMorePopover";
-import { ViewTypes } from "./types/ViewTypes";
+import AgendaView from "./AgendaView";
+import BodyView from "./BodyView";
+import DnDContext from "./DnDContext";
+import DnDSource from "./DnDSource";
+import EventItem from "./EventItem";
+import HeaderView from "./HeaderView";
+import ResourceEvents from "./ResourceEvents";
+import ResourceView from "./ResourceView";
+import SchedulerData, { Event, EventGroup, EventRecurring, Header, RenderData, Resource } from "./SchedulerData";
 import { CellUnits } from "./types/CellUnits";
-import { SummaryPos } from "./types/SummaryPos";
-import SchedulerData from "./SchedulerData";
-import { RenderData, Event, EventGroup, Header, Resource, EventRecurring } from "./SchedulerData";
 import { DATETIME_FORMAT, DATE_FORMAT } from "./types/DateFormats";
+import { SummaryPos } from "./types/SummaryPos";
+import { ViewTypes } from "./types/ViewTypes";
 const RadioButton = Radio.Button;
 const RadioGroup = Radio.Group;
 
@@ -67,7 +66,7 @@ interface SchedulerProps {
     movingEvent?: (schedulerData: SchedulerData, slotId: string, slotName: string, newStart: string, newEnd: string, action: any, type: string, item: any) => void;
     leftCustomHeader?: any;
     rightCustomHeader?: any;
-    newEvent?: (schedulerData: SchedulerData, slotId: string, slotName: string, start: string, end: string, type: string, item: Event|EventGroup) => void;
+    newEvent?: (schedulerData: SchedulerData, slotId: string, slotName: string, start: string, end: string, type: string, item: Event | EventGroup) => void;
     subtitleGetter?: (schedulerData: SchedulerData, event: Event) => string;
     eventItemClick?: (schedulerData: SchedulerData, event: Event) => any;
     viewEventClick?: (schedulerData: SchedulerData, event: Event) => void;
@@ -215,6 +214,7 @@ class Scheduler extends Component<SchedulerProps, SchedulerContentState> {
                 return <DndResourceEvents
                     {...this.props}
                     key={item.slotId}
+                    // @ts-ignore
                     resourceEvents={item}
                     dndSource={eventDndSource}
                 />;
@@ -512,22 +512,6 @@ class Scheduler extends Component<SchedulerProps, SchedulerContentState> {
     }
 }
 
-export {
-    SchedulerData,
-};
-export {
-    RenderData as SchedulerRenderData,
-    Event as SchedulerEvent,
-    EventGroup as SchedulerEventGroup,
-    Header as SchedulerHeader,
-    Resource as SchedulerResource,
-    EventRecurring as SchedulerEventRecurring,
-    DATETIME_FORMAT as SCHEDULER_DATETIME_FORMAT,
-    DATE_FORMAT as SCHEDULER_DATE_FORMAT,
-    ViewTypes as SchedulerViewTypes,
-    AddMorePopover as SchedulerAddMorePopover,
-    DnDSource as SchedulerDnDSource,
-    CellUnits as SchedulerCellUnits,
-    SummaryPos as SchedulerSummaryPos,
-};
+export { SchedulerData, };
+export { RenderData as SchedulerRenderData, Event as SchedulerEvent, EventGroup as SchedulerEventGroup, Header as SchedulerHeader, Resource as SchedulerResource, EventRecurring as SchedulerEventRecurring, DATETIME_FORMAT as SCHEDULER_DATETIME_FORMAT, DATE_FORMAT as SCHEDULER_DATE_FORMAT, ViewTypes as SchedulerViewTypes, AddMorePopover as SchedulerAddMorePopover, DnDSource as SchedulerDnDSource, CellUnits as SchedulerCellUnits, SummaryPos as SchedulerSummaryPos, };
 export default Scheduler;
