@@ -1,7 +1,8 @@
-import { Icon } from '@material-ui/core';
 import Popover from '@material-ui/core/Popover';
-import Radio from '@material-ui/core/Radio';
-import RadioGroup from '@material-ui/core/RadioGroup';
+import KeyboardArrowLeftIcon from '@material-ui/icons/KeyboardArrowLeft';
+import KeyboardArrowRightIcon from '@material-ui/icons/KeyboardArrowRight';
+import ToggleButton from '@material-ui/lab/ToggleButton';
+import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
 import * as moment from "moment";
 import * as React from "react";
 import { Component, CSSProperties } from "react";
@@ -21,33 +22,6 @@ import { CellUnits } from "./types/CellUnits";
 import { DATETIME_FORMAT, DATE_FORMAT } from "./types/DateFormats";
 import { SummaryPos } from "./types/SummaryPos";
 import { ViewTypes } from "./types/ViewTypes";
-
-// Col, Row and Icon do not have their own less files for styling. They use
-// rules declared in antd's global css. If these styles are imported directly
-// from within antd, they'll include, for instance, reset rules. These will
-// affect everything on the page and in essence would leak antd's global styles
-// into all projects using this library. Instead of doing that, we are using
-// a hack which allows us to wrap all antd styles to target specific root. In
-// this case the root id will be "RBS-Scheduler-root". This way the reset styles
-// won't be applied to elements declared outside of <Scheduler /> component.
-//
-// You can get more context for the issue by reading:
-// https://github.com/ant-design/ant-design/issues/4331
-// The solution is based on:
-// https://github.com/ant-design/ant-design/issues/4331#issuecomment-391066131
-//
-// For development
-// This fix is implemented with webpack's NormalModuleReplacementPlugin in
-// webpack/webpack-dev.config.js.
-//
-// For library builds
-// This fix is implemented by the build script in scripts/build.js
-//
-// The next components have their own specific stylesheets which we import
-// separately here to avoid importing from files which have required the global
-// antd styles.
-
-
 
 interface SchedulerProps {
     schedulerData: SchedulerData;
@@ -186,19 +160,19 @@ class Scheduler extends Component<SchedulerProps, SchedulerContentState> {
         const dateLabel = schedulerData.getDateLabel();
         const defaultValue = `${viewType}${showAgenda ? 1 : 0}${isEventPerspective ? 1 : 0}`;
         const radioButtonList = config.views.map((item) => {
-            return <Radio key={`${item.viewType}${item.showAgenda ? 1 : 0}${item.isEventPerspective ? 1 : 0}`}
-                value={`${item.viewType}${item.showAgenda ? 1 : 0}${item.isEventPerspective ? 1 : 0}`}><span
-                    style={{ margin: "0px 8px" }}>{item.viewName}</span></Radio >;
+            return <ToggleButton key={`${item.viewType}${item.showAgenda ? 1 : 0}${item.isEventPerspective ? 1 : 0}`} value={`${item.viewType}${item.showAgenda ? 1 : 0}${item.isEventPerspective ? 1 : 0}`}>
+                {item.viewName}
+            </ToggleButton>;
         });
 
-        let tbodyContent = <tr />;
+        let tbodyContent;
         if (showAgenda) {
             tbodyContent = <AgendaView
                 {...this.props}
             />;
         } else {
             const resourceTableWidth = schedulerData.getResourceTableWidth();
-            const schedulerContainerWidth = parseInt(width, undefined) - resourceTableWidth + 1;
+            const schedulerContainerWidth = parseInt(width, 10) - resourceTableWidth + 1;
             const schedulerWidth = schedulerData.getContentTableWidth() - 1;
             const DndResourceEvents = this.state.dndContext.getDropTarget();
             const eventDndSource = this.state.dndContext.getDndSource();
@@ -303,8 +277,8 @@ class Scheduler extends Component<SchedulerProps, SchedulerContentState> {
                     {leftCustomHeader}
                     <Col>
                         <div className="header2-text">
-                            <Icon style={{ marginRight: "8px" }} className="icon-nav"
-                                onClick={this.goBack}>left</Icon>
+                            <KeyboardArrowLeftIcon style={{ marginRight: "8px" }} className="icon-nav"
+                                onClick={this.goBack} />
                             {
                                 calendarPopoverEnabled
                                     ?
@@ -313,14 +287,18 @@ class Scheduler extends Component<SchedulerProps, SchedulerContentState> {
                                     </Popover>)
                                     : <span className={"header2-text-label"}>{dateLabel}</span>
                             }
-                            <Icon style={{ marginLeft: "8px" }} className="icon-nav"
-                                onClick={this.goNext}>KeyboardArrowRight</Icon>
+                            <KeyboardArrowRightIcon style={{ marginLeft: "8px" }} className="icon-nav"
+                                onClick={this.goNext} />
                         </div>
                     </Col >
                     <Col>
-                        <RadioGroup defaultValue={defaultValue} onChange={this.onViewChange}>
+                        <ToggleButtonGroup
+                            value={defaultValue}
+                            exclusive
+                            onChange={this.onViewChange}
+                        >
                             {radioButtonList}
-                        </RadioGroup>
+                        </ToggleButtonGroup>
                     </Col>
                     {rightCustomHeader}
                 </Row >
@@ -474,11 +452,12 @@ class Scheduler extends Component<SchedulerProps, SchedulerContentState> {
         });
     }
 
-    public onViewChange = (e) => {
+    public onViewChange = (e, value) => {
         const { onViewChange, schedulerData } = this.props;
-        const viewType = parseInt(e.target.value.charAt(0), undefined);
-        const showAgenda = e.target.value.charAt(1) === "1";
-        const isEventPerspective = e.target.value.charAt(2) === "1";
+        const viewType = parseInt(value.charAt(0), 10);
+        const showAgenda = value.charAt(1) === "1";
+        const isEventPerspective = value.charAt(2) === "1";
+        console.log('viewType', viewType, 'showAgenda', showAgenda, 'isEventPerspective', isEventPerspective);
         onViewChange(schedulerData, { viewType, showAgenda, isEventPerspective });
     }
 

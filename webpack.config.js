@@ -49,8 +49,7 @@ module.exports = {
         ]
     },
     plugins: [
-        new HtmlWebpackPlugin({ template: path.resolve(__dirname, 'example', 'index.html') }),
-        new webpack.HotModuleReplacementPlugin()
+        new HtmlWebpackPlugin({ template: path.resolve(__dirname, 'example', 'index.html') })
     ],
     devServer: {
         contentBase: path.join(__dirname, 'example'),

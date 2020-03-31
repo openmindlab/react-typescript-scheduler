@@ -29,13 +29,13 @@
   "license": "MIT",
   "config": {},
   "scripts": {
-    "debug": "webpack-dev-server --config ./webpack-dev.config.js --hot --open",
-    "build-dev": "webpack --config ./webpack-dev.config.js",
+    "debug": "webpack-dev-server --config ./webpack.config.js --hot --open",
+    "build-dev": "webpack --config ./webpack.config.js",
     "clean": "rimraf ./lib && mkdir lib",
-    "build": "node scripts/build.js",
+    "build": "webpack --config ./webpack-config.js",
     "clean:exampledist": "rimraf ./exampledist/static",
     "build:exampledist": "npm run clean:exampledist && cpy src/css/style.css exampledist/static && cross-env NODE_ENV=production webpack --config ./webpack/webpack.config.js",
-    "example": "webpack-dev-server --config ./webpack/webpack-dev.config.js --hot",
+    "example": "webpack-dev-server --config ./webpack/webpack.config.js --hot",
     "analyz": "cross-env NODE_ENV=production npm_config_report=true npm run build",
     "build:dll": "cross-env NODE_ENV=production webpack --config ./webpack/webpack.dll.config.js"
   },
@@ -44,6 +44,8 @@
   ],
   "dependencies": {
     "@material-ui/core": "4.9.8",
+    "@material-ui/icons": "4.9.1",
+    "@material-ui/lab": "4.0.0-alpha.47",
     "cpy": "8.1.0",
     "moment": "^2.24.0",
     "prop-types": "^15.7.2",

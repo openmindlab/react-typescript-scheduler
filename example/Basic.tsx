@@ -1,4 +1,5 @@
 import Paper from '@material-ui/core/Paper';
+import Typography from '@material-ui/core/Typography';
 import * as moment from "moment";
 import * as React from "react";
 import { Component } from "react";
@@ -6,8 +7,6 @@ import Scheduler, { SchedulerData, SchedulerViewTypes } from "../src/Scheduler";
 import { DemoData } from "./DemoData";
 import * as ExampleFunction from "./ExampleFunctions";
 import Nav from "./Nav";
-import Tips from "./Tips";
-import ViewSrcCode from "./ViewSrcCode";
 import withDragDropContext from "./withDnDContext";
 
 interface IBasicState {
@@ -30,12 +29,12 @@ class Basic extends Component<{}, IBasicState> {
     public render() {
         const { viewModel } = this.state;
         return (
-            <Paper>
+            <>
                 <Nav />
-                <div>
-                    <h3 style={{ textAlign: "center" }}>Basic example<ViewSrcCode
-                        srcCodeUrl="https://github.com/StephenChou1017/react-big-scheduler/blob/master/example/Basic.js" />
-                    </h3>
+                <Paper elevation={3} >
+                    <Typography variant="h3">
+                        Basic example
+                    </Typography>
                     <Scheduler schedulerData={viewModel}
                         prevClick={ExampleFunction.prevClick.bind(this)}
                         nextClick={ExampleFunction.nextClick.bind(this)}
@@ -53,9 +52,8 @@ class Basic extends Component<{}, IBasicState> {
                         toggleExpandFunc={ExampleFunction.toggleExpandFunc.bind(this)}
                         onSetAddMoreState={ExampleFunction.onSetAddMoreState.bind(this)}
                     />
-                </div>
-                <Tips />
-            </Paper>
+                </Paper>
+            </>
         );
     }
 }
