@@ -1,16 +1,16 @@
-import Popover from '@material-ui/core/Popover';
+import MomentUtils from '@date-io/moment';
 import KeyboardArrowLeftIcon from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRightIcon from '@material-ui/icons/KeyboardArrowRight';
 import ToggleButton from '@material-ui/lab/ToggleButton';
 import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
+import { DatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
 import * as moment from "moment";
 import * as React from "react";
 import { Component, CSSProperties } from "react";
-import Col from "../src/grid/Col";
-import Row from "../src/grid/Row";
 import AddMorePopover from "./AddMorePopover";
 import AgendaView from "./AgendaView";
 import BodyView from "./BodyView";
+import "./css/scheduler.scss";
 import DnDContext from "./DnDContext";
 import DnDSource from "./DnDSource";
 import EventItem from "./EventItem";
@@ -22,6 +22,7 @@ import { CellUnits } from "./types/CellUnits";
 import { DATETIME_FORMAT, DATE_FORMAT } from "./types/DateFormats";
 import { SummaryPos } from "./types/SummaryPos";
 import { ViewTypes } from "./types/ViewTypes";
+
 
 interface SchedulerProps {
     schedulerData: SchedulerData;
@@ -273,25 +274,27 @@ class Scheduler extends Component<SchedulerProps, SchedulerContentState> {
         let schedulerHeader = <div />;
         if (config.headerEnabled) {
             schedulerHeader = (
-                <Row type="flex" align="middle" justify="space-between">
+                <div className="scheduler-header">
                     {leftCustomHeader}
-                    <Col>
+                    <div>
                         <div className="header2-text">
                             <KeyboardArrowLeftIcon style={{ marginRight: "8px" }} className="icon-nav"
                                 onClick={this.goBack} />
                             {
                                 calendarPopoverEnabled
                                     ?
-                                    (<Popover open={false}>
-                                        <span className={"header2-text-label"} style={{ cursor: "pointer" }}>{dateLabel}</span>
-                                    </Popover>)
+                                    (<MuiPickersUtilsProvider utils={MomentUtils}><DatePicker label={dateLabel}
+                                        value={moment(schedulerData.startDate)}
+                                        onChange={(a) => { }}
+                                        animateYearScrolling /></MuiPickersUtilsProvider>
+                                    )
                                     : <span className={"header2-text-label"}>{dateLabel}</span>
                             }
                             <KeyboardArrowRightIcon style={{ marginLeft: "8px" }} className="icon-nav"
                                 onClick={this.goNext} />
                         </div>
-                    </Col >
-                    <Col>
+                    </div>
+                    <div>
                         <ToggleButtonGroup
                             value={defaultValue}
                             exclusive
@@ -299,25 +302,21 @@ class Scheduler extends Component<SchedulerProps, SchedulerContentState> {
                         >
                             {radioButtonList}
                         </ToggleButtonGroup>
-                    </Col>
+                    </div>
                     {rightCustomHeader}
-                </Row >
+                </div>
             );
         }
 
         return (
-            <table id="RBS-Scheduler-root" className="scheduler" style={{ width: `${width}px` }}>
-                <thead>
-                    <tr>
-                        <td colSpan={2}>
-                            {schedulerHeader}
-                        </td>
-                    </tr>
-                </thead>
-                <tbody>
-                    {tbodyContent}
-                </tbody>
-            </table>
+            <div className="scheduler-container">
+                <div>{schedulerHeader}</div>
+                <table id="RBS-Scheduler-root" className="scheduler">
+                    <tbody>
+                        {tbodyContent}
+                    </tbody>
+                </table>
+            </div>
         );
     }
 

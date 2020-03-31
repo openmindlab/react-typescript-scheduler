@@ -1,5 +1,5 @@
-import { ViewTypes } from "./types/ViewTypes";
 import { SummaryPos } from "./types/SummaryPos";
+import { ViewTypes } from "./types/ViewTypes";
 
 export let Config = {
     schedulerWidth: "100%",
@@ -31,12 +31,12 @@ export let Config = {
     yearMaxEvents: 99,
     customMaxEvents: 99,
 
-    eventItemHeight: 22,
-    eventItemLineHeight: 24,
+    eventItemHeight: 40,
+    eventItemLineHeight: 44,
     nonAgendaSlotMinHeight: 0,
     dayStartFrom: 0,
     dayStopTo: 23,
-    defaultEventBgColor: "#80C5F6",
+    defaultEventBgColor: "#42a5f5",
     selectedAreaColor: "#7EC2F3",
     nonWorkingTimeHeadColor: "#999999",
     nonWorkingTimeHeadBgColor: "#fff0f6",
@@ -53,7 +53,7 @@ export let Config = {
     checkConflict: false,
     scrollToSpecialMomentEnabled: true,
     eventItemPopoverEnabled: true,
-    calendarPopoverEnabled: true,
+    calendarPopoverEnabled: false,
     recurringEventsEnabled: true,
     headerEnabled: true,
     displayWeekend: true,

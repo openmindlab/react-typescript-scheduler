@@ -3,6 +3,7 @@ import Tab from '@material-ui/core/Tab';
 import Tabs from '@material-ui/core/Tabs';
 import * as React from "react";
 import { useHistory } from "react-router-dom";
+import "../src/css/examples.scss";
 
 interface LinkTabProps {
     label?: string;

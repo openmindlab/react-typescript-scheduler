@@ -1,7 +1,7 @@
 import * as React from "react";
 import { render } from "react-dom";
 import { HashRouter as Router, Route } from "react-router-dom";
-import "../src/css/style.scss";
+import "../src/css/scheduler.scss";
 import AddMore from "./AddMore";
 import AddResource from "./AddResource";
 import Basic from "./Basic";

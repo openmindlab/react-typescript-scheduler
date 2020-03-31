@@ -1,10 +1,10 @@
+import Typography from '@material-ui/core/Typography';
 import * as React from "react";
 import { Component } from "react";
 import Scheduler, { SchedulerData, SchedulerEvent, SchedulerViewTypes } from "../src/Scheduler";
 import { DemoData } from "./DemoData";
 import * as ExampleFunction from "./ExampleFunctions";
 import Nav from "./Nav";
-import ViewSrcCode from "./ViewSrcCode";
 import withDragDropContext from "./withDnDContext";
 
 class Basic extends Component<{}, { viewModel: SchedulerData }> {
@@ -32,7 +32,7 @@ class Basic extends Component<{}, { viewModel: SchedulerData }> {
             <div>
                 <Nav />
                 <div>
-                    <h3 style={{ textAlign: "center" }}>3 View Types (take month for example)<ViewSrcCode srcCodeUrl="https://github.com/StephenChou1017/react-big-scheduler/blob/master/example/Views.js" /></h3>
+                    <Typography variant="h3">3 View Types (take month for example)</Typography>
                     <Scheduler schedulerData={viewModel}
                         prevClick={ExampleFunction.prevClick.bind(this)}
                         nextClick={ExampleFunction.nextClick.bind(this)}

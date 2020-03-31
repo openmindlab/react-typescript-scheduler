@@ -1,5 +1,5 @@
 import Paper from '@material-ui/core/Paper';
-import moment from "moment";
+import * as moment from 'moment';
 import * as React from "react";
 import { Component } from "react";
 import Scheduler, { SchedulerData, SchedulerViewTypes, SCHEDULER_DATE_FORMAT } from "../src/Scheduler";

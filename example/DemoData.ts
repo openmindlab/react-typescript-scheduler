@@ -1,4 +1,4 @@
-import { Resource, Event } from "../src/SchedulerData";
+import { Event, Resource } from "../src/SchedulerData";
 
 export interface DemoData {
     resources: Resource[];
@@ -11,39 +11,35 @@ const data: DemoData = {
     resources: [
         {
             id: "r0",
-            name: "Resource0",
-            groupOnly: true,
+            name: "Resource 0",
         },
         {
             id: "r1",
-            name: "Resource1",
-            parentId: "r0",
+            name: "Resource 1",
         },
         {
             id: "r2",
-            name: "Resource2",
-            parentId: "r3",
+            name: "Resource 2",
         },
         {
             id: "r3",
-            name: "Resource3",
-            parentId: "r1",
+            name: "Resource 3",
         },
         {
             id: "r4",
-            name: "Resource4",
+            name: "Resource 4",
         },
         {
             id: "r5",
-            name: "Resource5",
+            name: "Resource 5",
         },
         {
             id: "r6",
-            name: "Resource6",
+            name: "Resource 6",
         },
         {
             id: "r7",
-            name: "Resource7Resource7Resource7Resource7Resource7",
+            name: "Resource 7",
         },
     ],
     events: [
