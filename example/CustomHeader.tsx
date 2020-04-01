@@ -1,13 +1,9 @@
 import * as React from "react";
-import { Component, useState } from "react";
-import Scheduler, {
-    SchedulerData,
-    SchedulerViewTypes,
-} from "../src/Scheduler";
-import * as ExampleFunction from "./ExampleFunctions";
+import { Component } from "react";
+import Scheduler, { SchedulerData, SchedulerViewTypes } from "../src/Scheduler";
 import { DemoData } from "./DemoData";
+import * as ExampleFunction from "./ExampleFunctions";
 import Nav from "./Nav";
-import ViewSrcCode from "./ViewSrcCode";
 import withDragDropContext from "./withDnDContext";
 
 class CustomHeader extends Component<{}, { viewModel: SchedulerData }> {
@@ -33,30 +29,26 @@ class CustomHeader extends Component<{}, { viewModel: SchedulerData }> {
         );
 
         return (
-            <div>
-                <Nav />
-                <div>
-                    <h3 style={{ textAlign: "center" }}>Custom header<ViewSrcCode srcCodeUrl="https://github.com/StephenChou1017/react-big-scheduler/blob/master/example/CustomHeader.js" /></h3>
-                    <Scheduler schedulerData={viewModel}
-                        prevClick={ExampleFunction.prevClick.bind(this)}
-                        nextClick={ExampleFunction.nextClick.bind(this)}
-                        onSelectDate={ExampleFunction.onSelectDate.bind(this)}
-                        onViewChange={ExampleFunction.onViewChange.bind(this)}
-                        eventItemClick={ExampleFunction.eventClicked.bind(this)}
-                        viewEventClick={ExampleFunction.ops1.bind(this)}
-                        viewEventText="Ops 1"
-                        viewEvent2Text="Ops 2"
-                        viewEvent2Click={ExampleFunction.ops2.bind(this)}
-                        updateEventStart={ExampleFunction.updateEventStart.bind(this)}
-                        updateEventEnd={ExampleFunction.updateEventEnd.bind(this)}
-                        moveEvent={ExampleFunction.moveEvent.bind(this)}
-                        newEvent={ExampleFunction.newEvent.bind(this)}
-                        leftCustomHeader={leftCustomHeader}
-                        rightCustomHeader={rightCustomHeader}
-                        toggleExpandFunc={ExampleFunction.toggleExpandFunc.bind(this)}
-                    />
-                </div>
-            </div>
+            <Nav title="Custom header">
+                <Scheduler schedulerData={viewModel}
+                    prevClick={ExampleFunction.prevClick.bind(this)}
+                    nextClick={ExampleFunction.nextClick.bind(this)}
+                    onSelectDate={ExampleFunction.onSelectDate.bind(this)}
+                    onViewChange={ExampleFunction.onViewChange.bind(this)}
+                    eventItemClick={ExampleFunction.eventClicked.bind(this)}
+                    viewEventClick={ExampleFunction.ops1.bind(this)}
+                    viewEventText="Ops 1"
+                    viewEvent2Text="Ops 2"
+                    viewEvent2Click={ExampleFunction.ops2.bind(this)}
+                    updateEventStart={ExampleFunction.updateEventStart.bind(this)}
+                    updateEventEnd={ExampleFunction.updateEventEnd.bind(this)}
+                    moveEvent={ExampleFunction.moveEvent.bind(this)}
+                    newEvent={ExampleFunction.newEvent.bind(this)}
+                    leftCustomHeader={leftCustomHeader}
+                    rightCustomHeader={rightCustomHeader}
+                    toggleExpandFunc={ExampleFunction.toggleExpandFunc.bind(this)}
+                />
+            </Nav>
         );
     }
 }

@@ -1,6 +1,9 @@
 .scheduler-container {
   padding: 50px;
+  border: 1px solid red;
+
   .scheduler {
+
     *,
     :after,
     :before {
@@ -143,6 +146,7 @@
     .timeline-event {
       position: absolute;
       cursor: pointer;
+
       &:hover {
         filter: brightness(90%);
       }
@@ -187,6 +191,7 @@
       white-space: nowrap;
       color: #fff;
       padding-right: 20px !important;
+
       span {
         font-family: sans-serif;
       }

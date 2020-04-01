@@ -11,7 +11,6 @@ import ResourceItem from "./ResourceItem";
 import ResourceList from "./ResourceList";
 import TaskItem from "./TaskItem";
 import TaskList from "./TaskList";
-import ViewSrcCode from "./ViewSrcCode";
 import withDragDropContext from "./withDnDContext";
 
 interface DragAndDropState {
@@ -65,38 +64,35 @@ class DragAndDrop extends Component<{}, DragAndDropState> {
         // register the external DnDSources
         const dndSources = [taskDndSource, resourceDndSource];
         return (
-            <div>
-                <Nav />
-                <div>
-                    <h3 style={{ textAlign: "center" }}>{h3}<ViewSrcCode srcCodeUrl="https://github.com/StephenChou1017/react-big-scheduler/blob/master/example/DragAndDrop.js" /></h3>
-                    <Row>
-                        <Col span={20}>
-                            <Scheduler schedulerData={viewModel}
-                                prevClick={ExampleFunction.prevClick.bind(this)}
-                                nextClick={ExampleFunction.nextClick.bind(this)}
-                                onSelectDate={ExampleFunction.onSelectDate.bind(this)}
-                                onViewChange={ExampleFunction.onViewChange.bind(this)}
-                                eventItemClick={ExampleFunction.eventClicked.bind(this)}
-                                viewEventClick={ExampleFunction.ops1.bind(this)}
-                                viewEventText="Ops 1"
-                                viewEvent2Text="Ops 2"
-                                viewEvent2Click={ExampleFunction.ops2.bind(this)}
-                                updateEventStart={ExampleFunction.updateEventStart.bind(this)}
-                                updateEventEnd={ExampleFunction.updateEventEnd.bind(this)}
-                                moveEvent={ExampleFunction.moveEvent.bind(this)}
-                                newEvent={ExampleFunction.newEvent.bind(this)}
-                                toggleExpandFunc={ExampleFunction.toggleExpandFunc.bind(this)}
-                                onSetAddMoreState={ExampleFunction.onSetAddMoreState.bind(this)}
-                                subtitleGetter={this.subtitleGetter}
-                                dndSources={dndSources}
-                            />
-                        </Col>
-                        <Col span={4}>
-                            {dndList}
-                        </Col>
-                    </Row>
-                </div>
-            </div>
+
+            <Nav title={h3}>
+                <Row>
+                    <Col span={20}>
+                        <Scheduler schedulerData={viewModel}
+                            prevClick={ExampleFunction.prevClick.bind(this)}
+                            nextClick={ExampleFunction.nextClick.bind(this)}
+                            onSelectDate={ExampleFunction.onSelectDate.bind(this)}
+                            onViewChange={ExampleFunction.onViewChange.bind(this)}
+                            eventItemClick={ExampleFunction.eventClicked.bind(this)}
+                            viewEventClick={ExampleFunction.ops1.bind(this)}
+                            viewEventText="Ops 1"
+                            viewEvent2Text="Ops 2"
+                            viewEvent2Click={ExampleFunction.ops2.bind(this)}
+                            updateEventStart={ExampleFunction.updateEventStart.bind(this)}
+                            updateEventEnd={ExampleFunction.updateEventEnd.bind(this)}
+                            moveEvent={ExampleFunction.moveEvent.bind(this)}
+                            newEvent={ExampleFunction.newEvent.bind(this)}
+                            toggleExpandFunc={ExampleFunction.toggleExpandFunc.bind(this)}
+                            onSetAddMoreState={ExampleFunction.onSetAddMoreState.bind(this)}
+                            subtitleGetter={this.subtitleGetter}
+                            dndSources={dndSources}
+                        />
+                    </Col>
+                    <Col span={4}>
+                        {dndList}
+                    </Col>
+                </Row>
+            </Nav>
         );
     }
     public subtitleGetter = (schedulerData: SchedulerData, event: SchedulerEvent) => {

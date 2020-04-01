@@ -1,17 +1,10 @@
+import * as moment from "moment";
 import * as React from "react";
 import { Component } from "react";
-import Scheduler, {
-    SchedulerData,
-    SchedulerViewTypes,
-    SCHEDULER_DATE_FORMAT,
-    SchedulerCellUnits,
-    SchedulerContentState,
-} from "../src/Scheduler";
-import * as ExampleFunction from "./ExampleFunctions";
-import * as moment from "moment";
+import Scheduler, { SchedulerCellUnits, SchedulerContentState, SchedulerData, SchedulerViewTypes, SCHEDULER_DATE_FORMAT } from "../src/Scheduler";
 import { DemoData } from "./DemoData";
+import * as ExampleFunction from "./ExampleFunctions";
 import Nav from "./Nav";
-import ViewSrcCode from "./ViewSrcCode";
 import withDragDropContext from "./withDnDContext";
 
 class InfiniteScroll2 extends Component<{}, { viewModel: SchedulerData }> {
@@ -27,9 +20,9 @@ class InfiniteScroll2 extends Component<{}, { viewModel: SchedulerData }> {
                 { viewName: "Week", viewType: SchedulerViewTypes.Week, showAgenda: false, isEventPerspective: false },
             ],
         }, {
-                getCustomDateFunc: this.getCustomDate,
-                isNonWorkingTimeFunc: this.isNonWorkingTime,
-            });
+            getCustomDateFunc: this.getCustomDate,
+            isNonWorkingTimeFunc: this.isNonWorkingTime,
+        });
         schedulerData.setResources(DemoData.resources);
         schedulerData.setEvents(DemoData.events);
         this.state = {
@@ -40,32 +33,28 @@ class InfiniteScroll2 extends Component<{}, { viewModel: SchedulerData }> {
     public render() {
         const { viewModel } = this.state;
         return (
-            <div>
-                <Nav />
-                <div>
-                    <h3 style={{ textAlign: "center" }}>Infinite scroll 2<ViewSrcCode srcCodeUrl="https://github.com/StephenChou1017/react-big-scheduler/blob/master/example/InfiniteScroll2.js" /></h3>
-                    <Scheduler schedulerData={viewModel}
-                        prevClick={ExampleFunction.prevClick.bind(this)}
-                        nextClick={ExampleFunction.nextClick.bind(this)}
-                        onSelectDate={ExampleFunction.onSelectDate.bind(this)}
-                        onViewChange={ExampleFunction.onViewChange.bind(this)}
-                        eventItemClick={ExampleFunction.eventClicked.bind(this)}
-                        viewEventClick={ExampleFunction.ops1.bind(this)}
-                        viewEventText="Ops 1"
-                        viewEvent2Text="Ops 2"
-                        viewEvent2Click={ExampleFunction.ops2.bind(this)}
-                        updateEventStart={ExampleFunction.updateEventStart.bind(this)}
-                        updateEventEnd={ExampleFunction.updateEventEnd.bind(this)}
-                        moveEvent={ExampleFunction.moveEvent.bind(this)}
-                        newEvent={ExampleFunction.newEvent.bind(this)}
-                        onScrollLeft={this.onScrollLeft.bind(this)}
-                        onScrollRight={this.onScrollRight.bind(this)}
-                        onScrollTop={ExampleFunction.onScrollTop.bind(this)}
-                        onScrollBottom={ExampleFunction.onScrollBottom.bind(this)}
-                        toggleExpandFunc={ExampleFunction.toggleExpandFunc.bind(this)}
-                    />
-                </div>
-            </div>
+            <Nav title="Infinite scroll 2">
+                <Scheduler schedulerData={viewModel}
+                    prevClick={ExampleFunction.prevClick.bind(this)}
+                    nextClick={ExampleFunction.nextClick.bind(this)}
+                    onSelectDate={ExampleFunction.onSelectDate.bind(this)}
+                    onViewChange={ExampleFunction.onViewChange.bind(this)}
+                    eventItemClick={ExampleFunction.eventClicked.bind(this)}
+                    viewEventClick={ExampleFunction.ops1.bind(this)}
+                    viewEventText="Ops 1"
+                    viewEvent2Text="Ops 2"
+                    viewEvent2Click={ExampleFunction.ops2.bind(this)}
+                    updateEventStart={ExampleFunction.updateEventStart.bind(this)}
+                    updateEventEnd={ExampleFunction.updateEventEnd.bind(this)}
+                    moveEvent={ExampleFunction.moveEvent.bind(this)}
+                    newEvent={ExampleFunction.newEvent.bind(this)}
+                    onScrollLeft={this.onScrollLeft.bind(this)}
+                    onScrollRight={this.onScrollRight.bind(this)}
+                    onScrollTop={ExampleFunction.onScrollTop.bind(this)}
+                    onScrollBottom={ExampleFunction.onScrollBottom.bind(this)}
+                    toggleExpandFunc={ExampleFunction.toggleExpandFunc.bind(this)}
+                />
+            </Nav>
         );
     }
 

@@ -79,6 +79,7 @@ class Scheduler extends Component<SchedulerProps, SchedulerContentState> {
     public schedulerContentBgTable: any;
     public schedulerHead: any;
 
+
     constructor(props: Readonly<SchedulerProps>) {
         super(props);
 
@@ -153,6 +154,8 @@ class Scheduler extends Component<SchedulerProps, SchedulerContentState> {
     }
 
     public render() {
+
+
         const { schedulerData, leftCustomHeader, rightCustomHeader } = this.props;
         const { renderData, viewType, showAgenda, isEventPerspective, config } = schedulerData;
         const width = schedulerData.getSchedulerWidth();

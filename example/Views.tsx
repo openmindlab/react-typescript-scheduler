@@ -1,4 +1,3 @@
-import Typography from '@material-ui/core/Typography';
 import * as React from "react";
 import { Component } from "react";
 import Scheduler, { SchedulerData, SchedulerEvent, SchedulerViewTypes } from "../src/Scheduler";
@@ -29,29 +28,25 @@ class Basic extends Component<{}, { viewModel: SchedulerData }> {
     public render() {
         const { viewModel } = this.state;
         return (
-            <div>
-                <Nav />
-                <div>
-                    <Typography variant="h3">3 View Types (take month for example)</Typography>
-                    <Scheduler schedulerData={viewModel}
-                        prevClick={ExampleFunction.prevClick.bind(this)}
-                        nextClick={ExampleFunction.nextClick.bind(this)}
-                        onSelectDate={ExampleFunction.onSelectDate.bind(this)}
-                        onViewChange={ExampleFunction.onViewChange.bind(this)}
-                        eventItemClick={ExampleFunction.eventClicked.bind(this)}
-                        viewEventClick={ExampleFunction.ops1.bind(this)}
-                        viewEventText="Ops 1"
-                        viewEvent2Text="Ops 2"
-                        viewEvent2Click={ExampleFunction.ops2.bind(this)}
-                        updateEventStart={ExampleFunction.updateEventStart.bind(this)}
-                        updateEventEnd={ExampleFunction.updateEventEnd.bind(this)}
-                        moveEvent={ExampleFunction.moveEvent.bind(this)}
-                        newEvent={ExampleFunction.newEvent.bind(this)}
-                        toggleExpandFunc={ExampleFunction.toggleExpandFunc.bind(this)}
-                        onSetAddMoreState={ExampleFunction.onSetAddMoreState.bind(this)}
-                    />
-                </div>
-            </div>
+            <Nav title="View Types">
+                <Scheduler schedulerData={viewModel}
+                    prevClick={ExampleFunction.prevClick.bind(this)}
+                    nextClick={ExampleFunction.nextClick.bind(this)}
+                    onSelectDate={ExampleFunction.onSelectDate.bind(this)}
+                    onViewChange={ExampleFunction.onViewChange.bind(this)}
+                    eventItemClick={ExampleFunction.eventClicked.bind(this)}
+                    viewEventClick={ExampleFunction.ops1.bind(this)}
+                    viewEventText="Ops 1"
+                    viewEvent2Text="Ops 2"
+                    viewEvent2Click={ExampleFunction.ops2.bind(this)}
+                    updateEventStart={ExampleFunction.updateEventStart.bind(this)}
+                    updateEventEnd={ExampleFunction.updateEventEnd.bind(this)}
+                    moveEvent={ExampleFunction.moveEvent.bind(this)}
+                    newEvent={ExampleFunction.newEvent.bind(this)}
+                    toggleExpandFunc={ExampleFunction.toggleExpandFunc.bind(this)}
+                    onSetAddMoreState={ExampleFunction.onSetAddMoreState.bind(this)}
+                />
+            </Nav>
         );
     }
 

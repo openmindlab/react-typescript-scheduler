@@ -5,7 +5,6 @@ import Scheduler, { SchedulerData, SchedulerHeader, SchedulerViewTypes } from ".
 import { DemoData } from "./DemoData";
 import * as ExampleFunction from "./ExampleFunctions";
 import Nav from "./Nav";
-import ViewSrcCode from "./ViewSrcCode";
 import withDragDropContext from "./withDnDContext";
 
 class Locale extends Component<{}, { viewModel: SchedulerData, headerItem: SchedulerHeader, left: number, top: number, height: number }> {
@@ -61,30 +60,26 @@ class Locale extends Component<{}, { viewModel: SchedulerData, headerItem: Sched
             */}
         }
         return (
-            <div>
-                <Nav />
-                <div>
-                    <h3 style={{ textAlign: "center" }}>Locale<ViewSrcCode srcCodeUrl="https://github.com/StephenChou1017/react-big-scheduler/blob/master/example/Locale.js" /></h3>
-                    <Scheduler schedulerData={viewModel}
-                        prevClick={ExampleFunction.prevClick.bind(this)}
-                        nextClick={ExampleFunction.nextClick.bind(this)}
-                        onSelectDate={ExampleFunction.onSelectDate.bind(this)}
-                        onViewChange={ExampleFunction.onViewChange.bind(this)}
-                        eventItemClick={ExampleFunction.eventClicked.bind(this)}
-                        viewEventClick={ExampleFunction.ops1.bind(this)}
-                        viewEventText="Ops 1"
-                        viewEvent2Text="Ops 2"
-                        viewEvent2Click={ExampleFunction.ops2.bind(this)}
-                        updateEventStart={ExampleFunction.updateEventStart.bind(this)}
-                        updateEventEnd={ExampleFunction.updateEventEnd.bind(this)}
-                        moveEvent={ExampleFunction.moveEvent.bind(this)}
-                        newEvent={ExampleFunction.newEvent.bind(this)}
-                        toggleExpandFunc={ExampleFunction.toggleExpandFunc.bind(this)}
-                        onSetAddMoreState={ExampleFunction.onSetAddMoreState.bind(this)}
-                    />
-                    {popover}
-                </div>
-            </div>
+            <Nav title="Locale">
+                <Scheduler schedulerData={viewModel}
+                    prevClick={ExampleFunction.prevClick.bind(this)}
+                    nextClick={ExampleFunction.nextClick.bind(this)}
+                    onSelectDate={ExampleFunction.onSelectDate.bind(this)}
+                    onViewChange={ExampleFunction.onViewChange.bind(this)}
+                    eventItemClick={ExampleFunction.eventClicked.bind(this)}
+                    viewEventClick={ExampleFunction.ops1.bind(this)}
+                    viewEventText="Ops 1"
+                    viewEvent2Text="Ops 2"
+                    viewEvent2Click={ExampleFunction.ops2.bind(this)}
+                    updateEventStart={ExampleFunction.updateEventStart.bind(this)}
+                    updateEventEnd={ExampleFunction.updateEventEnd.bind(this)}
+                    moveEvent={ExampleFunction.moveEvent.bind(this)}
+                    newEvent={ExampleFunction.newEvent.bind(this)}
+                    toggleExpandFunc={ExampleFunction.toggleExpandFunc.bind(this)}
+                    onSetAddMoreState={ExampleFunction.onSetAddMoreState.bind(this)}
+                />
+                {popover}
+            </Nav>
         );
     }
 
