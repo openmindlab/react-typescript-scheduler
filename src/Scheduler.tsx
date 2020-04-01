@@ -68,8 +68,8 @@ export interface SchedulerContentState {
     resourceScrollbarWidth: number;
     scrollLeft: number;
     scrollTop: number;
-    documentWidth: number;
-    documentHeight: number;
+    // documentWidth: number;
+    // documentHeight: number;
 }
 
 class Scheduler extends Component<SchedulerProps, SchedulerContentState> {
@@ -94,7 +94,8 @@ class Scheduler extends Component<SchedulerProps, SchedulerContentState> {
         const dndContext = new DnDContext(sources, ResourceEvents);
 
         this.currentArea = -1;
-        schedulerData.setDocumentWidth(document.documentElement.clientWidth);
+        // schedulerData.setDocumentWidth(document.documentElement.clientWidth);
+
         this.state = {
             visible: false,
             dndContext,
@@ -105,8 +106,8 @@ class Scheduler extends Component<SchedulerProps, SchedulerContentState> {
             resourceScrollbarWidth: 17,
             scrollLeft: 0,
             scrollTop: 0,
-            documentWidth: document.documentElement.clientWidth,
-            documentHeight: document.documentElement.clientHeight,
+            // documentWidth: document.documentElement.clientWidth,
+            // documentHeight: document.documentElement.clientHeight,
         };
 
         if (schedulerData.isSchedulerResponsive()) {
@@ -114,16 +115,27 @@ class Scheduler extends Component<SchedulerProps, SchedulerContentState> {
         }
     }
 
-    public onWindowResize = (e: any) => {
+    public applyWidth = () => {
         const { schedulerData } = this.props;
-        schedulerData.setDocumentWidth(document.documentElement.clientWidth);
+        // TODO any better way?
+        let el = document.getElementById('scheduler-container');
+        if (el) {
+            schedulerData.setDocumentWidth(document.getElementById('scheduler-container').clientWidth);
+        }
+    }
+
+    public onWindowResize = (e: any) => {
+        // const { schedulerData } = this.props;
+        // schedulerData.setDocumentWidth(document.documentElement.clientWidth);
+        this.applyWidth();
         this.setState({
-            documentWidth: document.documentElement.clientWidth,
-            documentHeight: document.documentElement.clientHeight,
+            // documentWidth: document.documentElement.clientWidth,
+            // documentHeight: document.documentElement.clientHeight,
         });
     }
 
     public componentDidMount() {
+        this.applyWidth();
         this.resolveScrollbarSize();
     }
 
@@ -202,7 +214,7 @@ class Scheduler extends Component<SchedulerProps, SchedulerContentState> {
             const resourcePaddingBottom = resourceScrollbarHeight === 0 ? contentScrollbarHeight : 0;
             const contentPaddingBottom = contentScrollbarHeight === 0 ? resourceScrollbarHeight : 0;
             let schedulerContentStyle = { overflow: "auto", margin: "0px", position: "relative", paddingBottom: contentPaddingBottom, maxHeight: undefined };
-            let resourceContentStyle = { overflowX: "auto", overflowY: "auto", width: resourceTableWidth + resourceScrollbarWidth - 2, margin: `0px -${contentScrollbarWidth}px 0px 0px`, maxHeight: undefined };
+            let resourceContentStyle = { overflowX: "auto", overflowY: "hidden", width: resourceTableWidth + resourceScrollbarWidth - 2, margin: `0px -${contentScrollbarWidth}px 0px 0px`, maxHeight: undefined };
             if (config.schedulerMaxHeight > 0) {
                 schedulerContentStyle = {
                     ...schedulerContentStyle,
@@ -217,10 +229,10 @@ class Scheduler extends Component<SchedulerProps, SchedulerContentState> {
             const resourceName = schedulerData.isEventPerspective ? config.taskName : config.resourceName;
             tbodyContent = (
                 <tr>
-                    <td style={{ width: resourceTableWidth, verticalAlign: "top" }}>
+                    <td className="resourceTableWidth" style={{ width: resourceTableWidth, verticalAlign: "top" }}>
                         <div className="resource-view">
                             <div style={{ overflow: "hidden", borderBottom: "1px solid #e9e9e9", height: config.tableHeaderHeight }}>
-                                <div style={{ overflowX: "scroll", overflowY: "hidden", margin: `0px 0px -${contentScrollbarHeight}px` }}>
+                                <div style={{ overflowY: "hidden", overflowX: "scroll", margin: `0px 0px -${contentScrollbarHeight}px` }}>
                                     <table className="resource-table">
                                         <thead>
                                             <tr style={{ height: config.tableHeaderHeight }}>
@@ -240,7 +252,7 @@ class Scheduler extends Component<SchedulerProps, SchedulerContentState> {
                             </div>
                         </div>
                     </td>
-                    <td>
+                    <td className="schedulerContainerWidth">
                         <div className="scheduler-view" style={{ width: schedulerContainerWidth, verticalAlign: "top" }}>
                             <div style={{ overflow: "hidden", borderBottom: "1px solid #e9e9e9", height: config.tableHeaderHeight }}>
                                 <div style={{ overflowX: "scroll", overflowY: "hidden", margin: `0px 0px -${contentScrollbarHeight}px` }} ref={this.schedulerHeadRef} onMouseOver={this.onSchedulerHeadMouseOver} onMouseOut={this.onSchedulerHeadMouseOut} onScroll={this.onSchedulerHeadScroll}>
@@ -252,7 +264,7 @@ class Scheduler extends Component<SchedulerProps, SchedulerContentState> {
                                 </div>
                             </div>
                             <div style={schedulerContentStyle as CSSProperties} ref={this.schedulerContentRef} onMouseOver={this.onSchedulerContentMouseOver} onMouseOut={this.onSchedulerContentMouseOut} onScroll={this.onSchedulerContentScroll} >
-                                <div style={{ width: schedulerWidth, height: contentHeight }}>
+                                <div className="schedulertablecontainer" style={{ width: schedulerWidth, height: contentHeight }}>
                                     <div className="scheduler-content">
                                         <table className="scheduler-content-table" >
                                             <tbody>
@@ -312,7 +324,7 @@ class Scheduler extends Component<SchedulerProps, SchedulerContentState> {
         }
 
         return (
-            <div className="scheduler-container">
+            <div className="scheduler-container" id="scheduler-container">
                 <div>{schedulerHeader}</div>
                 <table id="RBS-Scheduler-root" className="scheduler">
                     <tbody>

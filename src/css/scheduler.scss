@@ -1,6 +1,5 @@
 .scheduler-container {
-  padding: 50px;
-  border: 1px solid red;
+  padding: 0;
 
   .scheduler {
 
@@ -9,6 +8,11 @@
     :before {
       -webkit-box-sizing: border-box;
       box-sizing: border-box;
+    }
+
+    .schedulertablecontainer {
+      overflow-x: auto;
+      overflow-y: hidden;
     }
 
     .header1-text {
