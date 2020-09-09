@@ -16,7 +16,7 @@
     "README.md",
     "CHANGELOG.md"
   ],
-  "main": "lib/src/Scheduler.js",
+  "main": "lib/index.js",
   "homepage": "https://github.com/graspea/react-typescript-scheduler",
   "author": "Graspea (https://github.com/graspea),Stephen Chou <27788280@qq.com> (https://github.com/StephenChou1017)",
   "repository": {
