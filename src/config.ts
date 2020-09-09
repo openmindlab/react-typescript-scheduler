@@ -1,7 +1,7 @@
 import { ViewTypes } from './types/ViewTypes';
 import { SummaryPos } from './types/SummaryPos';
 
-export let Config = {
+export let config = {
   schedulerWidth: '100%',
   besidesWidth: 20,
   schedulerMaxHeight: 0,

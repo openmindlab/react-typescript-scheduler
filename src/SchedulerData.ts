@@ -1,12 +1,11 @@
 import * as moment from 'moment';
 import { RRuleSet, rrulestr } from 'rrule';
-import { Config as config } from './Config';
+import { config } from './config';
 import behaviors from './Behaviors';
 import { ViewTypes } from './types/ViewTypes';
 import { CellUnits } from './types/CellUnits';
 import { DATE_FORMAT } from './types/DateFormats';
 import { DATETIME_FORMAT } from './types/DateFormats';
-import { Config } from './Config';
 
 export interface RenderData {
   slotId: string;
@@ -94,7 +93,7 @@ export default class SchedulerData {
   public resizing: boolean;
   public scrollToSpecialMoment: boolean;
   public documentWidth: number;
-  public config: typeof Config;
+  public config: any;
   public behaviors: any;
   public startDate: string;
   public endDate: string;
@@ -111,7 +110,7 @@ export default class SchedulerData {
     // tslint:disable-next-line: no-unnecessary-initializer
     newBehaviors?: any
   ) {
-    moment.locale('cs');
+    moment.locale('ja');
 
     this.resources = [];
     this.events = [];
