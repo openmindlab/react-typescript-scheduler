@@ -1,9 +1,7 @@
 import path from 'path';
-import babel from 'rollup-plugin-babel';
-import resolve from 'rollup-plugin-node-resolve';
-import { sizeSnapshot } from 'rollup-plugin-size-snapshot';
 import typescript from 'rollup-plugin-typescript2';
 import css from 'rollup-plugin-css-only';
+import nodeResolve from 'rollup-plugin-node-resolve';
 
 const createBabelConfig = require('./babel.config');
 
@@ -24,10 +22,11 @@ export default {
   },
   external,
   plugins: [
-    typescript(),
-    babel(getBabelOptions({ node: 8 })),
-    sizeSnapshot(),
-    resolve({ extensions }),
+    nodeResolve(),
+    typescript({
+      typescript: require('typescript'),
+      tsconfigOverride: { compilerOptions: { declaration: false } },
+    }),
     css({
       output: 'lib/styles.css',
     }),
