@@ -30,6 +30,7 @@
   "config": {},
   "scripts": {
     "debug": "webpack-dev-server --config ./webpack-dev.config.js --hot --open",
+    "format": "prettier \"src/**/*.{tsx,ts}\" --single-quote --print-width 120 --trailing-comma es5 --write",
     "build-dev": "webpack --config ./webpack-dev.config.js",
     "clean": "rimraf ./lib && mkdir lib",
     "build": "node scripts/build.js",
@@ -89,6 +90,7 @@
     "mocha": "^6.1.4",
     "mocha-babel": "3.0.3",
     "node-sass": "^4.12.0",
+    "prettier": "^2.1.1",
     "react-hot-loader": "^4.8.4",
     "react-redux": "^7.0.3",
     "react-router": "^5.0.0",
