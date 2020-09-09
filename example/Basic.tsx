@@ -1,7 +1,7 @@
 import * as moment from 'moment';
 import * as React from 'react';
 import { Component } from 'react';
-import {} from '../lib/index';
+import { SchedulerData, Scheduler, SchedulerViewTypes } from '../lib';
 import { DemoData } from './DemoData';
 import * as ExampleFunction from './ExampleFunctions';
 import Nav from './Nav';
@@ -10,7 +10,7 @@ import ViewSrcCode from './ViewSrcCode';
 import withDragDropContext from './withDnDContext';
 
 interface IBasicState {
-  viewModel: SchedulerData;
+  viewModel: any;
 }
 
 class Basic extends Component<{}, IBasicState> {

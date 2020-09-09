@@ -1,21 +1,19 @@
-export * from './AddMore'
-export * from './AddMorePopover'
-export * from './AgendaEventItem'
-export * from './AgendaResourceEvents'
-export * from './AgendaView'
-export * from './Behaviors'
-export * from './BodyView'
-export * from './config'
-export * from './DnDContext'
-export * from './DnDSource'
-export * from './EventItem'
-export * from './EventItemPopover'
-export * from './HeaderView'
-export * from './index'
-export * from './ResourceEvents'
-export * from './ResourceView'
-export * from './Scheduler'
-export * from './SchedulerData'
-export * from './SelectedArea'
-export * from './Summary'
-export * from './types'
+export { default as AddMore } from './AddMore';
+export { default as AddMorePopover } from './AddMorePopover';
+export { default as AgendaEventItem } from './AgendaEventItem';
+export { default as AgendaResourceEvents } from './AgendaResourceEvents';
+export { default as AgendaView } from './AgendaView';
+export { default as Behaviors } from './Behaviors';
+export { default as BodyView } from './BodyView';
+export { default as DnDContext } from './DnDContext';
+export { default as DnDSource } from './DnDSource';
+export { default as EventItem } from './EventItem';
+export { default as EventItemPopover } from './EventItemPopover';
+export { default as HeaderView } from './HeaderView';
+export { default as ResourceEvents } from './ResourceEvents';
+export { default as ResourceView } from './ResourceView';
+export * from './Scheduler';
+export { default as SchedulerData } from './SchedulerData';
+export { default as SelectedArea } from './SelectedArea';
+export { default as Summary } from './Summary';
+export * from './config';

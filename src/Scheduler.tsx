@@ -147,7 +147,7 @@ export interface SchedulerContentState {
   documentHeight: number;
 }
 
-class Scheduler extends Component<SchedulerProps, SchedulerContentState> {
+export class Scheduler extends Component<SchedulerProps, SchedulerContentState> {
   public currentArea: number;
   public schedulerContent: any;
   public schedulerResource: any;
@@ -638,4 +638,3 @@ export {
   CellUnits as SchedulerCellUnits,
   SummaryPos as SchedulerSummaryPos,
 };
-export default Scheduler;

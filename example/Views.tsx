@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Component } from 'react';
-import Scheduler, { SchedulerData, SchedulerViewTypes, SchedulerEvent } from '../src/Scheduler';
+import { Scheduler, SchedulerData, SchedulerViewTypes, SchedulerEvent } from '../lib';
 import * as ExampleFunction from './ExampleFunctions';
 import { DemoData } from './DemoData';
 import Nav from './Nav';
