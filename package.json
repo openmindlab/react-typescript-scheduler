@@ -31,9 +31,8 @@
   "scripts": {
     "debug": "webpack-dev-server --config ./webpack-dev.config.js --hot --open",
     "format": "prettier \"**/*.{tsx,ts}\" --single-quote --print-width 120 --trailing-comma es5 --write",
-    "build-dev": "webpack --config ./webpack-dev.config.js",
     "clean": "rimraf ./lib && mkdir lib",
-    "build": "npm run clean && rollup -c"
+    "build": "npm run clean && rollup -c && cp -r src/css lib/css"
   },
   "pre-commit": [
     "lint"
