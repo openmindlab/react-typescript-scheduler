@@ -2,7 +2,7 @@
   "compilerOptions": {
     "allowSyntheticDefaultImports": true, //moment
     "jsx": "react",
-    "module": "commonjs",
+    "module": "ES2015",
     "noImplicitAny": false, //todo
     "skipLibCheck": true, //todo
     "outDir": "./lib/",
@@ -12,9 +12,8 @@
     "target": "es5",
     "strict": false,
     "moduleResolution": "node",
+    "allowJs": true,
+    "esModuleInterop": true
   },
-  "include": [
-    "./src/index.ts",
-    "./example/**/**/*"
-  ]
+  "include": ["./src/index.ts", "./example/**/**/*"]
 }
