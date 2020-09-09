@@ -16,7 +16,7 @@
     "README.md",
     "CHANGELOG.md"
   ],
-  "main": "lib/index",
+  "main": "lib/app.bundle.js",
   "homepage": "https://github.com/graspea/react-typescript-scheduler",
   "author": "Graspea (https://github.com/graspea),Stephen Chou <27788280@qq.com> (https://github.com/StephenChou1017)",
   "repository": {
@@ -32,13 +32,8 @@
     "debug": "webpack-dev-server --config ./webpack-dev.config.js --hot --open",
     "format": "prettier \"src/**/*.{tsx,ts}\" --single-quote --print-width 120 --trailing-comma es5 --write",
     "build-dev": "webpack --config ./webpack-dev.config.js",
-    "clean": "rimraf ./lib && mkdir lib",
-    "build": "node scripts/build.js",
-    "clean:exampledist": "rimraf ./exampledist/static",
-    "build:exampledist": "npm run clean:exampledist && cpy src/css/style.css exampledist/static && cross-env NODE_ENV=production webpack --config ./webpack/webpack.config.js",
-    "example": "webpack-dev-server --config ./webpack/webpack-dev.config.js --hot",
-    "analyz": "cross-env NODE_ENV=production npm_config_report=true npm run build",
-    "build:dll": "cross-env NODE_ENV=production webpack --config ./webpack/webpack.dll.config.js"
+    "build-prod": "webpack --config ./webpack.prod.js",
+    "clean": "rimraf ./lib && mkdir lib"
   },
   "pre-commit": [
     "lint"
@@ -52,16 +47,16 @@
     "react-dnd": "^7.4.5",
     "react-dnd-html5-backend": "^7.4.4",
     "react-dom": "^16.8.6",
-    "rrule": "^2.6.0"
+    "rrule": "^2.6.4"
   },
   "devDependencies": {
     "@types/moment": "^2.13.0",
     "@types/node": "^12.6.8",
     "@types/qs": "^6.5.3",
-    "@types/react": "^16.8.23",
+    "@types/react": "^16.9.43",
+    "@types/react-dom": "^16.8.4",
     "@types/react-dnd": "^3.0.2",
     "@types/react-dnd-html5-backend": "^3.0.2",
-    "@types/react-dom": "^16.8.4",
     "@typescript-eslint/eslint-plugin": "^1.13.0",
     "@typescript-eslint/parser": "^1.13.0",
     "babel": "6.23.0",
