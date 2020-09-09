@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Component, CSSProperties } from 'react';
 import { CellUnits } from './types/CellUnits';
-import * as moment from 'moment';
+import moment from 'moment';
 import { SchedulerData } from './Scheduler';
 import { Header } from './SchedulerData';
 

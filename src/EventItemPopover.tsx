@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Component, CSSProperties } from 'react';
 import Col from 'antd/lib/col';
 import Row from 'antd/lib/row';
-import * as moment from 'moment';
+import moment from 'moment';
 import { SchedulerData } from './Scheduler';
 import { Event } from './SchedulerData';
 

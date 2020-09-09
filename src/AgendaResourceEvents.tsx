@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Component, CSSProperties } from 'react';
 import AgendaEventItem from './AgendaEventItem';
 import { DATE_FORMAT } from './types/DateFormats';
-import * as moment from 'moment';
+import moment from 'moment';
 import { SchedulerData } from './Scheduler';
 import { RenderData, Event, Resource, EventGroup } from './SchedulerData';
 

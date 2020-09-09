@@ -4,7 +4,7 @@ import { DnDTypes } from './types/DnDTypes';
 import { CellUnits } from './types/CellUnits';
 import { DATETIME_FORMAT } from './types/DateFormats';
 import { ViewTypes } from './types/ViewTypes';
-import * as moment from 'moment';
+import moment from 'moment';
 import { SchedulerData } from './Scheduler';
 import ResourceEvents from './ResourceEvents';
 import { Identifier } from 'dnd-core';

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import * as moment from 'moment';
+import moment from 'moment';
 import { Component, CSSProperties } from 'react';
 import Popover from 'antd/lib/popover';
 import 'antd/lib/popover/style/index.css';

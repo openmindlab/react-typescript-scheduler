@@ -1,4 +1,4 @@
-import * as moment from 'moment';
+import moment from 'moment';
 import { ViewTypes } from './types/ViewTypes';
 import { CellUnits } from './types/CellUnits';
 import { DATE_FORMAT } from './types/DateFormats';

@@ -5,7 +5,7 @@ import Row from 'antd/lib/row';
 import Icon from 'antd/lib/icon';
 import EventItem from './EventItem';
 import DnDSource from './DnDSource';
-import * as moment from 'moment';
+import moment from 'moment';
 import { SchedulerData } from './Scheduler';
 import { Event } from './SchedulerData';
 

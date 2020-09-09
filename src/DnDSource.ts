@@ -1,5 +1,5 @@
 import { DragSource } from 'react-dnd';
-import * as moment from 'moment';
+import moment from 'moment';
 import { DnDTypes } from './types/DnDTypes';
 import { ViewTypes } from './types/ViewTypes';
 import { DATETIME_FORMAT } from './types/DateFormats';

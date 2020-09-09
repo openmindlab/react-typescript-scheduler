@@ -1,4 +1,4 @@
-import * as moment from 'moment';
+import moment from 'moment';
 import { RRuleSet, rrulestr } from 'rrule';
 import { config } from './config';
 import behaviors from './Behaviors';
