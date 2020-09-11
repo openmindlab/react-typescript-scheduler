@@ -110,6 +110,7 @@ export default class DnDSource {
         }
 
         let hasConflict = false;
+        let conflictingEvents = [];
         if (config.checkConflict) {
           const start = moment(newStart);
           const end = moment(newEnd);
@@ -124,15 +125,18 @@ export default class DnDSource {
                 (eStart >= start && eStart < end) ||
                 (eEnd > start && eEnd <= end)
               ) {
+                conflictingEvents.push(e)
                 hasConflict = true;
               }
             }
           });
         }
-
-        if (hasConflict) {
+        const slot = schedulerData.getSlotById(slotId)
+        const passMax = conflictingEvents.length >= slot.maxItemsPerDay - 1
+        if (hasConflict && passMax) {
           const { conflictOccurred } = props;
           if (conflictOccurred != undefined) {
+            //Moving Item Conflict Check
             conflictOccurred(schedulerData, action, item, type, slotId, slotName, newStart, newEnd);
           } else {
             console.log('Conflict occurred, set conflictOccurred func in Scheduler to handle it');

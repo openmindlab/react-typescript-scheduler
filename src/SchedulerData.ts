@@ -41,6 +41,7 @@ export interface EventGroup {
   name: string;
   parentId?: string;
   state: any;
+  maxItemsPerDay?: number
 }
 
 export interface Event {

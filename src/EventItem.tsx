@@ -276,9 +276,10 @@ class EventItem extends Component<EventItemProps, EventItemState> {
     }
 
     let hasConflict = false;
+    let conflictingEvents = [];
     const slotId = schedulerData.getEventSlotId(eventItem);
-    let slotName;
     const slot = schedulerData.getSlotById(slotId);
+    let slotName;
     if (!!slot) {
       slotName = slot.name;
     }
@@ -296,19 +297,20 @@ class EventItem extends Component<EventItemProps, EventItemState> {
             (eStart >= start && eStart < end) ||
             (eEnd > start && eEnd <= end)
           ) {
+            conflictingEvents.push(e)
             hasConflict = true;
           }
         }
       });
     }
-
-    if (hasConflict) {
+    const passMax = conflictingEvents.length >= slot.maxItemsPerDay - 1
+    if (hasConflict && passMax) {
       this.setState({
         left,
         top,
         width,
       });
-
+      //Resizing Conflict Check
       if (conflictOccurred != undefined) {
         conflictOccurred(
           schedulerData,
@@ -523,9 +525,10 @@ class EventItem extends Component<EventItemProps, EventItemState> {
     }
 
     let hasConflict = false;
+    let conflictingEvents = [];
     const slotId = schedulerData.getEventSlotId(eventItem);
-    let slotName;
     const slot = schedulerData.getSlotById(slotId);
+    let slotName;
     if (!!slot) {
       slotName = slot.name;
     }
@@ -543,13 +546,14 @@ class EventItem extends Component<EventItemProps, EventItemState> {
             (eStart >= start && eStart < end) ||
             (eEnd > start && eEnd <= end)
           ) {
+            conflictingEvents.push(e)
             hasConflict = true;
           }
         }
       });
     }
-
-    if (hasConflict) {
+    const passMax = conflictingEvents.length >= slot.maxItemsPerDay - 1
+    if (hasConflict && passMax) {
       this.setState({
         left,
         top,
