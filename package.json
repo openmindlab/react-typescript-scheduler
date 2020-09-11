@@ -38,14 +38,15 @@
     "lint"
   ],
   "dependencies": {
-    "antd": "^3.16.6",
-    "cpy": "^3.4.1",
-    "moment": "^2.24.0",
     "prop-types": "^15.7.2",
-    "react-dnd": "^7.4.5",
-    "react-dnd-html5-backend": "^7.4.4",
-    "rollup-plugin-css-only": "^2.1.0",
     "rrule": "^2.6.4"
+  },
+  "peerDependencies": {
+    "antd": "^3.16.6",
+    "react-dnd": "7.4.5",
+    "react-dnd-html5-backend": "7.4.4",
+    "rollup-plugin-css-only": "^2.1.0",
+    "moment": "^2.24.0"
   },
   "devDependencies": {
     "@babel/core": "^7.11.6",
