@@ -1,5 +1,5 @@
 {
-  "name": "react-big-scheduler",
+  "name": "basal-big-scheduler",
   "version": "0.2.7",
   "description": "A React Typescript component for scheduling and made for modern browsers (IE10+).",
   "keywords": [
