@@ -31,8 +31,8 @@ export let config = {
   yearMaxEvents: 99,
   customMaxEvents: 99,
 
-  eventItemHeight: 22,
-  eventItemLineHeight: 24,
+  eventItemHeight: 40,
+  eventItemLineHeight:40,
   nonAgendaSlotMinHeight: 0,
   dayStartFrom: 0,
   dayStopTo: 23,
@@ -68,13 +68,12 @@ export let config = {
   nonAgendaDayCellHeaderFormat: 'ha',
   nonAgendaOtherCellHeaderFormat: 'ddd M/D',
 
-  minuteStep: 30,
+  minuteStep: 60,
 
   views: [
     { viewName: 'Day', viewType: ViewTypes.Day, showAgenda: false, isEventPerspective: false },
     { viewName: 'Week', viewType: ViewTypes.Week, showAgenda: false, isEventPerspective: false },
     { viewName: 'Month', viewType: ViewTypes.Month, showAgenda: false, isEventPerspective: false },
-    { viewName: 'Quarter', viewType: ViewTypes.Quarter, showAgenda: false, isEventPerspective: false },
     { viewName: 'Year', viewType: ViewTypes.Year, showAgenda: false, isEventPerspective: false },
   ],
 };

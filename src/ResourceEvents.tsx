@@ -288,7 +288,7 @@ class ResourceEvents extends Component<ResourceEventsProps, ResourceEventsState>
         }
       });
     }
-
+    
     if (hasConflict) {
       const { conflictOccurred } = this.props;
       if (conflictOccurred != undefined) {

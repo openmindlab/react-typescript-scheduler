@@ -79,6 +79,7 @@ export interface Resource {
   id: string;
   name: string;
   parentId?: string;
+  maxItemsPerDay: number
 }
 
 export default class SchedulerData {
@@ -846,6 +847,7 @@ export default class SchedulerData {
         parentId: slot.parentId,
         groupOnly: slot.groupOnly,
         hasSummary: false,
+        maxItemsPerDay: slot.maxItemsPerDay,
         rowMaxCount: 0,
         rowHeight:
           this.config.nonAgendaSlotMinHeight !== 0
