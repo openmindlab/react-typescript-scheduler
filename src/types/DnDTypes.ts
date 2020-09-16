@@ -1,5 +1,5 @@
 export const DnDTypes = {
-    EVENT: "event",
-    TASK: "task",
-    RESOURCE: "resource",
+  EVENT: 'event',
+  TASK: 'task',
+  RESOURCE: 'resource',
 };

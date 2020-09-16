@@ -1,20 +1,21 @@
 {
   "compilerOptions": {
-    "allowSyntheticDefaultImports": true, //moment
+    "baseUrl": "./src",
+    "paths": {
+      "*": ["*"]
+    },
+    "allowSyntheticDefaultImports": true,
     "jsx": "react",
-    "module": "commonjs",
-    "noImplicitAny": false, //todo
-    "skipLibCheck": true, //todo
-    "outDir": "./lib/",
-    "preserveConstEnums": true,
-    "removeComments": true,
-    "sourceMap": true,
-    "target": "es5",
     "strict": false,
+    "declaration": true,
     "moduleResolution": "node",
+    "module": "es6",
+    "noImplicitAny": false,
+    "outDir": "./lib",
+    "target": "es2015",
+    "skipLibCheck": false,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false
   },
-  "include": [
-    "./src/**/**/*",
-    "./example/**/**/*"
-  ]
+  "exclude": ["node_modules", "./lib"]
 }

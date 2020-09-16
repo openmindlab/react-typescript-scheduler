@@ -1,4 +1,4 @@
 export const CellUnits = {
-    Day: 0,
-    Hour: 1,
+  Day: 0,
+  Hour: 1,
 };
